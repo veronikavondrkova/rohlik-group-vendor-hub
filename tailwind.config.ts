@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Brand colors for markets
+				rohlik: {
+					green: '#2F7D3B',
+					light: '#FFF6C8',
+					yellow: '#FFE55A'
+				},
+				knuspr: {
+					orange: '#FF7400',
+					light: '#FFF6C8',
+					yellow: '#FFE55A'
 				}
 			},
 			borderRadius: {
