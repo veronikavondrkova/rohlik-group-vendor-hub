@@ -3,8 +3,7 @@ import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
-import { Photoshop } from 'lucide-react';
+import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen, Paintbrush } from 'lucide-react';
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -154,7 +153,7 @@ const Homepage = () => {
               <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 h-full">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
-                    <Photoshop className="text-white" size={24} />
+                    <Paintbrush className="text-white" size={24} />
                   </div>
                   <CardTitle className="text-center">Resources</CardTitle>
                   <CardDescription className="text-center">
