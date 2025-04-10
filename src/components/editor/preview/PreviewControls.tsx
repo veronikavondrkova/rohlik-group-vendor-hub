@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Slider } from '@/components/ui/slider';
+import GradientControls from './GradientControls';
 
 interface UploadedImage {
   src: string;
@@ -16,6 +17,15 @@ interface PreviewControlsProps {
   onImageResizeChange: (value: number[]) => void;
   overlayOpacity: number;
   onOverlayOpacityChange: (value: number[]) => void;
+  // New gradient props
+  gradientOpacity: number;
+  onGradientOpacityChange: (value: number[]) => void;
+  gradientDirection: number;
+  onGradientDirectionChange: (value: number) => void;
+  gradientStartPosition: number;
+  onGradientStartPositionChange: (value: number) => void;
+  gradientEndPosition: number;
+  onGradientEndPositionChange: (value: number) => void;
 }
 
 const PreviewControls: React.FC<PreviewControlsProps> = ({
@@ -24,7 +34,16 @@ const PreviewControls: React.FC<PreviewControlsProps> = ({
   imageScale,
   onImageResizeChange,
   overlayOpacity,
-  onOverlayOpacityChange
+  onOverlayOpacityChange,
+  // New gradient props
+  gradientOpacity,
+  onGradientOpacityChange,
+  gradientDirection,
+  onGradientDirectionChange,
+  gradientStartPosition,
+  onGradientStartPositionChange,
+  gradientEndPosition,
+  onGradientEndPositionChange
 }) => {
   if (uploadedImages.length === 0 || activeImageIndex < 0) return null;
   
@@ -59,6 +78,17 @@ const PreviewControls: React.FC<PreviewControlsProps> = ({
         </div>
         <span className="text-sm min-w-12 text-right">{overlayOpacity}%</span>
       </div>
+      
+      <GradientControls 
+        gradientOpacity={gradientOpacity}
+        onGradientOpacityChange={onGradientOpacityChange}
+        gradientDirection={gradientDirection}
+        onGradientDirectionChange={onGradientDirectionChange}
+        gradientStartPosition={gradientStartPosition}
+        onGradientStartPositionChange={onGradientStartPositionChange}
+        gradientEndPosition={gradientEndPosition}
+        onGradientEndPositionChange={onGradientEndPositionChange}
+      />
     </div>
   );
 };

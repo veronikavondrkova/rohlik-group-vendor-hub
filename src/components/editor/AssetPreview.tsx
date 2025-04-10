@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PreviewContainer from './preview/PreviewContainer';
 import BackgroundImage from './preview/BackgroundImage';
 import BlackOverlay from './preview/BlackOverlay';
+import GradientOverlay from './preview/GradientOverlay';
 import TextOverlay from './preview/TextOverlay';
 import CtaButton from './preview/CtaButton';
 import PriceTag from './preview/PriceTag';
@@ -71,6 +72,12 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
 }) => {
   const [overlayOpacity, setOverlayOpacity] = useState<number>(5);
   
+  // New state for gradient controls
+  const [gradientOpacity, setGradientOpacity] = useState<number>(50);
+  const [gradientDirection, setGradientDirection] = useState<number>(180);
+  const [gradientStartPosition, setGradientStartPosition] = useState<number>(0);
+  const [gradientEndPosition, setGradientEndPosition] = useState<number>(100);
+  
   const handleImageDrag = (index: number, position: { x: number; y: number }) => {
     updateImagePosition(index, position);
   };
@@ -99,6 +106,22 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
     setOverlayOpacity(value[0]);
   };
   
+  const handleGradientOpacityChange = (value: number[]) => {
+    setGradientOpacity(value[0]);
+  };
+  
+  const handleGradientDirectionChange = (value: number) => {
+    setGradientDirection(value);
+  };
+  
+  const handleGradientStartPositionChange = (value: number) => {
+    setGradientStartPosition(value);
+  };
+  
+  const handleGradientEndPositionChange = (value: number) => {
+    setGradientEndPosition(value);
+  };
+  
   // Get current active image scale
   const activeImageScale = activeImageIndex >= 0 && activeImageIndex < uploadedImages.length 
     ? uploadedImages[activeImageIndex].scale 
@@ -118,6 +141,14 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         <BlackOverlay 
           opacity={overlayOpacity} 
           isVisible={uploadedImages.length > 0 && activeImageIndex >= 0} 
+        />
+        
+        <GradientOverlay 
+          opacity={gradientOpacity}
+          isVisible={uploadedImages.length > 0 && activeImageIndex >= 0}
+          direction={gradientDirection}
+          startPosition={gradientStartPosition}
+          endPosition={gradientEndPosition}
         />
         
         <TextOverlay 
@@ -146,6 +177,14 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         onImageResizeChange={handleImageResize}
         overlayOpacity={overlayOpacity}
         onOverlayOpacityChange={handleOverlayOpacityChange}
+        gradientOpacity={gradientOpacity}
+        onGradientOpacityChange={handleGradientOpacityChange}
+        gradientDirection={gradientDirection}
+        onGradientDirectionChange={handleGradientDirectionChange}
+        gradientStartPosition={gradientStartPosition}
+        onGradientStartPositionChange={handleGradientStartPositionChange}
+        gradientEndPosition={gradientEndPosition}
+        onGradientEndPositionChange={handleGradientEndPositionChange}
       />
       
       <ImageThumbnails 
