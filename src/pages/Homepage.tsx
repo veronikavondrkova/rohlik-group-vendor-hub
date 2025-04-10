@@ -26,7 +26,7 @@ const Homepage = () => {
   const handleViewDashboard = () => {
     navigate('/dashboard');
   };
-  return <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col bg-stone-50">
       {/* Semi-transparent Header */}
       <Header />
       
@@ -50,7 +50,7 @@ const Homepage = () => {
         </div>
       </section>
       
-      <main className="flex-grow container mx-auto px-4 py-8 bg-white z-10">
+      <main className="flex-grow container mx-auto px-4 py-8 z-10 bg-stone-50">
         {/* Move the section up by using negative margin-top */}
         <section className="mb-12 -mt-32 relative z-20">
           <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0 mx-auto" style={{
@@ -138,7 +138,7 @@ const Homepage = () => {
           </div>
         </section>
         
-        <footer className="bg-gray-100 py-6 relative z-10">
+        <footer className="py-6 relative z-10 bg-stone-100">
           <div className="container mx-auto px-4">
             <p className="text-center text-gray-500">
               Rohlik Brand Hub © {new Date().getFullYear()} | All rights reserved
