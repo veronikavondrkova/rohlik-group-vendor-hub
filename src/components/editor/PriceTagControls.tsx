@@ -35,7 +35,7 @@ const PriceTagControls: React.FC<PriceTagControlsProps> = ({
           <Alert className="mb-3 bg-blue-50">
             <InfoIcon className="h-4 w-4 text-blue-500" />
             <AlertDescription className="text-xs text-blue-700">
-              The price tag is a placeholder to help you position the image. It will appear in a fixed format in the final asset.
+              The price tag is a placeholder to help you position the image. It will not appear in the final asset. The price information will be placed by Rohlik Group internal team.
             </AlertDescription>
           </Alert>
           
