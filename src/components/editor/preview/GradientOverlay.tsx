@@ -30,7 +30,7 @@ const GradientOverlay: React.FC<GradientOverlayProps> = ({
     right: 0,
     bottom: 0,
     zIndex: 3, // Above black overlay but below text and price tag
-    pointerEvents: 'none' // Allow clicking through the overlay
+    pointerEvents: 'none' as const // Using 'as const' to specify the correct TypeScript type
   };
   
   return <div style={gradientStyle} />;
