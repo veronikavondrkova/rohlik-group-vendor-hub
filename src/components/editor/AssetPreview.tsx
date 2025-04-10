@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import PreviewContainer from './preview/PreviewContainer';
 import BackgroundImage from './preview/BackgroundImage';
@@ -131,7 +132,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         
         <PriceTag 
           showPriceTag={showPriceTag}
-          uploadedImages={uploadedImages.length > 0}
+          uploadedImages={uploadedImages.length > 0} // Fixed type mismatch by passing a boolean
           priceTagPosition={priceTagPosition}
           onDrag={handlePriceTagDrag}
           priceValue={priceValue}

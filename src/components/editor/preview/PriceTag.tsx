@@ -4,7 +4,7 @@ import Draggable from '@/components/ui/draggable';
 
 interface PriceTagProps {
   showPriceTag: boolean;
-  uploadedImages: string[];
+  uploadedImages: boolean; // Changed from string[] to boolean to match what's being passed
   priceTagPosition: {
     x: number;
     y: number;
@@ -20,7 +20,7 @@ const PriceTag: React.FC<PriceTagProps> = ({
   onDrag, 
   priceValue 
 }) => {
-  if (!showPriceTag || uploadedImages.length === 0) return null;
+  if (!showPriceTag || !uploadedImages) return null;
   
   return (
     <Draggable position={priceTagPosition} onDrag={onDrag} bounds="parent">
