@@ -78,7 +78,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   }) => {
     // Calculate boundaries to keep price tag in the right half of the asset
     if (currentDimensions.width) {
-      const rightHalfStart = currentDimensions.width / 4; // Half of half width (at 50% scale)
+      const rightHalfStart = currentDimensions.width / 8; // Less restrictive
       const updatedX = Math.max(rightHalfStart, position.x);
       setPriceTagPosition({
         x: updatedX,

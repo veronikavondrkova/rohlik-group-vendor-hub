@@ -32,13 +32,12 @@ const Draggable: React.FC<DraggableProps> = ({
     if (dragRef.current && bounds === 'parent' && dragRef.current.parentElement) {
       const parentRect = dragRef.current.parentElement.getBoundingClientRect();
       
-      // For free movement, we don't need to strictly set bounds based on element size
-      // This allows image to be positioned partially outside the container
+      // Extend the bounds significantly to allow more movement
       setParentBounds({
-        left: -parentRect.width,
-        top: -parentRect.height,
-        right: parentRect.width * 2,
-        bottom: parentRect.height * 2
+        left: -parentRect.width * 2,
+        top: -parentRect.height * 2,
+        right: parentRect.width * 3,
+        bottom: parentRect.height * 3
       });
     }
   }, [bounds, children]);
@@ -66,7 +65,7 @@ const Draggable: React.FC<DraggableProps> = ({
       let newX = e.clientX - parentRect.left - initialOffset.x;
       let newY = e.clientY - parentRect.top - initialOffset.y;
       
-      // For free movement, we use more relaxed bounds
+      // Apply very relaxed bounds to allow more movement
       newX = Math.max(parentBounds.left, Math.min(newX, parentBounds.right));
       newY = Math.max(parentBounds.top, Math.min(newY, parentBounds.bottom));
       
