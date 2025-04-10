@@ -41,7 +41,8 @@ const Account = () => {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       
-      <main className="flex-grow container mx-auto px-4 py-8">
+      {/* Added pt-24 to account for the fixed header */}
+      <main className="flex-grow container mx-auto px-4 py-8 pt-24">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">Account Settings</h1>
           

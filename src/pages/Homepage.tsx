@@ -1,3 +1,4 @@
+
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,8 +15,8 @@ const Homepage = () => {
   return <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       
-      {/* Hero Section with dark background */}
-      <section className="text-white py-16 px-4 bg-black">
+      {/* Hero Section with dark background - added pt-24 to account for fixed header */}
+      <section className="text-white py-16 px-4 bg-black pt-24">
         <div className="container mx-auto text-center">
           <h2 className="font-bold mb-4 text-6xl">Hey there!</h2>
           <p className="max-w-3xl mx-auto text-2xl font-normal">Build on-brand visuals for any Rohlik market.

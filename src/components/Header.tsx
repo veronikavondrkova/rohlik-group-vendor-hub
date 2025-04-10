@@ -1,3 +1,4 @@
+
 import { useUser } from '@/context/UserContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigateToAccount = () => {
     navigate('/account');
   };
-  return <header className="bg-black text-white py-4 px-6">
+  return <header className="bg-black text-white py-4 px-6 fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <img src="/logogrouplogin.png" alt="Rohlik Group Logo" className="h-12 mr-20" />
