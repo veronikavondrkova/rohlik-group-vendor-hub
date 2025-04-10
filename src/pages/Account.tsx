@@ -54,7 +54,7 @@ const Account = () => {
                   <CardDescription>Manage your personal information</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center">
-                  <Avatar className="h-24 w-24 mb-4 border-2 border-white bg-transparent">
+                  <Avatar className="h-24 w-24 mb-4 border-2 border-white">
                     <AvatarFallback className="text-2xl text-white bg-transparent">
                       {user.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>

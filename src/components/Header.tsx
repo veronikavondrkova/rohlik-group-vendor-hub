@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { UserIcon, Settings, LogOut } from 'lucide-react';
+
 interface HeaderProps {
   showNavigation?: boolean;
 }
+
 const Header: React.FC<HeaderProps> = ({
   showNavigation = true
 }) => {
@@ -28,6 +30,7 @@ const Header: React.FC<HeaderProps> = ({
   const navigateToCreate = () => {
     navigate('/create');
   };
+  
   return <header className="backdrop-blur-sm text-white py-4 px-6 fixed top-0 left-0 right-0 z-50 shadow-lg shadow-black/30 border-b border-white/10 bg-[#061a02]/60">
       <div className="container mx-auto flex justify-between items-center px-[82px]">
         <div className="flex items-center">
@@ -59,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:bg-white/10 transition-colors">
                     <Avatar className="h-10 w-10 border border-white/50 shadow-inner">
-                      <AvatarFallback className="bg-gradient-to-br from-gray-800 to-black text-white">
+                      <AvatarFallback className="bg-transparent text-white">
                         {user.name.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
@@ -88,4 +91,5 @@ const Header: React.FC<HeaderProps> = ({
       </div>
     </header>;
 };
+
 export default Header;
