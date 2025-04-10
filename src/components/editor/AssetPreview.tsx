@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
 
 interface AssetPreviewProps {
   currentFormat: string;
@@ -42,6 +43,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   fileInputRef,
   ctaStyle = 'default'
 }) => {
+  const [imageScale, setImageScale] = useState<number>(100);
+
   const handleImageDrag = (position: { x: number; y: number }) => {
     setImagePosition(position);
   };
@@ -55,6 +58,10 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
     } else {
       setPriceTagPosition(position);
     }
+  };
+
+  const handleImageResize = (value: number[]) => {
+    setImageScale(value[0]);
   };
 
   return (
@@ -75,14 +82,16 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
             <img 
               src={uploadedImages[activeImageIndex]} 
               alt="Background" 
-              className="w-full h-full object-cover absolute cursor-move" 
+              className="absolute cursor-move" 
               style={{ 
                 display: 'block',
                 width: 'auto',
                 height: 'auto',
-                minWidth: '100%',
-                minHeight: '100%',
-                maxWidth: 'none'
+                minWidth: `${imageScale}%`,
+                minHeight: `${imageScale}%`,
+                maxWidth: 'none',
+                transform: `scale(${imageScale / 100})`,
+                transformOrigin: 'center'
               }}
             />
           </Draggable>
@@ -111,8 +120,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
           </div>
         )}
         
-        {/* Text overlay */}
-        <div className="absolute bottom-0 left-0 p-4 w-1/2">
+        {/* Text overlay - always on top with higher z-index */}
+        <div className="absolute bottom-0 left-0 p-4 w-1/2 z-10">
           {headlineText && (
             <div className="text-white font-bold text-lg mb-1 text-shadow">
               {headlineText}
@@ -142,7 +151,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         {/* Price tag (right side) - only if show price tag is checked */}
         {showPriceTag && uploadedImages.length > 0 && (
           <Draggable position={priceTagPosition} onDrag={handlePriceTagDrag} bounds="parent">
-            <div className="absolute cursor-move">
+            <div className="absolute cursor-move z-10">
               <div className="bg-rohlik-light text-xs px-2 py-1 text-center mb-1 rounded-t-sm">
                 AKCE
               </div>
@@ -157,6 +166,26 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         )}
       </div>
       
+      {/* Image resize control */}
+      {uploadedImages.length > 0 && activeImageIndex >= 0 && (
+        <div className="mt-4 px-4">
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium">Image Size:</span>
+            <div className="flex-grow">
+              <Slider
+                defaultValue={[100]}
+                min={50}
+                max={200}
+                step={5}
+                value={[imageScale]}
+                onValueChange={handleImageResize}
+              />
+            </div>
+            <span className="text-sm min-w-12 text-right">{imageScale}%</span>
+          </div>
+        </div>
+      )}
+      
       {/* Image thumbnails if multiple images uploaded */}
       {uploadedImages.length > 1 && (
         <div className="flex gap-2 mt-4 justify-center">
@@ -168,7 +197,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
                 index === activeImageIndex ? 'border-primary' : 'border-transparent'
               }`}
             >
-              <img src={image} alt={`Thumbnail ${index}`} className="w-full h-full object-cover" />
+              <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
