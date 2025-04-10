@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
@@ -115,7 +116,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
               minHeight: `${imageScale}%`,
               maxWidth: 'none',
               transform: `scale(${imageScale / 100})`,
-              transformOrigin: 'center'
+              transformOrigin: 'center',
+              zIndex: 1
             }} />
           </Draggable>
         ) : (
@@ -142,8 +144,11 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         {/* Black overlay with adjustable opacity - positioned between image and content */}
         {uploadedImages.length > 0 && activeImageIndex >= 0 && (
           <div 
-            className="absolute inset-0 pointer-events-none"
-            style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})` }}
+            className="absolute inset-0"
+            style={{ 
+              backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`,
+              zIndex: 2
+            }}
           ></div>
         )}
         
