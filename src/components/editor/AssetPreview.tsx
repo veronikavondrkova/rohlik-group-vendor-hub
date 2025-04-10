@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import PreviewContainer from './preview/PreviewContainer';
 import BackgroundImage from './preview/BackgroundImage';
 import BlackOverlay from './preview/BlackOverlay';
@@ -10,6 +10,8 @@ import PriceTag from './preview/PriceTag';
 import PreviewControls from './preview/PreviewControls';
 import ImageThumbnails from './preview/ImageThumbnails';
 import FormatInfoLabel from './preview/FormatInfoLabel';
+import { usePreviewControls } from '@/hooks/use-preview-controls';
+import { useDragHandlers } from './preview/DragHandlers';
 
 interface UploadedImage {
   src: string;
@@ -70,59 +72,33 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   ctaStyle = 'default',
   updateImagePosition,
   updateImageScale,
-  isSubmitting = false // Default to false
+  isSubmitting = false
 }) => {
-  const [overlayOpacity, setOverlayOpacity] = useState<number>(5);
+  // Use the extracted hooks for state management
+  const {
+    overlayOpacity,
+    gradientOpacity,
+    gradientDirection,
+    gradientStartPosition,
+    gradientEndPosition,
+    handleOverlayOpacityChange,
+    handleGradientOpacityChange,
+    handleGradientDirectionChange,
+    handleGradientStartPositionChange,
+    handleGradientEndPositionChange
+  } = usePreviewControls();
   
-  // New state for gradient controls
-  const [gradientOpacity, setGradientOpacity] = useState<number>(50);
-  const [gradientDirection, setGradientDirection] = useState<number>(180);
-  const [gradientStartPosition, setGradientStartPosition] = useState<number>(0);
-  const [gradientEndPosition, setGradientEndPosition] = useState<number>(100);
-  
-  const handleImageDrag = (index: number, position: { x: number; y: number }) => {
-    updateImagePosition(index, position);
-  };
-  
-  const handlePriceTagDrag = (position: { x: number; y: number }) => {
-    // Calculate boundaries to keep price tag in the right half of the asset
-    if (currentDimensions.width) {
-      const rightHalfStart = currentDimensions.width / 8; // Less restrictive
-      const updatedX = Math.max(rightHalfStart, position.x);
-      setPriceTagPosition({
-        x: updatedX,
-        y: position.y
-      });
-    } else {
-      setPriceTagPosition(position);
-    }
-  };
-  
-  const handleImageResize = (value: number[]) => {
-    if (activeImageIndex >= 0 && activeImageIndex < uploadedImages.length) {
-      updateImageScale(activeImageIndex, value[0]);
-    }
-  };
-  
-  const handleOverlayOpacityChange = (value: number[]) => {
-    setOverlayOpacity(value[0]);
-  };
-  
-  const handleGradientOpacityChange = (value: number[]) => {
-    setGradientOpacity(value[0]);
-  };
-  
-  const handleGradientDirectionChange = (value: number) => {
-    setGradientDirection(value);
-  };
-  
-  const handleGradientStartPositionChange = (value: number) => {
-    setGradientStartPosition(value);
-  };
-  
-  const handleGradientEndPositionChange = (value: number) => {
-    setGradientEndPosition(value);
-  };
+  // Use the extracted drag handlers
+  const {
+    handleImageDrag,
+    handlePriceTagDrag,
+    handleImageResize
+  } = useDragHandlers(
+    updateImagePosition,
+    updateImageScale,
+    setPriceTagPosition,
+    currentDimensions
+  );
   
   // Get current active image scale
   const activeImageScale = activeImageIndex >= 0 && activeImageIndex < uploadedImages.length 
@@ -177,7 +153,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         uploadedImages={uploadedImages}
         activeImageIndex={activeImageIndex}
         imageScale={activeImageScale}
-        onImageResizeChange={handleImageResize}
+        onImageResizeChange={(value) => handleImageResize(activeImageIndex, uploadedImages, value)}
         overlayOpacity={overlayOpacity}
         onOverlayOpacityChange={handleOverlayOpacityChange}
         gradientOpacity={gradientOpacity}
