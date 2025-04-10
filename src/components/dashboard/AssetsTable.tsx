@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Copy, Download } from 'lucide-react';
 import { Asset } from '@/components/review/AssetTypes';
@@ -6,6 +7,7 @@ import { getStatusBadgeVariant } from '@/utils/statusBadgeUtils';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+
 interface AssetsTableProps {
   assets: Asset[];
   userRole: UserRole;
@@ -14,6 +16,7 @@ interface AssetsTableProps {
   onDuplicateAsset: (asset: Asset) => void;
   onDownloadAsset: (asset: Asset) => void;
 }
+
 const AssetsTable = ({
   assets,
   userRole,
@@ -26,9 +29,10 @@ const AssetsTable = ({
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Preview</TableHead>
+          {userRole === 'internal' && <TableHead>Supplier</TableHead>}
           <TableHead>Campaign / Theme</TableHead>
           <TableHead>Asset format</TableHead>
-          <TableHead>Market</TableHead>
+          {userRole === 'supplier' && <TableHead>Market</TableHead>}
           <TableHead>Status</TableHead>
           <TableHead>Date</TableHead>
           <TableHead className="text-right">Feel free to</TableHead>
@@ -41,9 +45,10 @@ const AssetsTable = ({
                   {asset.thumbnail ? <img src={asset.thumbnail} alt={asset.name} className="w-full h-full object-cover" /> : <span className="text-xs text-gray-500">No preview</span>}
                 </div>
               </TableCell>
+              {userRole === 'internal' && <TableCell>{asset.supplier}</TableCell>}
               <TableCell className="font-medium">{asset.name}</TableCell>
               <TableCell>{asset.format}</TableCell>
-              <TableCell>{asset.market}</TableCell>
+              {userRole === 'supplier' && <TableCell>{asset.market}</TableCell>}
               <TableCell>
                 <Badge variant={getStatusBadgeVariant(asset.status)}>
                   {asset.status.charAt(0).toUpperCase() + asset.status.slice(1)}
@@ -57,6 +62,9 @@ const AssetsTable = ({
                 {userRole === 'supplier' && (asset.status === 'pending' || asset.status === 'rejected') && <Button size="sm" className="mr-2" onClick={() => onEditAsset(asset.id)}>
                     Edit
                   </Button>}
+                {userRole === 'internal' && <Button size="sm" className="mr-2" onClick={() => onEditAsset(asset.id)}>
+                    Edit
+                  </Button>}
                 <Button variant="outline" size="sm" className="mr-2" onClick={() => onDownloadAsset(asset)}>
                   <Download className="h-4 w-4" />
                 </Button>
@@ -65,11 +73,12 @@ const AssetsTable = ({
                   </Button>}
               </TableCell>
             </TableRow>) : <TableRow>
-            <TableCell colSpan={7} className="text-center py-4">
+            <TableCell colSpan={userRole === 'internal' ? 7 : 7} className="text-center py-4">
               No assets found
             </TableCell>
           </TableRow>}
       </TableBody>
     </Table>;
 };
+
 export default AssetsTable;
