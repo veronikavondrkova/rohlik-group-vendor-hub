@@ -238,7 +238,7 @@ const Login = () => {
         {/* Image placeholder below the login module */}
         <div className="mt-6 flex justify-center">
           <div className="w-[300px] h-[120px] rounded bg-gray-800 flex items-center justify-center py-0 my-[18px]">
-            <span className="text-gray-400 text-xs">Image Placeholder</span>
+            <span className="text-gray-400 text-xs">"/logoslogin.png"</span>
           </div>
         </div>
         
