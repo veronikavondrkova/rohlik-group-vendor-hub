@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -38,7 +37,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       
       {uploadedImages.length > 0 && <div className="mt-4">
           <Label htmlFor="uploaded-images">Uploaded Images:</Label>
-          <ScrollArea className="h-[160px] w-full border rounded-md p-2 mt-1">
+          <ScrollArea className="h-[100px] w-full border rounded-md p-2 mt-1">
             <div className="space-y-1">
               {uploadedImages.map((image, index) => <div key={index} className={`flex items-center p-1 rounded ${activeImageIndex === index ? 'bg-gray-100' : ''}`}>
                   <div className="w-10 h-10 mr-2 flex-shrink-0 cursor-pointer border overflow-hidden" onClick={() => setActiveImageIndex(index)}>
