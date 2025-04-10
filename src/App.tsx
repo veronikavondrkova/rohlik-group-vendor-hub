@@ -12,6 +12,7 @@ import Homepage from "./pages/Homepage";
 import Create from "./pages/Create";
 import Editor from "./pages/Editor";
 import Review from "./pages/Review";
+import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -64,6 +65,14 @@ const App = () => (
               element={
                 <ProtectedRoute roles={["internal"]}>
                   <Review />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/account" 
+              element={
+                <ProtectedRoute roles={["supplier", "internal"]}>
+                  <Account />
                 </ProtectedRoute>
               } 
             />

@@ -1,9 +1,22 @@
+
 import { useUser } from '@/context/UserContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { UserIcon, Settings, LogOut } from 'lucide-react';
+
 interface HeaderProps {
   showNavigation?: boolean;
 }
+
 const Header: React.FC<HeaderProps> = ({
   showNavigation = true
 }) => {
@@ -12,13 +25,20 @@ const Header: React.FC<HeaderProps> = ({
     logout
   } = useUser();
   const navigate = useNavigate();
+
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+
   const navigateToDashboard = () => {
     navigate('/dashboard');
   };
+
+  const navigateToAccount = () => {
+    navigate('/account');
+  };
+
   return <header className="bg-black text-white py-4 px-6">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
@@ -43,7 +63,37 @@ const Header: React.FC<HeaderProps> = ({
               <span className="mr-4 text-sm">
                 {user.name} {user.company && `(${user.company})`} | {user.role === 'supplier' ? 'Supplier' : 'Internal Team'}
               </span>
-              <Button variant="outline" onClick={handleLogout} className="border-white text-white hover:text-black bg-black">
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar className="h-10 w-10 border border-white">
+                      <AvatarFallback className="bg-black text-white">
+                        {user.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={navigateToAccount} className="cursor-pointer">
+                    <UserIcon className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={navigateToAccount} className="cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+              <Button variant="outline" onClick={handleLogout} className="border-white text-white hover:text-black bg-black ml-2">
                 Logout
               </Button>
             </div>}
@@ -51,4 +101,5 @@ const Header: React.FC<HeaderProps> = ({
       </div>
     </header>;
 };
+
 export default Header;
