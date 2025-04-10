@@ -14,7 +14,7 @@ const Homepage = () => {
   return <div className="min-h-screen flex flex-col">
       {/* Hero Background Image - Full Width and Height */}
       <div className="fixed inset-0 w-full h-full z-0">
-        <img src="/placeholder.svg" alt="Background" className="w-full h-full object-cover" />
+        <img src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" alt="Background" className="w-full h-full object-cover" />
       </div>
       
       {/* Semi-transparent Header */}
