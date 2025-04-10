@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -144,9 +143,9 @@ const Review = () => {
                           </div>
                         )}
                         
-                        {/* CTA Button */}
+                        {/* CTA Button - Fixing the '>' character by using {'>'} */}
                         <button className="cta-button-cz px-6 py-2 text-base rounded-md">
-                          Koupit >>
+                          Koupit {'>>'}
                         </button>
                       </div>
                       
