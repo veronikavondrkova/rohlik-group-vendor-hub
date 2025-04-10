@@ -2,70 +2,23 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
 import { useUser } from '@/context/UserContext';
+import { useAssets } from '@/context/AssetContext';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { Eye, Download, Edit, Filter, Grid, List, Clock, CheckCircle, XCircle } from 'lucide-react';
-
-// Mock data for assets
-const mockAssets = [
-  {
-    id: '1',
-    name: 'Summer Fruits Campaign',
-    format: 'Category Banner',
-    size: '976×550px',
-    market: 'CZ - Rohlik.cz',
-    status: 'pending',
-    dateSubmitted: '2025-04-01',
-    supplier: 'Demo Supplier Co.',
-    thumbnail: '',
-  },
-  {
-    id: '2',
-    name: 'Easter Special',
-    format: 'Newsletter Banner',
-    size: '600×250px',
-    market: 'DE - Knuspr.de',
-    status: 'approved',
-    dateSubmitted: '2025-03-28',
-    supplier: 'Demo Supplier Co.',
-    thumbnail: '',
-  },
-  {
-    id: '3',
-    name: 'Organic Vegetables Promo',
-    format: 'Mix & Match Banner',
-    size: '1420×312px',
-    market: 'AT - Gurkerl.at',
-    status: 'rejected',
-    dateSubmitted: '2025-03-25',
-    comments: 'Resolution is too low. Please upload a higher quality image.',
-    supplier: 'Demo Supplier Co.',
-    thumbnail: '',
-  },
-  {
-    id: '4',
-    name: 'Weekly Deals',
-    format: 'Microsite Head',
-    size: '1230×220px',
-    market: 'HU - Kifli.hu',
-    status: 'pending',
-    dateSubmitted: '2025-04-02',
-    supplier: 'Another Supplier Ltd.',
-    thumbnail: '',
-  },
-];
+import { Eye, Download, Edit, Grid, List, Clock, CheckCircle, XCircle } from 'lucide-react';
 
 const Dashboard = () => {
   const { user } = useUser();
+  const { assets } = useAssets();
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'list' | 'card'>('list');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   
   // Filter assets based on user role and status filter
-  const filteredAssets = mockAssets.filter(asset => {
+  const filteredAssets = assets.filter(asset => {
     if (user?.role === 'supplier' && asset.supplier !== user.company) {
       return false;
     }
@@ -164,7 +117,15 @@ const Dashboard = () => {
               <Card key={asset.id} className={viewMode === 'list' ? 'mb-4' : ''}>
                 <div className={`flex ${viewMode === 'list' ? 'flex-row' : 'flex-col'}`}>
                   <div className={`${viewMode === 'list' ? 'w-24 h-24' : 'w-full aspect-video'} bg-gray-200 flex items-center justify-center ${viewMode === 'list' ? 'rounded-l-lg' : 'rounded-t-lg'}`}>
-                    <p className="text-sm text-gray-500">Preview</p>
+                    {asset.thumbnail ? (
+                      <img 
+                        src={asset.thumbnail} 
+                        alt={asset.name} 
+                        className={`${viewMode === 'list' ? 'w-24 h-24 object-cover rounded-l-lg' : 'w-full h-full object-cover rounded-t-lg'}`}
+                      />
+                    ) : (
+                      <p className="text-sm text-gray-500">Preview</p>
+                    )}
                   </div>
                   
                   <div className="flex-grow">
@@ -185,6 +146,12 @@ const Dashboard = () => {
                         <p>Date Submitted: {asset.dateSubmitted}</p>
                         {user?.role === 'internal' && (
                           <p>Supplier: {asset.supplier}</p>
+                        )}
+                        {asset.headline && (
+                          <p className="font-medium mt-1">Headline: {asset.headline}</p>
+                        )}
+                        {asset.subheadline && (
+                          <p>Subheadline: {asset.subheadline}</p>
                         )}
                         {asset.comments && (
                           <div className="mt-2 p-2 bg-red-50 border border-red-100 rounded-md text-red-800">
