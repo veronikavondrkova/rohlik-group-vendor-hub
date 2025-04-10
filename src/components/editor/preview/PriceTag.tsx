@@ -11,6 +11,7 @@ interface PriceTagProps {
   };
   onDrag: (position: { x: number; y: number }) => void;
   priceValue: string;
+  isSubmitting?: boolean; // New prop to control visibility during submission
 }
 
 const PriceTag: React.FC<PriceTagProps> = ({ 
@@ -18,9 +19,11 @@ const PriceTag: React.FC<PriceTagProps> = ({
   uploadedImages, 
   priceTagPosition, 
   onDrag, 
-  priceValue 
+  priceValue,
+  isSubmitting = false // Default to false
 }) => {
-  if (!showPriceTag || !uploadedImages) return null;
+  // Hide the price tag if we're submitting OR if it's toggled off or no images
+  if (!showPriceTag || !uploadedImages || isSubmitting) return null;
   
   return (
     <Draggable position={priceTagPosition} onDrag={onDrag} bounds="parent">

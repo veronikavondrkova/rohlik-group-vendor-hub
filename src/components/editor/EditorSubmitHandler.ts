@@ -14,6 +14,7 @@ interface SubmitHandlerProps {
   uploadedImages: any[];
   addAsset: (asset: any) => void;
   updateAsset: (id: string, updates: any) => void;
+  setIsSubmitting?: (isSubmitting: boolean) => void; // New prop to control PriceTag visibility
 }
 
 export const useSubmitHandler = ({
@@ -24,7 +25,8 @@ export const useSubmitHandler = ({
   subheadlineText,
   uploadedImages,
   addAsset,
-  updateAsset
+  updateAsset,
+  setIsSubmitting
 }: SubmitHandlerProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -38,6 +40,11 @@ export const useSubmitHandler = ({
         variant: "destructive"
       });
       return;
+    }
+    
+    // Set isSubmitting to true to hide the price tag during submission
+    if (setIsSubmitting) {
+      setIsSubmitting(true);
     }
     
     // Create thumbnail from first uploaded image if available
@@ -74,6 +81,11 @@ export const useSubmitHandler = ({
         title: "Success",
         description: "Asset submitted for review successfully"
       });
+    }
+    
+    // Reset isSubmitting flag (though it doesn't matter after navigation)
+    if (setIsSubmitting) {
+      setTimeout(() => setIsSubmitting(false), 500);
     }
     
     // Clear session storage data

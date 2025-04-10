@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import PreviewContainer from './preview/PreviewContainer';
 import BackgroundImage from './preview/BackgroundImage';
@@ -48,6 +49,7 @@ interface AssetPreviewProps {
   ctaStyle: 'default' | 'reverse';
   updateImagePosition: (index: number, position: { x: number, y: number }) => void;
   updateImageScale: (index: number, scale: number) => void;
+  isSubmitting?: boolean; // New prop
 }
 
 const AssetPreview: React.FC<AssetPreviewProps> = ({
@@ -67,7 +69,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   fileInputRef,
   ctaStyle = 'default',
   updateImagePosition,
-  updateImageScale
+  updateImageScale,
+  isSubmitting = false // Default to false
 }) => {
   const [overlayOpacity, setOverlayOpacity] = useState<number>(5);
   
@@ -166,6 +169,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
           priceTagPosition={priceTagPosition}
           onDrag={handlePriceTagDrag}
           priceValue={priceValue}
+          isSubmitting={isSubmitting}
         />
       </PreviewContainer>
       

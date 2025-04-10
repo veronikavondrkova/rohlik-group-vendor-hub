@@ -47,6 +47,7 @@ interface EditorContentProps {
   selectedMarket: string;
   updateImagePosition: (index: number, position: { x: number, y: number }) => void;
   updateImageScale: (index: number, scale: number) => void;
+  isSubmitting?: boolean; // New prop
 }
 
 const EditorContent = ({
@@ -74,7 +75,8 @@ const EditorContent = ({
   handleRemoveImage,
   selectedMarket,
   updateImagePosition,
-  updateImageScale
+  updateImageScale,
+  isSubmitting = false // Default to false
 }: EditorContentProps) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -99,6 +101,7 @@ const EditorContent = ({
               ctaStyle={ctaStyle}
               updateImagePosition={updateImagePosition}
               updateImageScale={updateImageScale}
+              isSubmitting={isSubmitting}
             />
           </CardContent>
         </Card>

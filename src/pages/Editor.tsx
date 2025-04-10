@@ -17,6 +17,7 @@ const Editor = () => {
   const assetId = searchParams.get('id');
   const { assets, addAsset, updateAsset } = useAssets();
   const [currentFormat, setCurrentFormat] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Use custom hooks for state management
   const {
@@ -57,7 +58,8 @@ const Editor = () => {
     subheadlineText,
     uploadedImages,
     addAsset,
-    updateAsset
+    updateAsset,
+    setIsSubmitting
   });
 
   useEffect(() => {
@@ -134,6 +136,7 @@ const Editor = () => {
           selectedMarket={formData.market}
           updateImagePosition={updateImagePosition}
           updateImageScale={updateImageScale}
+          isSubmitting={isSubmitting}
         />
       </main>
     </div>
