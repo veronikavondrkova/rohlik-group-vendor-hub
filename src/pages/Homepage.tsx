@@ -1,10 +1,8 @@
-
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
-
 const Homepage = () => {
   const navigate = useNavigate();
   const handleCreateAsset = () => {
@@ -13,15 +11,10 @@ const Homepage = () => {
   const handleViewDashboard = () => {
     navigate('/dashboard');
   };
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       {/* Hero Background Image - Full Width and Height */}
       <div className="fixed inset-0 w-full h-full z-0">
-        <img 
-          src="/placeholder.svg" 
-          alt="Background" 
-          className="w-full h-full object-cover"
-        />
+        <img src="/placeholder.svg" alt="Background" className="w-full h-full object-cover" />
       </div>
       
       {/* Semi-transparent Header */}
@@ -30,7 +23,7 @@ const Homepage = () => {
       {/* Content with proper z-index */}
       <div className="relative z-10 flex-grow flex flex-col">
         {/* Hero Section with Text Overlay */}
-        <section className="pt-32 pb-16 px-4">
+        <section className="pt-32 pb-16 px-4 py-[194px]">
           <div className="max-w-3xl mx-auto">
             <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg">
               <h2 className="font-bold mb-4 text-5xl text-black text-center">Hey there!</h2>
@@ -167,8 +160,6 @@ const Homepage = () => {
           </div>
         </footer>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Homepage;
