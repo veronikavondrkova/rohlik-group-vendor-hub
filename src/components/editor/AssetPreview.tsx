@@ -177,7 +177,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
                 : ctaData.color === '#2F7D3B' ? 'cta-button-cz-reverse' : 'cta-button-de-reverse'
             }`} style={{
               transform: 'scale(1.3)',
-              transformOrigin: 'bottom left'
+              transformOrigin: 'bottom left',
+              fontSize: '80%' // Making the text 20% smaller
             }}>
               {ctaData.text || 'Buy now >>'}
             </button>
