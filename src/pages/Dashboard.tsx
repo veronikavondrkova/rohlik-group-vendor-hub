@@ -8,23 +8,14 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Asset } from '@/components/review/AssetTypes';
-import { Copy, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import AssetsTable from '@/components/dashboard/AssetsTable';
+import AssetDetailModal from '@/components/dashboard/AssetDetailModal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -84,19 +75,6 @@ const Dashboard = () => {
     // This could involve making a server request to generate the asset
   };
 
-  // Status badge color mapping
-  const getStatusBadgeVariant = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return 'default'; // Green
-      case 'rejected':
-        return 'destructive'; // Red
-      case 'pending':
-      default:
-        return 'secondary'; // Gray
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
@@ -119,179 +97,26 @@ const Dashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Preview</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Format</TableHead>
-                  <TableHead>Market</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredAssets.length > 0 ? (
-                  filteredAssets.map((asset) => (
-                    <TableRow key={asset.id}>
-                      <TableCell>
-                        <div className="w-[80px] h-[45px] bg-gray-200 rounded flex items-center justify-center overflow-hidden">
-                          {asset.thumbnail ? (
-                            <img 
-                              src={asset.thumbnail} 
-                              alt={asset.name} 
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <span className="text-xs text-gray-500">No preview</span>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-medium">{asset.name}</TableCell>
-                      <TableCell>{asset.format}</TableCell>
-                      <TableCell>{asset.market}</TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusBadgeVariant(asset.status)}>
-                          {asset.status.charAt(0).toUpperCase() + asset.status.slice(1)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{asset.dateSubmitted}</TableCell>
-                      <TableCell className="text-right">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="mr-2"
-                          onClick={() => handleViewAsset(asset)}
-                        >
-                          View
-                        </Button>
-                        {user?.role === 'supplier' && (asset.status === 'pending' || asset.status === 'rejected') && (
-                          <Button 
-                            size="sm"
-                            className="mr-2"
-                            onClick={() => handleEditAsset(asset.id)}
-                          >
-                            Edit
-                          </Button>
-                        )}
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mr-2"
-                          onClick={() => handleDownloadAsset(asset)}
-                        >
-                          <Download className="h-4 w-4" />
-                        </Button>
-                        {user?.role === 'supplier' && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDuplicateAsset(asset)}
-                          >
-                            <Copy className="h-4 w-4" />
-                          </Button>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-4">
-                      No assets found
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+            <AssetsTable 
+              assets={filteredAssets}
+              userRole={user?.role || 'supplier'}
+              onViewAsset={handleViewAsset}
+              onEditAsset={handleEditAsset}
+              onDuplicateAsset={handleDuplicateAsset}
+              onDownloadAsset={handleDownloadAsset}
+            />
           </CardContent>
         </Card>
         
         {selectedAsset && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-3xl">
-              <CardHeader>
-                <CardTitle>{selectedAsset.name}</CardTitle>
-                <CardDescription>
-                  {selectedAsset.format} • {selectedAsset.market} • Submitted: {selectedAsset.dateSubmitted}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="mb-4">
-                  <h3 className="font-semibold mb-2">Preview</h3>
-                  <div className="border rounded-md p-4 bg-gray-100 flex items-center justify-center">
-                    {selectedAsset.thumbnail ? (
-                      <img 
-                        src={selectedAsset.thumbnail} 
-                        alt={selectedAsset.name} 
-                        className="max-h-[300px] object-contain"
-                      />
-                    ) : (
-                      <div className="h-[200px] w-full flex items-center justify-center">
-                        <span className="text-gray-500">No preview available</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="font-semibold mb-2">Details</h3>
-                    <ul className="space-y-2">
-                      <li><span className="font-medium">Format:</span> {selectedAsset.format}</li>
-                      <li><span className="font-medium">Size:</span> {selectedAsset.size}</li>
-                      <li><span className="font-medium">Market:</span> {selectedAsset.market}</li>
-                      <li><span className="font-medium">Supplier:</span> {selectedAsset.supplier}</li>
-                      <li>
-                        <span className="font-medium">Status:</span>{' '}
-                        <Badge variant={getStatusBadgeVariant(selectedAsset.status)}>
-                          {selectedAsset.status.charAt(0).toUpperCase() + selectedAsset.status.slice(1)}
-                        </Badge>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-semibold mb-2">Content</h3>
-                    <ul className="space-y-2">
-                      <li><span className="font-medium">Headline:</span> {selectedAsset.headline}</li>
-                      <li><span className="font-medium">Subheadline:</span> {selectedAsset.subheadline}</li>
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-end gap-2">
-                <Button 
-                  variant="outline" 
-                  onClick={() => handleDownloadAsset(selectedAsset)}
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Download
-                </Button>
-                {user?.role === 'supplier' && (
-                  <Button 
-                    variant="outline"
-                    onClick={() => handleDuplicateAsset(selectedAsset)}
-                  >
-                    <Copy className="mr-2 h-4 w-4" />
-                    Duplicate
-                  </Button>
-                )}
-                {user?.role === 'supplier' && (selectedAsset.status === 'pending' || selectedAsset.status === 'rejected') && (
-                  <Button 
-                    variant="outline"
-                    onClick={() => {
-                      handleEditAsset(selectedAsset.id);
-                      handleCloseModal();
-                    }}
-                  >
-                    Edit
-                  </Button>
-                )}
-                <Button onClick={handleCloseModal}>Close</Button>
-              </CardFooter>
-            </Card>
-          </div>
+          <AssetDetailModal
+            asset={selectedAsset}
+            userRole={user?.role || 'supplier'}
+            onClose={handleCloseModal}
+            onEdit={handleEditAsset}
+            onDuplicate={handleDuplicateAsset}
+            onDownload={handleDownloadAsset}
+          />
         )}
       </main>
     </div>
