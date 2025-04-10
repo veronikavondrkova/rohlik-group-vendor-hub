@@ -97,8 +97,8 @@ const Dashboard = () => {
       
       <main className="flex-grow container mx-auto py-[119px] px-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Asset Dashboard</h1>
-          {user?.role === 'supplier' && <Button onClick={handleCreateNew}>Create New Asset</Button>}
+          
+          {user?.role === 'supplier'}
         </div>
         
         <Card>
