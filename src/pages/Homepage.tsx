@@ -39,7 +39,7 @@ const Homepage = () => {
           </p>
           
           <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <Card>
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <FileIcon className="text-white" size={24} />
@@ -56,7 +56,7 @@ const Homepage = () => {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <Pencil className="text-white" size={24} />
@@ -73,7 +73,7 @@ const Homepage = () => {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <CheckCircleIcon className="text-white" size={24} />
@@ -102,7 +102,7 @@ const Homepage = () => {
                 <Card className="bg-green-50 border-green-200">
                   <CardHeader>
                     <CardTitle className="flex items-center text-green-700">
-                      <CheckCircleIcon className="mr-2" size={20} />
+                      <span className="mr-2 text-xl">✅</span>
                       Do
                     </CardTitle>
                   </CardHeader>
@@ -120,7 +120,7 @@ const Homepage = () => {
                 <Card className="bg-red-50 border-red-200">
                   <CardHeader>
                     <CardTitle className="flex items-center text-red-700">
-                      <ExternalLink className="mr-2" size={20} />
+                      <span className="mr-2 text-xl">⛔</span>
                       Don't
                     </CardTitle>
                   </CardHeader>
@@ -135,6 +135,12 @@ const Homepage = () => {
                   </CardContent>
                 </Card>
               </div>
+              <div className="mt-6 flex justify-center">
+                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center">
+                  <BookOpen className="mr-2" size={16} />
+                  Download PSD Templates
+                </Button>
+              </div>
             </div>
             
             <div>
@@ -142,12 +148,6 @@ const Homepage = () => {
               <div className="bg-white p-4 rounded-lg border">
                 <div className="aspect-video bg-gray-200 rounded-md flex items-center justify-center">
                   <p className="text-gray-500">Example asset carousel would appear here</p>
-                </div>
-                <div className="mt-4 flex justify-center">
-                  <Button variant="outline" className="flex items-center">
-                    <BookOpen className="mr-2" size={16} />
-                    Download PSD Templates
-                  </Button>
                 </div>
               </div>
             </div>

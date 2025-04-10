@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ showNavigation = true }) => {
     <header className="bg-black text-white py-4 px-6">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-xl font-semibold mr-8">Rohlik Brand Hub</h1>
+          <img src="/logogrouplogin.png" alt="Rohlik Group Logo" className="h-8 mr-8" />
           
           {showNavigation && user && (
             <nav className="hidden md:flex space-x-6">
