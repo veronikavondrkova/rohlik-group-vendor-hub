@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/context/UserContext';
 import { useAssets } from '@/context/AssetContext';
@@ -16,6 +16,7 @@ import { Asset } from '@/components/review/AssetTypes';
 import { useToast } from '@/hooks/use-toast';
 import AssetsTable from '@/components/dashboard/AssetsTable';
 import AssetDetailModal from '@/components/dashboard/AssetDetailModal';
+import FilterControls from '@/components/dashboard/FilterControls';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -23,11 +24,34 @@ const Dashboard = () => {
   const { assets, addAsset } = useAssets();
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
   const { toast } = useToast();
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [formatFilter, setFormatFilter] = useState('all');
 
-  // Filter assets based on user role
-  const filteredAssets = user?.role === 'internal' 
-    ? assets 
-    : assets.filter(asset => asset.supplier === user?.company);
+  // Get unique formats from assets for filter dropdown
+  const uniqueFormats = useMemo(() => {
+    const formats = new Set(assets.map(asset => asset.format));
+    return Array.from(formats);
+  }, [assets]);
+
+  // Filter assets based on user role and filters
+  const filteredAssets = useMemo(() => {
+    // First filter based on user role
+    let filtered = user?.role === 'internal' 
+      ? assets 
+      : assets.filter(asset => asset.supplier === user?.company);
+    
+    // Then apply status filter if not 'all'
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(asset => asset.status === statusFilter);
+    }
+    
+    // Then apply format filter if not 'all'
+    if (formatFilter !== 'all') {
+      filtered = filtered.filter(asset => asset.format === formatFilter);
+    }
+    
+    return filtered;
+  }, [assets, user, statusFilter, formatFilter]);
 
   const handleCreateNew = () => {
     navigate('/create');
@@ -75,6 +99,11 @@ const Dashboard = () => {
     // This could involve making a server request to generate the asset
   };
 
+  const handleClearFilters = () => {
+    setStatusFilter('all');
+    setFormatFilter('all');
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
@@ -97,6 +126,15 @@ const Dashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            <FilterControls 
+              statusFilter={statusFilter}
+              formatFilter={formatFilter}
+              onStatusFilterChange={setStatusFilter}
+              onFormatFilterChange={setFormatFilter}
+              onClearFilters={handleClearFilters}
+              formats={uniqueFormats}
+            />
+            
             <AssetsTable 
               assets={filteredAssets}
               userRole={user?.role || 'supplier'}
