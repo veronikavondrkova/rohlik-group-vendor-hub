@@ -1,11 +1,9 @@
-
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
-
 const Homepage = () => {
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
@@ -55,7 +53,9 @@ const Homepage = () => {
       <main className="flex-grow container mx-auto px-4 py-8 bg-white z-10">
         {/* Move the section up by using negative margin-top */}
         <section className="mb-12 -mt-32 relative z-20">
-          <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0 mx-auto" style={{ maxWidth: '80%' }}>
+          <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0 mx-auto" style={{
+          maxWidth: '80%'
+        }}>
             <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl py-0 px-0">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 px-0 mx-auto">
@@ -112,46 +112,10 @@ const Homepage = () => {
         <section className="mb-12">
           <div className="grid md:grid-cols-2 gap-8 items-start">
             <div className="grid grid-cols-1 gap-4">
-              <h3 className="text-xl font-semibold mb-2">Do's and Don'ts</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <Card className="border-green-200 bg-emerald-50">
-                  <CardHeader>
-                    <CardTitle className="flex items-center text-green-700">
-                      <span className="mr-2 text-xl">✅</span>
-                      Do
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="list-disc pl-5 space-y-2 text-sm">
-                      <li>Use high-resolution images (at least 300 DPI)</li>
-                      <li>Keep text within the safe zone</li>
-                      <li>Use brand-specific colors for CTA buttons</li>
-                      <li>Place price tags only on the right side</li>
-                      <li>Use approved fonts and typography</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-                
-                <Card className="border-red-200 bg-orange-50">
-                  <CardHeader>
-                    <CardTitle className="flex items-center text-red-700">
-                      <span className="mr-2 text-xl">⛔</span>
-                      Don't
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="list-disc pl-5 space-y-2 text-sm">
-                      <li>Use low-quality or pixelated images</li>
-                      <li>Overcrowd the asset with too much text</li>
-                      <li>Use non-brand colors for CTAs or buttons</li>
-                      <li>Place text outside the safe zone</li>
-                      <li>Use unapproved fonts or typography styles</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
               
-              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 h-full">
+              
+              
+              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 h-full py-[61px]">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
                     <img src="/adobe-photoshop.png" alt="Adobe Photoshop" className="w-6 h-6" />
@@ -174,7 +138,7 @@ const Homepage = () => {
             </div>
             
             <div>
-              <h3 className="text-xl font-semibold mb-4">Example Assets</h3>
+              
               <div className="bg-white p-4 rounded-lg border">
                 <div className="aspect-video bg-gray-200 rounded-md flex items-center justify-center">
                   <p className="text-gray-500">Example asset carousel would appear here</p>
