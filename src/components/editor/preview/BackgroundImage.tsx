@@ -49,7 +49,6 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({
                 transform: `scale(${image.scale / 100})`,
                 transformOrigin: 'center',
                 zIndex: index + 1,
-                opacity: index === activeImageIndex ? 1 : 0.7, // Highlight active image
                 border: index === activeImageIndex ? '2px dashed #3B82F6' : 'none',
                 pointerEvents: index === activeImageIndex ? 'auto' : 'none' // Only active image can be dragged
               }} 
