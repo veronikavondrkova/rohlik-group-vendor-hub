@@ -108,6 +108,7 @@ const Login = () => {
       });
     }
   };
+  
   return <div className="flex min-h-screen bg-black">
       <div className="m-auto w-full max-w-md">
         {/* Logo placeholder above the main headline */}
@@ -235,11 +236,13 @@ const Login = () => {
           </Tabs>
         </Card>
         
-        {/* Image placeholder below the login module */}
+        {/* Image below the login module - replaced with actual image */}
         <div className="mt-6 flex justify-center">
-          <div className="w-[300px] h-[120px] rounded bg-gray-800 flex items-center justify-center py-0 my-[18px]">
-            <span className="text-gray-400 text-xs">"/logoslogin.png"</span>
-          </div>
+          <img 
+            src="/logoslogin.png" 
+            alt="Partner logos" 
+            className="w-[300px] h-auto py-0 my-[18px]"
+          />
         </div>
         
         <div className="mt-6 text-center text-gray-400 text-sm">
