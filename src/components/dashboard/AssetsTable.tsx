@@ -25,6 +25,13 @@ const AssetsTable = ({
   onDuplicateAsset,
   onDownloadAsset
 }: AssetsTableProps) => {
+  // Sort assets to show pending status first
+  const sortedAssets = [...assets].sort((a, b) => {
+    if (a.status === 'pending' && b.status !== 'pending') return -1;
+    if (a.status !== 'pending' && b.status === 'pending') return 1;
+    return 0;
+  });
+
   return <Table>
       <TableHeader>
         <TableRow>
@@ -39,7 +46,11 @@ const AssetsTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {assets.length > 0 ? assets.map(asset => <TableRow key={asset.id}>
+        {sortedAssets.length > 0 ? sortedAssets.map(asset => (
+            <TableRow 
+              key={asset.id} 
+              className={asset.status === 'pending' ? 'bg-[#FEF7CD]' : ''}
+            >
               <TableCell>
                 <div className="w-[80px] h-[45px] bg-gray-200 rounded flex items-center justify-center overflow-hidden">
                   {asset.thumbnail ? <img src={asset.thumbnail} alt={asset.name} className="w-full h-full object-cover" /> : <span className="text-xs text-gray-500">No preview</span>}
@@ -57,7 +68,7 @@ const AssetsTable = ({
               <TableCell>{asset.dateSubmitted}</TableCell>
               <TableCell className="text-right">
                 <Button variant="outline" size="sm" className="mr-2" onClick={() => onViewAsset(asset)}>
-                  View
+                  Review
                 </Button>
                 {userRole === 'supplier' && (asset.status === 'pending' || asset.status === 'rejected') && <Button size="sm" className="mr-2" onClick={() => onEditAsset(asset.id)}>
                     Edit
@@ -72,7 +83,8 @@ const AssetsTable = ({
                     <Copy className="h-4 w-4" />
                   </Button>}
               </TableCell>
-            </TableRow>) : <TableRow>
+            </TableRow>
+          )) : <TableRow>
             <TableCell colSpan={userRole === 'internal' ? 7 : 7} className="text-center py-4">
               No assets found
             </TableCell>

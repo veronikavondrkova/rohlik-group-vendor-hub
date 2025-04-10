@@ -9,6 +9,7 @@ export const getStatusBadgeVariant = (status: string) => {
     case 'rejected':
       return 'destructive'; // Red
     case 'pending':
+      return 'warning'; // Yellow
     default:
       return 'secondary'; // Gray
   }
