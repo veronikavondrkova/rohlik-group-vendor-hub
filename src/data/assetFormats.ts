@@ -26,19 +26,19 @@ export const formatDimensions = {
 // Example assets for inspiration carousel
 export const exampleAssets = [
   {
-    src: "/lovable-uploads/27ac72ce-dc02-4781-b1b6-02d810af0475.png",
+    src: "/Trade_Premium W10_Readmio.png",
     caption: "Category banner with bold text placement"
   },
   {
-    src: "/lovable-uploads/fadae505-df41-4034-9444-3f7f24a7a0bf.png",
+    src: "/NL - Moomin.png",
     caption: "Newsletter banner with price highlight"
   },
   {
-    src: "/public/placeholder.svg",
+    src: "/Trade - W15 - ORAL B.png",
     caption: "Mix and match banner layout"
   },
   {
-    src: "/public/placeholder.svg",
+    src: "/MS_header_desktop_.png",
     caption: "Microsite header with product focus"
   },
   {
