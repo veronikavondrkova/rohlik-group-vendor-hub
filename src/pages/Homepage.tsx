@@ -1,3 +1,4 @@
+
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,7 +19,7 @@ const Homepage = () => {
       <Header />
       
       {/* Hero Section with Background Image */}
-      <section className="pt-32 pb-16 px-4 relative">
+      <section className="pt-32 pb-16 px-4 relative" style={{ height: "80vh" }}>
         {/* Hero Background Image - Only for this section */}
         <div className="absolute inset-0 w-full h-full z-0">
           <img 
