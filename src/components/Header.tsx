@@ -1,22 +1,12 @@
-
 import { useUser } from '@/context/UserContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { UserIcon, Settings, LogOut } from 'lucide-react';
-
 interface HeaderProps {
   showNavigation?: boolean;
 }
-
 const Header: React.FC<HeaderProps> = ({
   showNavigation = true
 }) => {
@@ -25,20 +15,16 @@ const Header: React.FC<HeaderProps> = ({
     logout
   } = useUser();
   const navigate = useNavigate();
-
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
-
   const navigateToDashboard = () => {
     navigate('/dashboard');
   };
-
   const navigateToAccount = () => {
     navigate('/account');
   };
-
   return <header className="bg-black text-white py-4 px-6">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
@@ -93,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({
                 </DropdownMenuContent>
               </DropdownMenu>
               
-              <Button variant="outline" onClick={handleLogout} className="border-white text-white hover:text-black bg-black ml-2">
+              <Button variant="outline" onClick={handleLogout} className="border-white ml-2 text-black bg-white">
                 Logout
               </Button>
             </div>}
@@ -101,5 +87,4 @@ const Header: React.FC<HeaderProps> = ({
       </div>
     </header>;
 };
-
 export default Header;
