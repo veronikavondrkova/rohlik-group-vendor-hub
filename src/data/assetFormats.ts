@@ -34,7 +34,7 @@ export const exampleAssets = [
     caption: "Newsletter banner with price highlight"
   },
   {
-    src: "/Trade_W15_ORAL B.png",
+    src: "/Trade_W15_ORAL_B.png",
     caption: "Mix and match banner layout"
   },
   {
@@ -42,7 +42,7 @@ export const exampleAssets = [
     caption: "Microsite header with product focus"
   },
   {
-    src: "/public/placeholder.svg",
+    src: "/Trade_banner.png",
     caption: "Separation banner with CTA emphasis"
   }
 ];
