@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
@@ -60,12 +61,15 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   ctaStyle = 'default'
 }) => {
   const [imageScale, setImageScale] = useState<number>(100);
+  const [overlayOpacity, setOverlayOpacity] = useState<number>(20);
+  
   const handleImageDrag = (position: {
     x: number;
     y: number;
   }) => {
     setImagePosition(position);
   };
+  
   const handlePriceTagDrag = (position: {
     x: number;
     y: number;
@@ -82,9 +86,15 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
       setPriceTagPosition(position);
     }
   };
+  
   const handleImageResize = (value: number[]) => {
     setImageScale(value[0]);
   };
+  
+  const handleOverlayOpacityChange = (value: number[]) => {
+    setOverlayOpacity(value[0]);
+  };
+  
   return <div>
       <div className="relative bg-transparent mx-auto overflow-hidden border" style={{
       width: `${currentDimensions.width / 2}px`,
@@ -94,18 +104,28 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         <div className="absolute inset-0 safe-zone m-[10px]"></div>
         
         {/* Background Image */}
-        {uploadedImages.length > 0 && activeImageIndex >= 0 && activeImageIndex < uploadedImages.length ? <Draggable position={imagePosition} onDrag={handleImageDrag} bounds="parent">
-            <img src={uploadedImages[activeImageIndex]} alt="Background" className="absolute cursor-move" style={{
-          display: 'block',
-          width: 'auto',
-          height: 'auto',
-          minWidth: `${imageScale}%`,
-          minHeight: `${imageScale}%`,
-          maxWidth: 'none',
-          transform: `scale(${imageScale / 100})`,
-          transformOrigin: 'center'
-        }} />
-          </Draggable> : <div className="absolute inset-0 flex items-center justify-center">
+        {uploadedImages.length > 0 && activeImageIndex >= 0 && activeImageIndex < uploadedImages.length ? (
+          <>
+            <Draggable position={imagePosition} onDrag={handleImageDrag} bounds="parent">
+              <img src={uploadedImages[activeImageIndex]} alt="Background" className="absolute cursor-move" style={{
+                display: 'block',
+                width: 'auto',
+                height: 'auto',
+                minWidth: `${imageScale}%`,
+                minHeight: `${imageScale}%`,
+                maxWidth: 'none',
+                transform: `scale(${imageScale / 100})`,
+                transformOrigin: 'center'
+              }} />
+            </Draggable>
+            
+            {/* Black overlay with adjustable opacity */}
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})` }}
+            ></div>
+          </>
+        ) : <div className="absolute inset-0 flex items-center justify-center">
             <Button variant="outline" onClick={handleUploadClick} className="bg-transparent border border-black text-black hover:bg-gray-100">
               Upload the image
             </Button>
@@ -119,7 +139,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         }} className="hidden" />
           </div>}
         
-        {/* Text overlay - moved to top left corner with same padding as CTA button had */}
+        {/* Text overlay - with same padding as CTA button */}
         <div className="absolute top-0 left-0 p-4 w-1/2 z-10">
           {headlineText && <div className="text-white font-bold text-3xl mb-2 text-shadow my-[9px]">
               {headlineText}
@@ -154,7 +174,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
       </div>
       
       {/* Image resize control */}
-      {uploadedImages.length > 0 && activeImageIndex >= 0 && <div className="mt-4 px-4">
+      {uploadedImages.length > 0 && activeImageIndex >= 0 && (
+        <div className="mt-4 px-4 space-y-4">
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium">Image Size:</span>
             <div className="flex-grow">
@@ -162,7 +183,17 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
             </div>
             <span className="text-sm min-w-12 text-right">{imageScale}%</span>
           </div>
-        </div>}
+          
+          {/* Overlay opacity control */}
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium">Overlay Opacity:</span>
+            <div className="flex-grow">
+              <Slider defaultValue={[20]} min={0} max={100} step={5} value={[overlayOpacity]} onValueChange={handleOverlayOpacityChange} />
+            </div>
+            <span className="text-sm min-w-12 text-right">{overlayOpacity}%</span>
+          </div>
+        </div>
+      )}
       
       {/* Image thumbnails if multiple images uploaded */}
       {uploadedImages.length > 1 && <div className="flex gap-2 mt-4 justify-center">
