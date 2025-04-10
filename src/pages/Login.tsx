@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Login = () => {
   const { login, signup, isLoading, error } = useUser();
@@ -127,6 +128,13 @@ const Login = () => {
   return (
     <div className="flex min-h-screen bg-black">
       <div className="m-auto w-full max-w-md">
+        {/* Logo placeholder above the main headline */}
+        <div className="flex justify-center mb-6">
+          <div className="w-32 h-32 rounded-md bg-gray-800 flex items-center justify-center">
+            <span className="text-gray-400 text-xs">Logo Placeholder</span>
+          </div>
+        </div>
+        
         <div className="mb-8 text-center">
           <h1 className="text-white text-3xl font-bold mb-4">Rohlik Brand Hub</h1>
           <p className="text-gray-400">Streamlined asset creation and approval</p>
@@ -272,6 +280,13 @@ const Login = () => {
             </TabsContent>
           </Tabs>
         </Card>
+        
+        {/* Image placeholder below the login module */}
+        <div className="mt-6 flex justify-center">
+          <div className="w-[160px] h-[60px] rounded bg-gray-800 flex items-center justify-center">
+            <span className="text-gray-400 text-xs">Image Placeholder</span>
+          </div>
+        </div>
         
         <div className="mt-6 text-center text-gray-400 text-sm">
           <p>Demo Accounts:</p>
