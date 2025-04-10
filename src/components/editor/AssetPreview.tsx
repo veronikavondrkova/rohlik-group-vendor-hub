@@ -121,7 +121,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         
         {/* Text overlay - moved to top left corner with same padding as CTA button had */}
         <div className="absolute top-0 left-0 p-4 w-1/2 z-10">
-          {headlineText && <div className="text-white font-bold text-3xl mb-2 text-shadow">
+          {headlineText && <div className="text-white font-bold text-3xl mb-2 text-shadow my-[9px]">
               {headlineText}
             </div>}
           
