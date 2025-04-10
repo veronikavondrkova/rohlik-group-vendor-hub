@@ -14,7 +14,7 @@ const Homepage = () => {
   return <div className="min-h-screen flex flex-col">
       {/* Hero Background Image - Full Width and Height */}
       <div className="fixed inset-0 w-full h-full z-0">
-        <img src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" alt="Background" className="w-full h-full object-cover" />
+        <img src="/placeholder.svg" alt="Background" className="w-full h-full object-cover" />
       </div>
       
       {/* Semi-transparent Header */}
@@ -35,9 +35,9 @@ const Homepage = () => {
           </div>
         </section>
         
-        <main className="flex-grow container mx-auto px-4 py-8 bg-white z-10">
+        <main className="flex-grow container mx-auto px-4 py-8 z-10 bg-white/0">
           <section className="mb-12">
-            <div className="grid md:grid-cols-3 gap-6 mt-8 bg-stone-50">
+            <div className="grid md:grid-cols-3 gap-6 mt-8 bg-white/0">
               <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl py-0 px-0">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
@@ -92,8 +92,8 @@ const Homepage = () => {
           </section>
           
           <section className="mb-12">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
+            <div className="grid md:grid-cols-2 gap-8 bg-white px-[45px] mx-0 py-[27px] rounded-md">
+              <div className="bg-white">
                 <h3 className="text-xl font-semibold mb-4">Do's and Don'ts</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <Card className="border-green-200 bg-emerald-50">
