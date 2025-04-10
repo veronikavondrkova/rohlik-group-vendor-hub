@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
@@ -51,15 +52,16 @@ const Homepage = () => {
       </section>
       
       <main className="flex-grow container mx-auto px-4 py-8 bg-white z-10">
-        <section className="mb-12">
-          <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0">
+        {/* Move the section up by using negative margin-top */}
+        <section className="mb-12 -mt-32 relative z-20">
+          <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0 mx-auto" style={{ maxWidth: '80%' }}>
             <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl py-0 px-0">
               <CardHeader className="pb-3">
-                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2 px-0 mx-0">
+                <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 px-0 mx-auto">
                   <FileIcon className="text-white" size={24} />
                 </div>
                 <CardTitle className="text-center">1. Choose Format</CardTitle>
-                <CardDescription className="text-center text-[0E210F]">
+                <CardDescription className="text-center">
                   Select asset formats and market
                 </CardDescription>
               </CardHeader>
@@ -72,7 +74,7 @@ const Homepage = () => {
             
             <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl">
               <CardHeader className="pb-3">
-                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
+                <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
                   <Pencil className="text-white" size={24} />
                 </div>
                 <CardTitle className="text-center">2. Create Asset</CardTitle>
@@ -89,7 +91,7 @@ const Homepage = () => {
             
             <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl">
               <CardHeader className="pb-3">
-                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
+                <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
                   <CheckCircleIcon className="text-white" size={24} />
                 </div>
                 <CardTitle className="text-center">3. Submit</CardTitle>
@@ -107,11 +109,27 @@ const Homepage = () => {
         </section>
         
         <section className="mb-12">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Do's and Don'ts</h3>
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div className="grid grid-cols-1 gap-4">
+              <h3 className="text-xl font-semibold mb-2">Do's and Don'ts</h3>
               <div className="grid grid-cols-2 gap-4">
-                
+                <Card className="border-green-200 bg-emerald-50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center text-green-700">
+                      <span className="mr-2 text-xl">✅</span>
+                      Do
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="list-disc pl-5 space-y-2 text-sm">
+                      <li>Use high-resolution images (at least 300 DPI)</li>
+                      <li>Keep text within the safe zone</li>
+                      <li>Use brand-specific colors for CTA buttons</li>
+                      <li>Place price tags only on the right side</li>
+                      <li>Use approved fonts and typography</li>
+                    </ul>
+                  </CardContent>
+                </Card>
                 
                 <Card className="border-red-200 bg-orange-50">
                   <CardHeader>
@@ -131,12 +149,27 @@ const Homepage = () => {
                   </CardContent>
                 </Card>
               </div>
-              <div className="mt-6 flex justify-center">
-                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center">
-                  <BookOpen className="mr-2" size={16} />
-                  Download PSD Templates
-                </Button>
-              </div>
+              
+              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50">
+                <CardHeader className="pb-3">
+                  <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
+                    <BookOpen className="text-white" size={24} />
+                  </div>
+                  <CardTitle className="text-center">Resources</CardTitle>
+                  <CardDescription className="text-center">
+                    Download templates and guidelines
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-500 text-center mb-4">
+                    Get access to our full set of templates, design assets, and guidelines to ensure your assets meet our brand standards.
+                  </p>
+                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center w-full justify-center">
+                    <ExternalLink className="mr-2" size={16} />
+                    Download PSD Templates
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
             
             <div>
