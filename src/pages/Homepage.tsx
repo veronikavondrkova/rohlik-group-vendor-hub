@@ -115,7 +115,7 @@ const Homepage = () => {
               
               
               
-              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 h-full py-[61px]">
+              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 h-full py-[59px]">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
                     <img src="/adobe-photoshop.png" alt="Adobe Photoshop" className="w-6 h-6" />
