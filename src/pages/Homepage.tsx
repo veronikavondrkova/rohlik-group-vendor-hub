@@ -43,7 +43,7 @@ const Homepage = () => {
         </div>
         
         <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="backdrop-blur-sm rounded-xl p-8 shadow-lg py-[39px] my-[106px] bg-white/[0.74]">
+          <div className="backdrop-blur-sm rounded-xl p-8 shadow-lg py-[39px] my-[106px] bg-white/[0.74] px-[86px] mx-[32px]">
             <h2 className="mb-4 text-5xl text-black text-center font-extrabold">Hey there!</h2>
             <p className="text-xl font-normal text-gray-800 text-center">Build on-brand vendor visuals for any Rohlik Group market. Just follow the steps, stick to the basics, and get approved without the back-and-forth.</p>
           </div>
