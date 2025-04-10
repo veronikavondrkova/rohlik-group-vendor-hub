@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-gradient-to-b from-black to-gray-900 text-white py-4 px-6 fixed top-0 left-0 right-0 z-50 shadow-lg shadow-black/30 backdrop-blur-sm border-b border-gray-800">
+    <header className="bg-black/60 backdrop-blur-sm text-white py-4 px-6 fixed top-0 left-0 right-0 z-50 shadow-lg shadow-black/30 border-b border-white/10">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <img src="/logogrouplogin.png" alt="Rohlik Group Logo" className="h-12 mr-20 drop-shadow-md hover:drop-shadow-xl transition-all duration-300" />
@@ -75,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-gradient-to-b from-gray-900 to-black border border-gray-700 shadow-xl" align="end">
+                <DropdownMenuContent className="w-56 bg-black/90 backdrop-blur-md border border-gray-700 shadow-xl" align="end">
                   <DropdownMenuLabel className="text-white">My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-gray-700" />
                   <DropdownMenuItem onClick={navigateToAccount} className="cursor-pointer hover:bg-white/10 text-gray-200">
