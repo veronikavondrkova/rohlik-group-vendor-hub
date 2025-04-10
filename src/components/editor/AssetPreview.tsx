@@ -70,20 +70,21 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         <div className="absolute inset-0 safe-zone m-[10px]"></div>
         
         {/* Background Image */}
-        {uploadedImages.length > 0 && activeImageIndex < uploadedImages.length ? (
+        {uploadedImages.length > 0 && activeImageIndex >= 0 && activeImageIndex < uploadedImages.length ? (
           <Draggable position={imagePosition} onDrag={handleImageDrag} bounds="parent">
-            <div className="absolute cursor-move" style={{ width: '100%', height: '100%' }}>
-              <img 
-                src={uploadedImages[activeImageIndex]} 
-                alt="Background" 
-                className="w-full h-full object-cover" 
-                style={{ 
-                  display: 'block',
-                  width: '100%',
-                  height: '100%'
-                }}
-              />
-            </div>
+            <img 
+              src={uploadedImages[activeImageIndex]} 
+              alt="Background" 
+              className="w-full h-full object-cover absolute cursor-move" 
+              style={{ 
+                display: 'block',
+                width: 'auto',
+                height: 'auto',
+                minWidth: '100%',
+                minHeight: '100%',
+                maxWidth: 'none'
+              }}
+            />
           </Draggable>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
