@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import ImageUploader from './ImageUploader';
 import TextControls from './TextControls';
 import PriceTagControls from './PriceTagControls';
+import CtaStyleControls from './CtaStyleControls';
 import InstructionsCard from './InstructionsCard';
 
 interface EditorSidebarProps {
@@ -16,6 +17,9 @@ interface EditorSidebarProps {
   setShowPriceTag: (checked: boolean) => void;
   priceValue: string;
   setPriceValue: (value: string) => void;
+  ctaStyle: 'default' | 'reverse';
+  setCtaStyle: (style: 'default' | 'reverse') => void;
+  selectedMarket: string;
 }
 
 const EditorSidebar: React.FC<EditorSidebarProps> = ({
@@ -27,7 +31,10 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({
   showPriceTag,
   setShowPriceTag,
   priceValue,
-  setPriceValue
+  setPriceValue,
+  ctaStyle,
+  setCtaStyle,
+  selectedMarket
 }) => {
   return (
     <div>
@@ -40,6 +47,12 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({
             setHeadlineText={setHeadlineText}
             subheadlineText={subheadlineText}
             setSubheadlineText={setSubheadlineText}
+          />
+          
+          <CtaStyleControls 
+            ctaStyle={ctaStyle}
+            setCtaStyle={setCtaStyle}
+            selectedMarket={selectedMarket}
           />
           
           <PriceTagControls 

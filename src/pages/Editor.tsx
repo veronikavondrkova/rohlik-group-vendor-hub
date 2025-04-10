@@ -33,6 +33,7 @@ const Editor = () => {
   const [priceValue, setPriceValue] = useState<string>('');
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
+  const [ctaStyle, setCtaStyle] = useState<'default' | 'reverse'>('default');
   
   // Position states for draggable elements
   const [priceTagPosition, setPriceTagPosition] = useState({ x: 0, y: 0 });
@@ -156,6 +157,7 @@ const Editor = () => {
                   setPriceTagPosition={setPriceTagPosition}
                   handleUploadClick={handleUploadClick}
                   fileInputRef={fileInputRef}
+                  ctaStyle={ctaStyle}
                 />
               </CardContent>
             </Card>
@@ -174,6 +176,9 @@ const Editor = () => {
               setShowPriceTag={setShowPriceTag}
               priceValue={priceValue}
               setPriceValue={setPriceValue}
+              ctaStyle={ctaStyle}
+              setCtaStyle={setCtaStyle}
+              selectedMarket={formData.market}
             />
           </div>
         </div>

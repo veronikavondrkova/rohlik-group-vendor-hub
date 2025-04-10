@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ interface AssetPreviewProps {
   setPriceTagPosition: (position: { x: number; y: number }) => void;
   handleUploadClick: () => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
+  ctaStyle: 'default' | 'reverse';
 }
 
 const AssetPreview: React.FC<AssetPreviewProps> = ({
@@ -37,7 +39,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   priceTagPosition,
   setPriceTagPosition,
   handleUploadClick,
-  fileInputRef
+  fileInputRef,
+  ctaStyle = 'default'
 }) => {
   const handleImageDrag = (position: { x: number; y: number }) => {
     setImagePosition(position);
@@ -116,20 +119,24 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
             </div>
           )}
           
-          {/* CTA Button */}
-          <button 
-            className={`px-3 py-1 text-xs rounded font-medium ${
-              ctaData?.color === '#2F7D3B' ? 'cta-button-cz' : 'cta-button-de'
-            }`}
-          >
-            {ctaData?.text || 'Buy now >>'}
-          </button>
+          {/* CTA Button with style options */}
+          {ctaData && (
+            <button 
+              className={`px-3 py-1 text-xs rounded font-medium ${
+                ctaStyle === 'default' 
+                  ? (ctaData.color === '#2F7D3B' ? 'cta-button-cz' : 'cta-button-de') 
+                  : (ctaData.color === '#2F7D3B' ? 'cta-button-cz-reverse' : 'cta-button-de-reverse')
+              }`}
+            >
+              {ctaData.text || 'Buy now >>'}
+            </button>
+          )}
         </div>
         
         {/* Price tag (right side) - only if show price tag is checked */}
         {showPriceTag && uploadedImages.length > 0 && (
           <Draggable position={priceTagPosition} onDrag={handlePriceTagDrag} bounds="parent">
-            <div className="absolute cursor-move" style={{ top: priceTagPosition.y, left: priceTagPosition.x }}>
+            <div className="absolute cursor-move">
               <div className="bg-rohlik-light text-xs px-2 py-1 text-center mb-1 rounded-t-sm">
                 AKCE
               </div>
