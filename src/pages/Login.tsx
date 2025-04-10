@@ -112,14 +112,14 @@ const Login = () => {
       <div className="m-auto w-full max-w-md">
         {/* Logo placeholder above the main headline */}
         <div className="flex justify-center mb-6">
-          <div className="w-32 h-32 rounded-md bg-gray-800 flex items-center justify-center">
+          <div className="w-52 h-32 rounded-md bg-gray-800 flex items-center justify-center my-[18px]">
             <span className="text-gray-400 text-xs">Logo Placeholder</span>
           </div>
         </div>
         
         <div className="mb-8 text-center">
-          <h1 className="text-white text-3xl font-bold mb-4">Rohlik Brand Hub</h1>
-          <p className="text-gray-400">Streamlined asset creation and approval</p>
+          <h1 className="text-white text-3xl font-bold mb-4">Welcome!</h1>
+          <p className="text-gray-400">Streamlined vendor asset creation & approval platform</p>
         </div>
         
         <Card className="w-full">
@@ -131,12 +131,7 @@ const Login = () => {
             
             <TabsContent value="login">
               <form onSubmit={handleLoginSubmit}>
-                <CardHeader>
-                  <CardTitle>Login</CardTitle>
-                  <CardDescription>
-                    Enter your credentials to access your account
-                  </CardDescription>
-                </CardHeader>
+                
                 
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
