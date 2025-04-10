@@ -138,7 +138,7 @@ const Homepage = () => {
           </div>
         </section>
         
-        <footer className="py-6 relative z-10 bg-stone-100">
+        <footer className="relative z-10 bg-stone-100 mx-0 py-[14px]">
           <div className="container mx-auto px-4">
             <p className="text-center text-gray-500">
               Rohlik Brand Hub © {new Date().getFullYear()} | All rights reserved
