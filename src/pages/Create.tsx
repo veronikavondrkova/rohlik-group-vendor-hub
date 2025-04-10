@@ -126,10 +126,8 @@ const Create = () => {
           
           <form onSubmit={handleSubmit}>
             <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-xl">Asset details</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+              
+              <CardContent className="space-y-4 py-[7px]">
                 <div className="space-y-2">
                   <Label htmlFor="campaignName">Campaign Name <span className="text-red-500">*</span></Label>
                   <Input id="campaignName" value={formData.campaignName} onChange={e => setFormData({
@@ -166,31 +164,21 @@ const Create = () => {
             </Card>
             
             <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-xl">Select Market <span className="text-red-500">*</span></CardTitle>
-              </CardHeader>
-              <CardContent>
+              
+              <CardContent className="py-[23px]">
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="markets">
-                    <AccordionTrigger className="py-2">
-                      {formData.market ? 
-                        markets.find(m => m.id === formData.market)?.name || 'Select a market' : 
-                        'Select a market'}
+                    <AccordionTrigger className="py-2 px-[27px]">
+                      {formData.market ? markets.find(m => m.id === formData.market)?.name || 'Select a market' : 'Select a market'}
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="space-y-2 pt-2">
-                        {markets.map(market => (
-                          <div 
-                            key={market.id} 
-                            className={`p-2 cursor-pointer rounded-md transition-all hover:bg-gray-100 ${formData.market === market.id ? 'bg-gray-100 font-medium' : ''}`} 
-                            onClick={() => setFormData({
-                              ...formData,
-                              market: market.id
-                            })}
-                          >
+                        {markets.map(market => <div key={market.id} className={`p-2 cursor-pointer rounded-md transition-all hover:bg-gray-100 ${formData.market === market.id ? 'bg-gray-100 font-medium' : ''}`} onClick={() => setFormData({
+                        ...formData,
+                        market: market.id
+                      })}>
                             <span>{market.name}</span>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -199,10 +187,8 @@ const Create = () => {
             </Card>
             
             <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-xl">Select Asset Format(s) <span className="text-red-500">*</span></CardTitle>
-              </CardHeader>
-              <CardContent>
+              
+              <CardContent className="py-[34px]">
                 <div className="space-y-4">
                   {assetFormats.map(format => <div key={format.id} className="flex space-x-2">
                       <Checkbox id={format.id} checked={formData.selectedFormats.includes(format.id)} onCheckedChange={() => handleFormatToggle(format.id)} />
