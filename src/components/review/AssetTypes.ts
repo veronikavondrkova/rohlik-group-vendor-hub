@@ -17,6 +17,7 @@ export interface Asset {
   gradientDirection?: number;
   gradientStartPosition?: number;
   gradientEndPosition?: number;
+  priceLabel?: string; // Add priceLabel property
   // Image data with positions and scaling
   images?: Array<{
     src: string;

@@ -20,6 +20,7 @@ interface SubmitHandlerProps {
   gradientDirection?: number;
   gradientStartPosition?: number;
   gradientEndPosition?: number;
+  priceLabel?: string; // Add priceLabel to the interface
 }
 
 export const useSubmitHandler = ({
@@ -37,6 +38,7 @@ export const useSubmitHandler = ({
   gradientDirection = 180,
   gradientStartPosition = 0,
   gradientEndPosition = 100,
+  priceLabel = 'AKCE', // Add default value
 }: SubmitHandlerProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -81,6 +83,7 @@ export const useSubmitHandler = ({
       gradientDirection,
       gradientStartPosition,
       gradientEndPosition,
+      priceLabel, // Include priceLabel in the asset data
       // Add image positions/scaling data
       images: uploadedImages.map(img => ({
         src: img.src,
