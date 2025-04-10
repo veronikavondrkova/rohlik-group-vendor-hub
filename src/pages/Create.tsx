@@ -125,9 +125,9 @@ const Create = () => {
           
           
           <form onSubmit={handleSubmit}>
-            <Card className="mb-8">
+            <Card className="mb-8 py-[27px]">
               
-              <CardContent className="space-y-4 py-[7px]">
+              <CardContent className="space-y-4 px-[52px] py-0">
                 <div className="space-y-2">
                   <Label htmlFor="campaignName">Campaign Name <span className="text-red-500">*</span></Label>
                   <Input id="campaignName" value={formData.campaignName} onChange={e => setFormData({
@@ -172,7 +172,7 @@ const Create = () => {
                       {formData.market ? markets.find(m => m.id === formData.market)?.name || 'Select a market' : 'Select a market'}
                     </AccordionTrigger>
                     <AccordionContent>
-                      <div className="space-y-2 pt-2">
+                      <div className="space-y-2 pt-2 px-[20px]">
                         {markets.map(market => <div key={market.id} className={`p-2 cursor-pointer rounded-md transition-all hover:bg-gray-100 ${formData.market === market.id ? 'bg-gray-100 font-medium' : ''}`} onClick={() => setFormData({
                         ...formData,
                         market: market.id
@@ -188,7 +188,7 @@ const Create = () => {
             
             <Card className="mb-8">
               
-              <CardContent className="py-[34px]">
+              <CardContent className="py-[34px] px-[53px]">
                 <div className="space-y-4">
                   {assetFormats.map(format => <div key={format.id} className="flex space-x-2">
                       <Checkbox id={format.id} checked={formData.selectedFormats.includes(format.id)} onCheckedChange={() => handleFormatToggle(format.id)} />
