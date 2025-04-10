@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -37,17 +38,17 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       
       {uploadedImages.length > 0 && <div className="mt-4">
           <Label htmlFor="uploaded-images">Uploaded Images:</Label>
-          <ScrollArea className="h-[200px] w-full border rounded-md p-2 mt-1 py-[3px] my-[7px]">
-            <div className="space-y-2">
-              {uploadedImages.map((image, index) => <div key={index} className={`flex items-center p-2 rounded ${activeImageIndex === index ? 'bg-gray-100' : ''}`}>
-                  <div className="w-12 h-12 mr-3 flex-shrink-0 cursor-pointer border overflow-hidden" onClick={() => setActiveImageIndex(index)}>
+          <ScrollArea className="h-[160px] w-full border rounded-md p-2 mt-1">
+            <div className="space-y-1">
+              {uploadedImages.map((image, index) => <div key={index} className={`flex items-center p-1 rounded ${activeImageIndex === index ? 'bg-gray-100' : ''}`}>
+                  <div className="w-10 h-10 mr-2 flex-shrink-0 cursor-pointer border overflow-hidden" onClick={() => setActiveImageIndex(index)}>
                     <img src={image} alt={`Image ${index + 1}`} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-grow">
-                    <p className="text-sm truncate">Image {index + 1}</p>
+                    <p className="text-xs truncate">Image {index + 1}</p>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => onRemoveImage(index)} className="ml-2 h-8 w-8 text-gray-500 hover:text-red-500">
-                    <X className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" onClick={() => onRemoveImage(index)} className="ml-1 h-6 w-6 text-gray-500 hover:text-red-500">
+                    <X className="h-3 w-3" />
                   </Button>
                 </div>)}
             </div>
