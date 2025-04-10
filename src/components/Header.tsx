@@ -1,4 +1,3 @@
-
 import { useUser } from '@/context/UserContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({
                 </DropdownMenuContent>
               </DropdownMenu>
               
-              <Button variant="outline" onClick={handleLogout} className="border-white/50 ml-2 text-black bg-gradient-to-b from-white to-gray-100 hover:from-gray-100 hover:to-white shadow-md hover:shadow-lg transition-all duration-300">
+              <Button variant="outline" onClick={handleLogout} className="border-white/50 ml-2 bg-gradient-to-b from-white to-gray-100 hover:from-gray-100 hover:to-white shadow-md hover:shadow-lg transition-all duration-300 bg-[#000a00]/0 text-white">
                 Logout
               </Button>
             </div>}
