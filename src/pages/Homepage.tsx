@@ -25,16 +25,10 @@ Just follow the steps, stick to the basics, and get approved without the back-an
       
       <main className="flex-grow container mx-auto px-4 py-8">
         <section className="mb-12">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold my-0 text-center mx-0">How It Works?</h2>
-            <div className="space-x-4">
-              
-              
-            </div>
-          </div>
+          
           
           <div className="grid md:grid-cols-3 gap-6 mt-8 bg-stone-50">
-            <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl">
+            <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl py-0 px-0">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <FileIcon className="text-white" size={24} />
@@ -94,7 +88,7 @@ Just follow the steps, stick to the basics, and get approved without the back-an
             <div>
               <h3 className="text-xl font-semibold mb-4">Do's and Don'ts</h3>
               <div className="grid grid-cols-2 gap-4">
-                <Card className="bg-green-50 border-green-200">
+                <Card className="border-green-200 bg-emerald-50">
                   <CardHeader>
                     <CardTitle className="flex items-center text-green-700">
                       <span className="mr-2 text-xl">✅</span>
@@ -112,7 +106,7 @@ Just follow the steps, stick to the basics, and get approved without the back-an
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-red-50 border-red-200">
+                <Card className="border-red-200 bg-orange-50">
                   <CardHeader>
                     <CardTitle className="flex items-center text-red-700">
                       <span className="mr-2 text-xl">⛔</span>
