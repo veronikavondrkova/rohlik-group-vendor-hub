@@ -26,15 +26,15 @@ export const formatDimensions = {
 // Example assets for inspiration carousel
 export const exampleAssets = [
   {
-    src: "/Trade_Premium W10_Readmio.png",
+    src: "/Trade_Premium_W10_Readmio.png",
     caption: "Category banner with bold text placement"
   },
   {
-    src: "/NL - Moomin.png",
+    src: "/Trade_W15_Radegast.png",
     caption: "Newsletter banner with price highlight"
   },
   {
-    src: "/Trade - W15 - ORAL B.png",
+    src: "/Trade_W15_ORAL B.png",
     caption: "Mix and match banner layout"
   },
   {
