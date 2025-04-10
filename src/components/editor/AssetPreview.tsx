@@ -156,13 +156,13 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         {/* Text overlay - positioned with z-index to appear on top of the overlay */}
         <div className="absolute top-0 left-0 p-4 w-1/2 z-10 pointer-events-none">
           {headlineText && (
-            <div className="text-white font-bold text-3xl mb-2 text-shadow my-[9px]">
+            <div className="text-white font-bold text-3xl mb-2 text-shadow-enhanced my-[9px]">
               {headlineText}
             </div>
           )}
           
           {subheadlineText && (
-            <div className="text-white text-lg mb-3 text-shadow">
+            <div className="text-white text-lg mb-3 text-shadow-enhanced">
               {subheadlineText}
             </div>
           )}
