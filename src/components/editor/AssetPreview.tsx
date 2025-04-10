@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
@@ -63,7 +62,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   ctaStyle = 'default'
 }) => {
   const [imageScale, setImageScale] = useState<number>(100);
-  const [overlayOpacity, setOverlayOpacity] = useState<number>(20);
+  const [overlayOpacity, setOverlayOpacity] = useState<number>(5);
   
   const handleImageDrag = (position: {
     x: number;
@@ -213,7 +212,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium">Overlay Opacity:</span>
             <div className="flex-grow">
-              <Slider defaultValue={[20]} min={0} max={100} step={5} value={[overlayOpacity]} onValueChange={handleOverlayOpacityChange} />
+              <Slider defaultValue={[5]} min={0} max={100} step={5} value={[overlayOpacity]} onValueChange={handleOverlayOpacityChange} />
             </div>
             <span className="text-sm min-w-12 text-right">{overlayOpacity}%</span>
           </div>
