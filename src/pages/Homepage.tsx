@@ -45,7 +45,7 @@ const Homepage = () => {
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="backdrop-blur-sm rounded-xl p-8 shadow-lg py-[39px] my-[106px] bg-white/[0.74]">
             <h2 className="mb-4 text-5xl text-black text-center font-extrabold">Hey there!</h2>
-            <p className="text-xl font-normal text-gray-800 text-center">Build on-brand visuals for any Rohlik Group market. Just follow the steps, stick to the basics, and get approved without the back-and-forth.</p>
+            <p className="text-xl font-normal text-gray-800 text-center">Build on-brand vendor visuals for any Rohlik Group market. Just follow the steps, stick to the basics, and get approved without the back-and-forth.</p>
           </div>
         </div>
       </section>
@@ -55,16 +55,16 @@ const Homepage = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-8 bg-stone-50">
             <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl py-0 px-0">
               <CardHeader className="pb-3">
-                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
+                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2 px-0 mx-0">
                   <FileIcon className="text-white" size={24} />
                 </div>
-                <CardTitle>1. Choose Format</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-center">1. Choose Format</CardTitle>
+                <CardDescription className="text-center">
                   Select asset formats and market
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 text-center">
                   Choose from various formats like category banners, newsletter banners, and more. Select the appropriate market for your asset.
                 </p>
               </CardContent>
@@ -75,13 +75,13 @@ const Homepage = () => {
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <Pencil className="text-white" size={24} />
                 </div>
-                <CardTitle>2. Create Asset</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-center">2. Create Asset</CardTitle>
+                <CardDescription className="text-center">
                   Upload images and customize layout
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 text-center">
                   Use our editor to upload and position images, add text, and place price tags according to brand guidelines.
                 </p>
               </CardContent>
@@ -92,13 +92,13 @@ const Homepage = () => {
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <CheckCircleIcon className="text-white" size={24} />
                 </div>
-                <CardTitle>3. Submit</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-center">3. Submit</CardTitle>
+                <CardDescription className="text-center">
                   Send for approval and track status
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 text-center">
                   Submit your asset for review by our internal team. Track the status and make edits if requested.
                 </p>
               </CardContent>
