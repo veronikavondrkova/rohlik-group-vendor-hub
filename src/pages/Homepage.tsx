@@ -52,7 +52,7 @@ const Homepage = () => {
       
       <main className="flex-grow container mx-auto px-4 py-8 z-10 bg-stone-50">
         {/* Move the section up by using negative margin-top */}
-        <section className="mb-12 -mt-32 relative z-20">
+        <section className="mb-12 -mt-32 relative z-20 px-[108px]">
           <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0 mx-auto" style={{
           maxWidth: '80%'
         }}>
@@ -112,7 +112,7 @@ const Homepage = () => {
         <section className="mb-12">
           <div className="grid grid-cols-1 gap-8 items-start">
             {/* Resources Card - Now Full Width */}
-            <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 py-0 px-0 mx-[138px]">
+            <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 py-0 px-[2px] mx-[225px]">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
                     <img src="/adobe-photoshop.png" alt="Adobe Photoshop" className="w-6 h-6" />
@@ -138,7 +138,7 @@ const Homepage = () => {
           </div>
         </section>
         
-        <footer className="relative z-10 bg-stone-100 mx-0 py-[14px]">
+        <footer className="relative z-10 mx-0 py-[14px] bg-stone-50">
           <div className="container mx-auto px-4">
             <p className="text-center text-gray-500">
               Rohlik Brand Hub © {new Date().getFullYear()} | All rights reserved

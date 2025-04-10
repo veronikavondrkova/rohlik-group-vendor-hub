@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({
     navigate('/account');
   };
   return <header className="backdrop-blur-sm text-white py-4 px-6 fixed top-0 left-0 right-0 z-50 shadow-lg shadow-black/30 border-b border-white/10 bg-[#061a02]/60">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center px-[82px]">
         <div className="flex items-center">
           <img src="/rohlikgroupbar.png" alt="Rohlik Group Logo" className="h-12 mr-20 drop-shadow-md hover:drop-shadow-xl transition-all duration-300" />
           
