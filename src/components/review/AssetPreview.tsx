@@ -6,6 +6,7 @@ import { usePreviewControls } from '@/hooks/use-preview-controls';
 
 interface AssetPreviewProps {
   asset: {
+    name: string;
     format: string;
     size: string;
     supplier: string;
@@ -18,6 +19,12 @@ interface AssetPreviewProps {
     gradientDirection?: number;
     gradientStartPosition?: number;
     gradientEndPosition?: number;
+    images?: Array<{
+      src: string;
+      fileName: string;
+      position: { x: number, y: number };
+      scale: number;
+    }>;
   };
   headlineText: string;
   subheadlineText: string;
@@ -78,8 +85,25 @@ const AssetPreview = ({
                 maxHeight: '550px',
               }}
             >
-              {/* Background image */}
-              {asset.thumbnail && (
+              {/* Background image - show the first image from asset.images or fallback to thumbnail */}
+              {(asset.images && asset.images.length > 0) ? (
+                <div className="absolute inset-0">
+                  {asset.images.map((image, index) => (
+                    <img 
+                      key={index}
+                      src={image.src} 
+                      alt={image.fileName} 
+                      className="absolute w-full h-full object-cover"
+                      style={{
+                        transform: `scale(${image.scale / 100})`,
+                        top: `${image.position.y}px`,
+                        left: `${image.position.x}px`,
+                        zIndex: index + 1
+                      }} 
+                    />
+                  ))}
+                </div>
+              ) : asset.thumbnail ? (
                 <div className="absolute inset-0">
                   <img 
                     src={asset.thumbnail} 
@@ -87,27 +111,27 @@ const AssetPreview = ({
                     className="w-full h-full object-cover"
                   />
                 </div>
-              )}
+              ) : null}
               
               {/* Black overlay */}
-              {actualOverlayOpacity > 0 && asset.thumbnail && (
+              {actualOverlayOpacity > 0 && (asset.thumbnail || (asset.images && asset.images.length > 0)) && (
                 <div 
                   className="absolute inset-0"
                   style={{ 
                     backgroundColor: `rgba(0, 0, 0, ${actualOverlayOpacity / 100})`,
-                    zIndex: 2,
+                    zIndex: asset.images ? asset.images.length + 1 : 2,
                     pointerEvents: 'none'
                   }}
                 ></div>
               )}
               
               {/* Gradient overlay */}
-              {actualGradientOpacity > 0 && asset.thumbnail && (
+              {actualGradientOpacity > 0 && (asset.thumbnail || (asset.images && asset.images.length > 0)) && (
                 <div
                   className="absolute inset-0"
                   style={{
                     background: `linear-gradient(${actualGradientDirection}deg, rgba(0,0,0,${actualGradientOpacity / 100}) ${actualGradientStartPosition}%, rgba(0,0,0,0) ${actualGradientEndPosition}%)`,
-                    zIndex: 3,
+                    zIndex: asset.images ? asset.images.length + 2 : 3,
                     pointerEvents: 'none'
                   }}
                 ></div>

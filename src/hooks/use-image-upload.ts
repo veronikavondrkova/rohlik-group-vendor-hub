@@ -76,6 +76,7 @@ export const useImageUpload = () => {
   return {
     fileInputRef,
     uploadedImages,
+    setUploadedImages,
     activeImageIndex,
     setActiveImageIndex,
     handleImageUpload,

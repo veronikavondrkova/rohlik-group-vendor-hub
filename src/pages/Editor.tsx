@@ -30,7 +30,8 @@ const Editor = () => {
     handleRemoveImage,
     handleUploadClick,
     updateImagePosition,
-    updateImageScale
+    updateImageScale,
+    setUploadedImages
   } = useImageUpload();
 
   const {
@@ -54,7 +55,12 @@ const Editor = () => {
     gradientOpacity,
     gradientDirection,
     gradientStartPosition,
-    gradientEndPosition
+    gradientEndPosition,
+    setOverlayOpacity,
+    setGradientOpacity,
+    setGradientDirection,
+    setGradientStartPosition,
+    setGradientEndPosition
   } = usePreviewControls();
 
   // Use our new custom hooks
@@ -86,14 +92,23 @@ const Editor = () => {
         setHeadlineText(existingAsset.headline || '');
         setSubheadlineText(existingAsset.subheadline || '');
         
+        // Load visual settings if available
+        if (existingAsset.overlayOpacity !== undefined) setOverlayOpacity(existingAsset.overlayOpacity);
+        if (existingAsset.gradientOpacity !== undefined) setGradientOpacity(existingAsset.gradientOpacity);
+        if (existingAsset.gradientDirection !== undefined) setGradientDirection(existingAsset.gradientDirection);
+        if (existingAsset.gradientStartPosition !== undefined) setGradientStartPosition(existingAsset.gradientStartPosition);
+        if (existingAsset.gradientEndPosition !== undefined) setGradientEndPosition(existingAsset.gradientEndPosition);
+        
         // Load images if available
         if (existingAsset.images && existingAsset.images.length > 0) {
-          // You'd need to populate the uploadedImages state with the saved images
-          // This would require additional handling in the useImageUpload hook
+          setUploadedImages(existingAsset.images);
+          setActiveImageIndex(0);
         }
       }
     }
-  }, [assetId, assets, setHeadlineText, setSubheadlineText]);
+  }, [assetId, assets, setHeadlineText, setSubheadlineText, setOverlayOpacity, 
+      setGradientOpacity, setGradientDirection, setGradientStartPosition, 
+      setGradientEndPosition, setUploadedImages, setActiveImageIndex]);
 
   useEffect(() => {
     // Set current format when form data changes

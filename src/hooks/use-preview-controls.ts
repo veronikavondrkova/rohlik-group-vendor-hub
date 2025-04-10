@@ -38,10 +38,15 @@ export const usePreviewControls = () => {
   
   return {
     overlayOpacity,
+    setOverlayOpacity,
     gradientOpacity,
+    setGradientOpacity,
     gradientDirection,
+    setGradientDirection,
     gradientStartPosition,
+    setGradientStartPosition,
     gradientEndPosition,
+    setGradientEndPosition,
     handleOverlayOpacityChange,
     handleGradientOpacityChange,
     handleGradientDirectionChange,
