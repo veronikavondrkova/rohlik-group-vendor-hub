@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 // Define the asset formats
 const assetFormats = [{
@@ -169,19 +170,31 @@ const Create = () => {
                 <CardTitle className="text-xl">Select Market <span className="text-red-500">*</span></CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {markets.map(market => <div key={market.id} className={`border rounded-lg p-4 cursor-pointer transition-all hover:border-black ${formData.market === market.id ? 'border-2 border-black' : ''}`} onClick={() => setFormData({
-                  ...formData,
-                  market: market.id
-                })}>
-                      <div className="flex items-center space-x-3">
-                        <div className="w-6 h-6 rounded-full" style={{
-                      backgroundColor: market.color
-                    }}></div>
-                        <span className="font-medium">{market.name}</span>
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="markets">
+                    <AccordionTrigger className="py-2">
+                      {formData.market ? 
+                        markets.find(m => m.id === formData.market)?.name || 'Select a market' : 
+                        'Select a market'}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-2 pt-2">
+                        {markets.map(market => (
+                          <div 
+                            key={market.id} 
+                            className={`p-2 cursor-pointer rounded-md transition-all hover:bg-gray-100 ${formData.market === market.id ? 'bg-gray-100 font-medium' : ''}`} 
+                            onClick={() => setFormData({
+                              ...formData,
+                              market: market.id
+                            })}
+                          >
+                            <span>{market.name}</span>
+                          </div>
+                        ))}
                       </div>
-                    </div>)}
-                </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </CardContent>
             </Card>
             
