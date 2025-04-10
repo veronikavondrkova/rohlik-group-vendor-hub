@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Copy, Download } from 'lucide-react';
 import { Asset } from '@/components/review/AssetTypes';
 import { UserRole } from '@/context/UserContext';
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import AssetPreview from '@/components/review/AssetPreview';
 
 interface AssetDetailModalProps {
   asset: Asset;
@@ -32,9 +33,11 @@ const AssetDetailModal = ({
   onDuplicate,
   onDownload
 }: AssetDetailModalProps) => {
+  const [activeTab, setActiveTab] = useState('preview');
+  
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-3xl">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+      <Card className="w-full max-w-5xl">
         <CardHeader>
           <CardTitle>{asset.name}</CardTitle>
           <CardDescription>
@@ -44,19 +47,16 @@ const AssetDetailModal = ({
         <CardContent>
           <div className="mb-4">
             <h3 className="font-semibold mb-2">Preview</h3>
-            <div className="border rounded-md p-4 bg-gray-100 flex items-center justify-center">
-              {asset.thumbnail ? (
-                <img 
-                  src={asset.thumbnail} 
-                  alt={asset.name} 
-                  className="max-h-[300px] object-contain"
-                />
-              ) : (
-                <div className="h-[200px] w-full flex items-center justify-center">
-                  <span className="text-gray-500">No preview available</span>
-                </div>
-              )}
-            </div>
+            <AssetPreview
+              asset={asset}
+              headlineText={asset.headline || ''}
+              subheadlineText={asset.subheadline || ''}
+              showPriceTag={false}
+              priceValue={'99'}
+              priceLabel={'AKCE'}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -79,8 +79,8 @@ const AssetDetailModal = ({
             <div>
               <h3 className="font-semibold mb-2">Content</h3>
               <ul className="space-y-2">
-                <li><span className="font-medium">Headline:</span> {asset.headline}</li>
-                <li><span className="font-medium">Subheadline:</span> {asset.subheadline}</li>
+                <li><span className="font-medium">Headline:</span> {asset.headline || 'None'}</li>
+                <li><span className="font-medium">Subheadline:</span> {asset.subheadline || 'None'}</li>
               </ul>
             </div>
           </div>

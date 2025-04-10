@@ -1,7 +1,8 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { usePreviewControls } from '@/hooks/use-preview-controls';
 
 interface AssetPreviewProps {
   asset: {
@@ -9,6 +10,14 @@ interface AssetPreviewProps {
     size: string;
     supplier: string;
     dateSubmitted: string;
+    headline?: string;
+    subheadline?: string;
+    thumbnail?: string;
+    overlayOpacity?: number;
+    gradientOpacity?: number;
+    gradientDirection?: number;
+    gradientStartPosition?: number;
+    gradientEndPosition?: number;
   };
   headlineText: string;
   subheadlineText: string;
@@ -29,6 +38,26 @@ const AssetPreview = ({
   activeTab,
   setActiveTab,
 }: AssetPreviewProps) => {
+  // Use preview controls for any saved settings or defaults
+  const {
+    overlayOpacity,
+    gradientOpacity,
+    gradientDirection,
+    gradientStartPosition,
+    gradientEndPosition
+  } = usePreviewControls();
+
+  // Use asset values if available, otherwise use defaults
+  const actualOverlayOpacity = asset.overlayOpacity !== undefined ? asset.overlayOpacity : overlayOpacity;
+  const actualGradientOpacity = asset.gradientOpacity !== undefined ? asset.gradientOpacity : gradientOpacity;
+  const actualGradientDirection = asset.gradientDirection !== undefined ? asset.gradientDirection : gradientDirection;
+  const actualGradientStartPosition = asset.gradientStartPosition !== undefined ? asset.gradientStartPosition : gradientStartPosition;
+  const actualGradientEndPosition = asset.gradientEndPosition !== undefined ? asset.gradientEndPosition : gradientEndPosition;
+
+  // Use asset headline/subheadline or passed props
+  const displayHeadline = asset.headline || headlineText;
+  const displaySubheadline = asset.subheadline || subheadlineText;
+
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
       <TabsList>
@@ -49,20 +78,55 @@ const AssetPreview = ({
                 maxHeight: '550px',
               }}
             >
+              {/* Background image */}
+              {asset.thumbnail && (
+                <div className="absolute inset-0">
+                  <img 
+                    src={asset.thumbnail} 
+                    alt={asset.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              
+              {/* Black overlay */}
+              {actualOverlayOpacity > 0 && asset.thumbnail && (
+                <div 
+                  className="absolute inset-0"
+                  style={{ 
+                    backgroundColor: `rgba(0, 0, 0, ${actualOverlayOpacity / 100})`,
+                    zIndex: 2,
+                    pointerEvents: 'none'
+                  }}
+                ></div>
+              )}
+              
+              {/* Gradient overlay */}
+              {actualGradientOpacity > 0 && asset.thumbnail && (
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(${actualGradientDirection}deg, rgba(0,0,0,${actualGradientOpacity / 100}) ${actualGradientStartPosition}%, rgba(0,0,0,0) ${actualGradientEndPosition}%)`,
+                    zIndex: 3,
+                    pointerEvents: 'none'
+                  }}
+                ></div>
+              )}
+              
               {/* Safe zone overlay */}
               <div className="absolute inset-0 safe-zone m-[20px]"></div>
               
               {/* Text overlay */}
-              <div className="absolute bottom-0 left-0 p-8 w-1/2">
-                {headlineText && (
+              <div className="absolute bottom-0 left-0 p-8 w-1/2 z-10">
+                {displayHeadline && (
                   <div className="text-white font-bold text-2xl mb-2 text-shadow">
-                    {headlineText}
+                    {displayHeadline}
                   </div>
                 )}
                 
-                {subheadlineText && (
+                {displaySubheadline && (
                   <div className="text-white text-lg mb-4 text-shadow">
-                    {subheadlineText}
+                    {displaySubheadline}
                   </div>
                 )}
                 
@@ -72,8 +136,8 @@ const AssetPreview = ({
                 </button>
               </div>
               
-              {/* Price tag (right side) */}
-              {showPriceTag && (
+              {/* Price tag (right side) - hidden for submission */}
+              {showPriceTag && !window.location.pathname.includes('/dashboard') && (
                 <div className="absolute top-1/4 right-16">
                   <div className="bg-rohlik-light px-4 py-1 text-center mb-1 rounded-t-sm">
                     {priceLabel}

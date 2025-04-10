@@ -14,7 +14,12 @@ interface SubmitHandlerProps {
   uploadedImages: any[];
   addAsset: (asset: any) => void;
   updateAsset: (id: string, updates: any) => void;
-  setIsSubmitting?: (isSubmitting: boolean) => void; // New prop to control PriceTag visibility
+  setIsSubmitting?: (isSubmitting: boolean) => void;
+  overlayOpacity?: number;
+  gradientOpacity?: number;
+  gradientDirection?: number;
+  gradientStartPosition?: number;
+  gradientEndPosition?: number;
 }
 
 export const useSubmitHandler = ({
@@ -26,7 +31,12 @@ export const useSubmitHandler = ({
   uploadedImages,
   addAsset,
   updateAsset,
-  setIsSubmitting
+  setIsSubmitting,
+  overlayOpacity = 5,
+  gradientOpacity = 50,
+  gradientDirection = 180,
+  gradientStartPosition = 0,
+  gradientEndPosition = 100,
 }: SubmitHandlerProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -64,7 +74,20 @@ export const useSubmitHandler = ({
       supplier: user.company || 'Unknown Supplier',
       headline: headlineText,
       subheadline: subheadlineText,
-      thumbnail: thumbnailSrc
+      thumbnail: thumbnailSrc,
+      // Save visual settings
+      overlayOpacity,
+      gradientOpacity,
+      gradientDirection,
+      gradientStartPosition,
+      gradientEndPosition,
+      // Add image positions/scaling data
+      images: uploadedImages.map(img => ({
+        src: img.src,
+        fileName: img.fileName,
+        position: img.position,
+        scale: img.scale
+      }))
     };
     
     if (assetId) {

@@ -11,6 +11,7 @@ import FormatTabs from '@/components/editor/FormatTabs';
 import EditorContent from '@/components/editor/EditorContent';
 import { useEditorForm } from '@/hooks/use-editor-form';
 import { useSubmitHandler } from '@/components/editor/EditorSubmitHandler';
+import { usePreviewControls } from '@/hooks/use-preview-controls';
 
 const Editor = () => {
   const [searchParams] = useSearchParams();
@@ -47,6 +48,15 @@ const Editor = () => {
     setPriceTagPosition
   } = useAssetEditor();
 
+  // Use the preview controls hook
+  const {
+    overlayOpacity,
+    gradientOpacity,
+    gradientDirection,
+    gradientStartPosition,
+    gradientEndPosition
+  } = usePreviewControls();
+
   // Use our new custom hooks
   const { formData } = useEditorForm(assetId, assets);
   
@@ -59,7 +69,12 @@ const Editor = () => {
     uploadedImages,
     addAsset,
     updateAsset,
-    setIsSubmitting
+    setIsSubmitting,
+    overlayOpacity,
+    gradientOpacity,
+    gradientDirection,
+    gradientStartPosition,
+    gradientEndPosition
   });
 
   useEffect(() => {
@@ -70,6 +85,12 @@ const Editor = () => {
         // Set editor state from existing asset
         setHeadlineText(existingAsset.headline || '');
         setSubheadlineText(existingAsset.subheadline || '');
+        
+        // Load images if available
+        if (existingAsset.images && existingAsset.images.length > 0) {
+          // You'd need to populate the uploadedImages state with the saved images
+          // This would require additional handling in the useImageUpload hook
+        }
       }
     }
   }, [assetId, assets, setHeadlineText, setSubheadlineText]);
