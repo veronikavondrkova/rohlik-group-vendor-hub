@@ -1,3 +1,4 @@
+
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,16 +15,30 @@ const Homepage = () => {
   return <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       
-      {/* Hero Section with dark background - added pt-24 to account for fixed header */}
-      <section className="text-white px-4 bg-black pt-24 py-[136px]">
-        <div className="container text-center mx-0 my-0 py-[15px]">
-          <h2 className="font-bold mb-4 text-6xl py-0 my-[47px]">Hey there!</h2>
-          <p className="max-w-3xl mx-auto text-2xl font-normal">Build on-brand visuals for any Rohlik market.
-Just follow the steps, stick to the basics, and get approved without the back-and-forth.</p>
+      {/* Hero Section with background image and text overlay */}
+      <section className="relative pt-24">
+        {/* Background Image */}
+        <div className="w-full h-[400px] bg-gray-300 overflow-hidden">
+          <img 
+            src="/placeholder.svg" 
+            alt="Brand Hub Hero" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        {/* Text Overlay */}
+        <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/4 flex justify-center items-center">
+          <div className="bg-white/90 rounded-xl p-8 shadow-lg max-w-3xl mx-4">
+            <h2 className="font-bold mb-4 text-5xl text-black text-center">Hey there!</h2>
+            <p className="text-xl font-normal text-gray-800 text-center">
+              Build on-brand visuals for any Rohlik market.
+              Just follow the steps, stick to the basics, and get approved without the back-and-forth.
+            </p>
+          </div>
         </div>
       </section>
       
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="flex-grow container mx-auto px-4 py-8 mt-12">
         <section className="mb-12">
           
           
