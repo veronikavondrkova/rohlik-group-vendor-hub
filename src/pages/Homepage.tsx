@@ -17,18 +17,14 @@ const Homepage = () => {
       <main className="flex-grow container mx-auto px-4 py-8">
         <section className="mb-12">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold my-0">Hey there!</h2>
+            <h2 className="text-3xl font-bold my-0 text-center mx-0">Hey there!</h2>
             <div className="space-x-4">
-              <Button onClick={handleCreateAsset} className="bg-black text-white hover:bg-gray-800">
-                Create New Asset
-              </Button>
-              <Button variant="outline" onClick={handleViewDashboard} className="border-black text-black hover:bg-black hover:text-white">
-                View Dashboard
-              </Button>
+              
+              
             </div>
           </div>
           
-          <p className="text-lg text-gray-600 max-w-3xl mb-8 my-0 py-0">Build on-brand visuals for any Rohlik market. Just follow the steps,
+          <p className="text-lg text-gray-600 max-w-3xl mb-8 my-0 py-0 text-left">Build on-brand visuals for any Rohlik market. Just follow the steps,
 stick to the basics, and get approved without the back-and-forth.</p>
           
           <div className="grid md:grid-cols-3 gap-6 mt-8 bg-stone-50">
