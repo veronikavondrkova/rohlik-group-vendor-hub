@@ -2,8 +2,15 @@
 import React from 'react';
 import { Slider } from '@/components/ui/slider';
 
+interface UploadedImage {
+  src: string;
+  fileName: string;
+  position: { x: number, y: number };
+  scale: number;
+}
+
 interface PreviewControlsProps {
-  uploadedImages: string[];
+  uploadedImages: UploadedImage[];
   activeImageIndex: number;
   imageScale: number;
   onImageResizeChange: (value: number[]) => void;
