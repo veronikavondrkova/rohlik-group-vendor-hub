@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
@@ -146,13 +147,14 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
             className="absolute inset-0"
             style={{ 
               backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})`,
-              zIndex: 2
+              zIndex: 2,
+              pointerEvents: 'none' // This allows clicking through the overlay
             }}
           ></div>
         )}
         
         {/* Text overlay - positioned with z-index to appear on top of the overlay */}
-        <div className="absolute top-0 left-0 p-4 w-1/2 z-10">
+        <div className="absolute top-0 left-0 p-4 w-1/2 z-10 pointer-events-none">
           {headlineText && (
             <div className="text-white font-bold text-3xl mb-2 text-shadow my-[9px]">
               {headlineText}
@@ -167,7 +169,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         </div>
         
         {/* CTA Button - positioned at the bottom left with consistent margins, on top of overlay */}
-        <div className="absolute bottom-0 left-0 p-4 z-10">
+        <div className="absolute bottom-0 left-0 p-4 z-10 pointer-events-none">
           {ctaData && (
             <button className={`px-3 py-1 text-xs rounded font-medium ${
               ctaStyle === 'default' 
