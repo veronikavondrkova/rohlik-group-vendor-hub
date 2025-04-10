@@ -24,7 +24,7 @@ const PriceTag: React.FC<PriceTagProps> = ({
   
   return (
     <Draggable position={priceTagPosition} onDrag={onDrag} bounds="parent">
-      <div className="absolute cursor-move z-10">
+      <div className="absolute cursor-move z-20">
         <div className="bg-rohlik-light text-xs px-2 py-1 text-center mb-1 rounded-t-sm">
           AKCE
         </div>
