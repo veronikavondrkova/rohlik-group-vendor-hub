@@ -112,7 +112,7 @@ const Homepage = () => {
         <section className="mb-12">
           <div className="grid grid-cols-1 gap-8 items-start">
             {/* Resources Card - Now Full Width */}
-            <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 py-[59px]">
+            <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 py-0 px-0 mx-[138px]">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
                     <img src="/adobe-photoshop.png" alt="Adobe Photoshop" className="w-6 h-6" />
@@ -134,11 +134,7 @@ const Homepage = () => {
             </Card>
             
             {/* Carousel Section - Now Below Resources */}
-            <div className="bg-white p-4 rounded-lg border">
-              <div className="aspect-video bg-gray-200 rounded-md flex items-center justify-center">
-                <p className="text-gray-500">Example asset carousel would appear here</p>
-              </div>
-            </div>
+            
           </div>
         </section>
         
