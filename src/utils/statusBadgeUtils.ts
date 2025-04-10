@@ -5,7 +5,7 @@
 export const getStatusBadgeVariant = (status: string) => {
   switch (status) {
     case 'approved':
-      return 'default'; // Green
+      return 'success'; // Green
     case 'rejected':
       return 'destructive'; // Red
     case 'pending':
