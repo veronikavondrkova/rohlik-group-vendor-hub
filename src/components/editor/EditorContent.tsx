@@ -5,13 +5,20 @@ import ExamplesCarousel from '@/components/editor/ExamplesCarousel';
 import EditorSidebar from '@/components/editor/EditorSidebar';
 import { exampleAssets } from '@/data/assetFormats';
 
+interface UploadedImage {
+  src: string;
+  fileName: string;
+  position: { x: number, y: number };
+  scale: number;
+}
+
 interface EditorContentProps {
   currentFormat: string;
   currentDimensions: {
     width: number;
     height: number;
   };
-  uploadedImages: string[];
+  uploadedImages: UploadedImage[];
   activeImageIndex: number;
   setActiveImageIndex: (index: number) => void;
   headlineText: string;
@@ -23,14 +30,6 @@ interface EditorContentProps {
   priceValue: string;
   setPriceValue: (value: string) => void;
   ctaData: any;
-  imagePosition: {
-    x: number;
-    y: number;
-  };
-  setImagePosition: (position: {
-    x: number;
-    y: number;
-  }) => void;
   priceTagPosition: {
     x: number;
     y: number;
@@ -46,6 +45,8 @@ interface EditorContentProps {
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleRemoveImage: (indexToRemove: number) => void;
   selectedMarket: string;
+  updateImagePosition: (index: number, position: { x: number, y: number }) => void;
+  updateImageScale: (index: number, scale: number) => void;
 }
 
 const EditorContent = ({
@@ -63,8 +64,6 @@ const EditorContent = ({
   priceValue,
   setPriceValue,
   ctaData,
-  imagePosition,
-  setImagePosition,
   priceTagPosition,
   setPriceTagPosition,
   handleUploadClick,
@@ -73,7 +72,9 @@ const EditorContent = ({
   setCtaStyle,
   handleImageUpload,
   handleRemoveImage,
-  selectedMarket
+  selectedMarket,
+  updateImagePosition,
+  updateImageScale
 }: EditorContentProps) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -91,13 +92,13 @@ const EditorContent = ({
               showPriceTag={showPriceTag}
               priceValue={priceValue}
               ctaData={ctaData}
-              imagePosition={imagePosition}
-              setImagePosition={setImagePosition}
               priceTagPosition={priceTagPosition}
               setPriceTagPosition={setPriceTagPosition}
               handleUploadClick={handleUploadClick}
               fileInputRef={fileInputRef}
               ctaStyle={ctaStyle}
+              updateImagePosition={updateImagePosition}
+              updateImageScale={updateImageScale}
             />
           </CardContent>
         </Card>

@@ -9,13 +9,20 @@ import PreviewControls from './preview/PreviewControls';
 import ImageThumbnails from './preview/ImageThumbnails';
 import FormatInfoLabel from './preview/FormatInfoLabel';
 
+interface UploadedImage {
+  src: string;
+  fileName: string;
+  position: { x: number, y: number };
+  scale: number;
+}
+
 interface AssetPreviewProps {
   currentFormat: string;
   currentDimensions: {
     width: number;
     height: number;
   };
-  uploadedImages: string[];
+  uploadedImages: UploadedImage[];
   activeImageIndex: number;
   setActiveImageIndex: (index: number) => void;
   headlineText: string;
@@ -27,14 +34,6 @@ interface AssetPreviewProps {
     color: string;
     reverseColor: string;
   } | undefined;
-  imagePosition: {
-    x: number;
-    y: number;
-  };
-  setImagePosition: (position: {
-    x: number;
-    y: number;
-  }) => void;
   priceTagPosition: {
     x: number;
     y: number;
@@ -46,6 +45,8 @@ interface AssetPreviewProps {
   handleUploadClick: () => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
   ctaStyle: 'default' | 'reverse';
+  updateImagePosition: (index: number, position: { x: number, y: number }) => void;
+  updateImageScale: (index: number, scale: number) => void;
 }
 
 const AssetPreview: React.FC<AssetPreviewProps> = ({
@@ -59,28 +60,21 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   showPriceTag,
   priceValue,
   ctaData,
-  imagePosition,
-  setImagePosition,
   priceTagPosition,
   setPriceTagPosition,
   handleUploadClick,
   fileInputRef,
-  ctaStyle = 'default'
+  ctaStyle = 'default',
+  updateImagePosition,
+  updateImageScale
 }) => {
-  const [imageScale, setImageScale] = useState<number>(100);
   const [overlayOpacity, setOverlayOpacity] = useState<number>(5);
   
-  const handleImageDrag = (position: {
-    x: number;
-    y: number;
-  }) => {
-    setImagePosition(position);
+  const handleImageDrag = (index: number, position: { x: number; y: number }) => {
+    updateImagePosition(index, position);
   };
   
-  const handlePriceTagDrag = (position: {
-    x: number;
-    y: number;
-  }) => {
+  const handlePriceTagDrag = (position: { x: number; y: number }) => {
     // Calculate boundaries to keep price tag in the right half of the asset
     if (currentDimensions.width) {
       const rightHalfStart = currentDimensions.width / 8; // Less restrictive
@@ -95,12 +89,19 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   };
   
   const handleImageResize = (value: number[]) => {
-    setImageScale(value[0]);
+    if (activeImageIndex >= 0 && activeImageIndex < uploadedImages.length) {
+      updateImageScale(activeImageIndex, value[0]);
+    }
   };
   
   const handleOverlayOpacityChange = (value: number[]) => {
     setOverlayOpacity(value[0]);
   };
+  
+  // Get current active image scale
+  const activeImageScale = activeImageIndex >= 0 && activeImageIndex < uploadedImages.length 
+    ? uploadedImages[activeImageIndex].scale 
+    : 50;
   
   return (
     <div>
@@ -108,9 +109,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         <BackgroundImage
           uploadedImages={uploadedImages}
           activeImageIndex={activeImageIndex}
-          imagePosition={imagePosition}
           onDrag={handleImageDrag}
-          imageScale={imageScale}
           handleUploadClick={handleUploadClick}
           fileInputRef={fileInputRef}
         />
@@ -132,7 +131,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         
         <PriceTag 
           showPriceTag={showPriceTag}
-          uploadedImages={uploadedImages}
+          uploadedImages={uploadedImages.length > 0}
           priceTagPosition={priceTagPosition}
           onDrag={handlePriceTagDrag}
           priceValue={priceValue}
@@ -142,7 +141,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
       <PreviewControls 
         uploadedImages={uploadedImages}
         activeImageIndex={activeImageIndex}
-        imageScale={imageScale}
+        imageScale={activeImageScale}
         onImageResizeChange={handleImageResize}
         overlayOpacity={overlayOpacity}
         onOverlayOpacityChange={handleOverlayOpacityChange}

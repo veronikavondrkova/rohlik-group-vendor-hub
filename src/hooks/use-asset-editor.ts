@@ -13,10 +13,6 @@ export const useAssetEditor = () => {
     x: 0,
     y: 0
   });
-  const [imagePosition, setImagePosition] = useState({
-    x: 0,
-    y: 0
-  });
 
   return {
     headlineText,
@@ -30,8 +26,6 @@ export const useAssetEditor = () => {
     ctaStyle,
     setCtaStyle,
     priceTagPosition,
-    setPriceTagPosition,
-    imagePosition,
-    setImagePosition
+    setPriceTagPosition
   };
 };

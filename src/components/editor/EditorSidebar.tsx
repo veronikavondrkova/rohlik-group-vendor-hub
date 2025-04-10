@@ -7,6 +7,13 @@ import PriceTagControls from './PriceTagControls';
 import CtaStyleControls from './CtaStyleControls';
 import InstructionsCard from './InstructionsCard';
 
+interface UploadedImage {
+  src: string;
+  fileName: string;
+  position: { x: number, y: number };
+  scale: number;
+}
+
 interface EditorSidebarProps {
   onImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   headlineText: string;
@@ -20,7 +27,7 @@ interface EditorSidebarProps {
   ctaStyle: 'default' | 'reverse';
   setCtaStyle: (style: 'default' | 'reverse') => void;
   selectedMarket: string;
-  uploadedImages: string[];
+  uploadedImages: UploadedImage[];
   onRemoveImage: (index: number) => void;
   setActiveImageIndex: (index: number) => void;
   activeImageIndex: number;

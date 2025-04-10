@@ -3,15 +3,17 @@ import React from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
 
+interface UploadedImage {
+  src: string;
+  fileName: string;
+  position: { x: number, y: number };
+  scale: number;
+}
+
 interface BackgroundImageProps {
-  uploadedImages: string[];
+  uploadedImages: UploadedImage[];
   activeImageIndex: number;
-  imagePosition: {
-    x: number;
-    y: number;
-  };
-  onDrag: (position: { x: number; y: number }) => void;
-  imageScale: number;
+  onDrag: (index: number, position: { x: number; y: number }) => void;
   handleUploadClick: () => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
 }
@@ -19,32 +21,42 @@ interface BackgroundImageProps {
 const BackgroundImage: React.FC<BackgroundImageProps> = ({
   uploadedImages,
   activeImageIndex,
-  imagePosition,
   onDrag,
-  imageScale,
   handleUploadClick,
   fileInputRef
 }) => {
-  if (uploadedImages.length > 0 && activeImageIndex >= 0 && activeImageIndex < uploadedImages.length) {
+  if (uploadedImages.length > 0) {
     return (
-      <Draggable position={imagePosition} onDrag={onDrag} bounds="parent">
-        <img 
-          src={uploadedImages[activeImageIndex]} 
-          alt="Background" 
-          className="absolute cursor-move" 
-          style={{
-            display: 'block',
-            width: 'auto',
-            height: 'auto',
-            minWidth: `${imageScale}%`,
-            minHeight: `${imageScale}%`,
-            maxWidth: 'none',
-            transform: `scale(${imageScale / 100})`,
-            transformOrigin: 'center',
-            zIndex: 1
-          }} 
-        />
-      </Draggable>
+      <>
+        {uploadedImages.map((image, index) => (
+          <Draggable 
+            key={index}
+            position={image.position} 
+            onDrag={(position) => onDrag(index, position)} 
+            bounds="parent"
+          >
+            <img 
+              src={image.src} 
+              alt={image.fileName} 
+              className="absolute cursor-move" 
+              style={{
+                display: 'block',
+                width: 'auto',
+                height: 'auto',
+                minWidth: `${image.scale}%`,
+                minHeight: `${image.scale}%`,
+                maxWidth: 'none',
+                transform: `scale(${image.scale / 100})`,
+                transformOrigin: 'center',
+                zIndex: index + 1,
+                opacity: index === activeImageIndex ? 1 : 0.7, // Highlight active image
+                border: index === activeImageIndex ? '2px dashed #3B82F6' : 'none',
+                pointerEvents: index === activeImageIndex ? 'auto' : 'none' // Only active image can be dragged
+              }} 
+            />
+          </Draggable>
+        ))}
+      </>
     );
   }
   

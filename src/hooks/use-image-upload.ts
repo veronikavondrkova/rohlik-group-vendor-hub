@@ -1,20 +1,32 @@
 
 import { useState, useRef } from 'react';
 
+interface UploadedImage {
+  src: string;
+  fileName: string;
+  position: { x: number, y: number };
+  scale: number;
+}
+
 export const useImageUpload = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      const newImages: string[] = [...uploadedImages];
+      const newImages: UploadedImage[] = [...uploadedImages];
       Array.from(files).forEach(file => {
         const reader = new FileReader();
         reader.onload = event => {
           if (event.target?.result) {
-            newImages.push(event.target.result as string);
+            newImages.push({
+              src: event.target.result as string,
+              fileName: file.name,
+              position: { x: 0, y: 0 },
+              scale: 50 // Default scale (50%)
+            });
             setUploadedImages(newImages);
 
             // Set the newly uploaded image as active
@@ -39,6 +51,22 @@ export const useImageUpload = () => {
     }
   };
 
+  const updateImagePosition = (index: number, position: { x: number, y: number }) => {
+    const updatedImages = [...uploadedImages];
+    if (updatedImages[index]) {
+      updatedImages[index].position = position;
+      setUploadedImages(updatedImages);
+    }
+  };
+
+  const updateImageScale = (index: number, scale: number) => {
+    const updatedImages = [...uploadedImages];
+    if (updatedImages[index]) {
+      updatedImages[index].scale = scale;
+      setUploadedImages(updatedImages);
+    }
+  };
+
   const handleUploadClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -52,6 +80,8 @@ export const useImageUpload = () => {
     setActiveImageIndex,
     handleImageUpload,
     handleRemoveImage,
-    handleUploadClick
+    handleUploadClick,
+    updateImagePosition,
+    updateImageScale
   };
 };

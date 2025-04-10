@@ -27,9 +27,9 @@ const PreviewControls: React.FC<PreviewControlsProps> = ({
         <span className="text-sm font-medium">Image Size:</span>
         <div className="flex-grow">
           <Slider 
-            defaultValue={[100]} 
-            min={50} 
-            max={200} 
+            defaultValue={[50]} 
+            min={0} 
+            max={100} 
             step={5} 
             value={[imageScale]} 
             onValueChange={onImageResizeChange} 

@@ -33,7 +33,9 @@ const Editor = () => {
     setActiveImageIndex,
     handleImageUpload,
     handleRemoveImage,
-    handleUploadClick
+    handleUploadClick,
+    updateImagePosition,
+    updateImageScale
   } = useImageUpload();
 
   const {
@@ -48,9 +50,7 @@ const Editor = () => {
     ctaStyle,
     setCtaStyle,
     priceTagPosition,
-    setPriceTagPosition,
-    imagePosition,
-    setImagePosition
+    setPriceTagPosition
   } = useAssetEditor();
 
   useEffect(() => {
@@ -125,8 +125,6 @@ const Editor = () => {
           priceValue={priceValue}
           setPriceValue={setPriceValue}
           ctaData={ctaData}
-          imagePosition={imagePosition}
-          setImagePosition={setImagePosition}
           priceTagPosition={priceTagPosition}
           setPriceTagPosition={setPriceTagPosition}
           handleUploadClick={handleUploadClick}
@@ -136,6 +134,8 @@ const Editor = () => {
           handleImageUpload={handleImageUpload}
           handleRemoveImage={handleRemoveImage}
           selectedMarket={formData.market}
+          updateImagePosition={updateImagePosition}
+          updateImageScale={updateImageScale}
         />
       </main>
     </div>

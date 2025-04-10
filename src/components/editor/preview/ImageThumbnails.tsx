@@ -1,8 +1,15 @@
 
 import React from 'react';
 
+interface UploadedImage {
+  src: string;
+  fileName: string;
+  position: { x: number, y: number };
+  scale: number;
+}
+
 interface ImageThumbnailsProps {
-  uploadedImages: string[];
+  uploadedImages: UploadedImage[];
   activeImageIndex: number;
   setActiveImageIndex: (index: number) => void;
 }
@@ -23,9 +30,10 @@ const ImageThumbnails: React.FC<ImageThumbnailsProps> = ({
           className={`w-16 h-16 border-2 cursor-pointer overflow-hidden ${
             index === activeImageIndex ? 'border-primary' : 'border-transparent'
           }`}
+          title={image.fileName}
         >
           <img 
-            src={image} 
+            src={image.src} 
             alt={`Thumbnail ${index + 1}`} 
             className="w-full h-full object-cover" 
           />
