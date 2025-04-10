@@ -23,7 +23,7 @@ const Homepage = () => {
         {/* Hero Background Image - Only for this section */}
         <div className="absolute inset-0 w-full h-full z-0">
           <img 
-            src="/placeholder.svg" 
+            src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" 
             alt="Background" 
             className="w-full h-full object-cover"
           />
