@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+
 interface AssetPreviewProps {
   currentFormat: string;
   currentDimensions: {
@@ -41,6 +41,7 @@ interface AssetPreviewProps {
   fileInputRef: React.RefObject<HTMLInputElement>;
   ctaStyle: 'default' | 'reverse';
 }
+
 const AssetPreview: React.FC<AssetPreviewProps> = ({
   currentFormat,
   currentDimensions,
@@ -105,72 +106,91 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         
         {/* Background Image */}
         {uploadedImages.length > 0 && activeImageIndex >= 0 && activeImageIndex < uploadedImages.length ? (
-          <>
-            <Draggable position={imagePosition} onDrag={handleImageDrag} bounds="parent">
-              <img src={uploadedImages[activeImageIndex]} alt="Background" className="absolute cursor-move" style={{
-                display: 'block',
-                width: 'auto',
-                height: 'auto',
-                minWidth: `${imageScale}%`,
-                minHeight: `${imageScale}%`,
-                maxWidth: 'none',
-                transform: `scale(${imageScale / 100})`,
-                transformOrigin: 'center'
-              }} />
-            </Draggable>
-            
-            {/* Black overlay with adjustable opacity */}
-            <div 
-              className="absolute inset-0 pointer-events-none"
-              style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})` }}
-            ></div>
-          </>
-        ) : <div className="absolute inset-0 flex items-center justify-center">
+          <Draggable position={imagePosition} onDrag={handleImageDrag} bounds="parent">
+            <img src={uploadedImages[activeImageIndex]} alt="Background" className="absolute cursor-move" style={{
+              display: 'block',
+              width: 'auto',
+              height: 'auto',
+              minWidth: `${imageScale}%`,
+              minHeight: `${imageScale}%`,
+              maxWidth: 'none',
+              transform: `scale(${imageScale / 100})`,
+              transformOrigin: 'center'
+            }} />
+          </Draggable>
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
             <Button variant="outline" onClick={handleUploadClick} className="bg-transparent border border-black text-black hover:bg-gray-100">
               Upload the image
             </Button>
-            <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={e => {
-          if (fileInputRef.current) {
-            const event = new Event('change', {
-              bubbles: true
-            });
-            fileInputRef.current.dispatchEvent(event);
-          }
-        }} className="hidden" />
-          </div>}
+            <input 
+              ref={fileInputRef} 
+              type="file" 
+              accept="image/*" 
+              multiple 
+              onChange={e => {
+                if (fileInputRef.current) {
+                  const event = new Event('change', { bubbles: true });
+                  fileInputRef.current.dispatchEvent(event);
+                }
+              }} 
+              className="hidden" 
+            />
+          </div>
+        )}
         
-        {/* Text overlay - with same padding as CTA button */}
+        {/* Black overlay with adjustable opacity - positioned between image and content */}
+        {uploadedImages.length > 0 && activeImageIndex >= 0 && (
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity / 100})` }}
+          ></div>
+        )}
+        
+        {/* Text overlay - positioned with z-index to appear on top of the overlay */}
         <div className="absolute top-0 left-0 p-4 w-1/2 z-10">
-          {headlineText && <div className="text-white font-bold text-3xl mb-2 text-shadow my-[9px]">
+          {headlineText && (
+            <div className="text-white font-bold text-3xl mb-2 text-shadow my-[9px]">
               {headlineText}
-            </div>}
+            </div>
+          )}
           
-          {subheadlineText && <div className="text-white text-lg mb-3 text-shadow">
+          {subheadlineText && (
+            <div className="text-white text-lg mb-3 text-shadow">
               {subheadlineText}
-            </div>}
+            </div>
+          )}
         </div>
         
-        {/* CTA Button - positioned at the bottom left with consistent margins */}
+        {/* CTA Button - positioned at the bottom left with consistent margins, on top of overlay */}
         <div className="absolute bottom-0 left-0 p-4 z-10">
-          {ctaData && <button className={`px-3 py-1 text-xs rounded font-medium ${ctaStyle === 'default' ? ctaData.color === '#2F7D3B' ? 'cta-button-cz' : 'cta-button-de' : ctaData.color === '#2F7D3B' ? 'cta-button-cz-reverse' : 'cta-button-de-reverse'}`}>
+          {ctaData && (
+            <button className={`px-3 py-1 text-xs rounded font-medium ${
+              ctaStyle === 'default' 
+                ? ctaData.color === '#2F7D3B' ? 'cta-button-cz' : 'cta-button-de' 
+                : ctaData.color === '#2F7D3B' ? 'cta-button-cz-reverse' : 'cta-button-de-reverse'
+            }`}>
               {ctaData.text || 'Buy now >>'}
-            </button>}
+            </button>
+          )}
         </div>
         
-        {/* Price tag (right side) - only if show price tag is checked */}
-        {showPriceTag && uploadedImages.length > 0 && <Draggable position={priceTagPosition} onDrag={handlePriceTagDrag} bounds="parent">
+        {/* Price tag (right side) - only if show price tag is checked, on top of overlay */}
+        {showPriceTag && uploadedImages.length > 0 && (
+          <Draggable position={priceTagPosition} onDrag={handlePriceTagDrag} bounds="parent">
             <div className="absolute cursor-move z-10">
               <div className="bg-rohlik-light text-xs px-2 py-1 text-center mb-1 rounded-t-sm">
                 AKCE
               </div>
               <div className="price-tag flex items-center justify-center font-bold" style={{
-            width: '124px',
-            height: '55px'
-          }}>
+                width: '124px',
+                height: '55px'
+              }}>
                 {priceValue ? `${priceValue} Kč` : '99 Kč'}
               </div>
             </div>
-          </Draggable>}
+          </Draggable>
+        )}
       </div>
       
       {/* Image resize control */}
@@ -196,18 +216,31 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
       )}
       
       {/* Image thumbnails if multiple images uploaded */}
-      {uploadedImages.length > 1 && <div className="flex gap-2 mt-4 justify-center">
-          {uploadedImages.map((image, index) => <div key={index} onClick={() => setActiveImageIndex(index)} className={`w-16 h-16 border-2 cursor-pointer overflow-hidden ${index === activeImageIndex ? 'border-primary' : 'border-transparent'}`}>
+      {uploadedImages.length > 1 && (
+        <div className="flex gap-2 mt-4 justify-center">
+          {uploadedImages.map((image, index) => (
+            <div 
+              key={index} 
+              onClick={() => setActiveImageIndex(index)} 
+              className={`w-16 h-16 border-2 cursor-pointer overflow-hidden ${
+                index === activeImageIndex ? 'border-primary' : 'border-transparent'
+              }`}
+            >
               <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
-            </div>)}
-        </div>}
+            </div>
+          ))}
+        </div>
+      )}
       
       <div className="text-center mt-4 text-sm text-gray-500">
-        {currentFormat && <p>
+        {currentFormat && (
+          <p>
             {currentFormat.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - 
             {currentDimensions.width} × {currentDimensions.height}px (Shown at 50% scale)
-          </p>}
+          </p>
+        )}
       </div>
     </div>;
 };
+
 export default AssetPreview;
