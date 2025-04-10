@@ -4,7 +4,7 @@ import Draggable from '@/components/ui/draggable';
 
 interface PriceTagProps {
   showPriceTag: boolean;
-  uploadedImages: boolean; // Changed from string[] to boolean to match what's being passed
+  uploadedImages: boolean;
   priceTagPosition: {
     x: number;
     y: number;
@@ -24,7 +24,7 @@ const PriceTag: React.FC<PriceTagProps> = ({
   
   return (
     <Draggable position={priceTagPosition} onDrag={onDrag} bounds="parent">
-      <div className="absolute cursor-move" style={{ zIndex: 50 }}>
+      <div className="absolute cursor-move" style={{ zIndex: 100 }}>
         <div className="bg-rohlik-light text-xs px-2 py-1 text-center mb-1 rounded-t-sm">
           AKCE
         </div>
