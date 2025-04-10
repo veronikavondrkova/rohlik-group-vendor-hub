@@ -51,16 +51,15 @@ const Homepage = () => {
       </section>
       
       <main className="flex-grow container mx-auto px-4 py-8 bg-white z-10">
-        {/* Move the section up by using negative margin-top */}
-        <section className="mb-12 -mt-32 relative z-20">
-          <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0 mx-auto" style={{ maxWidth: '80%' }}>
+        <section className="mb-12">
+          <div className="grid md:grid-cols-3 gap-6 mt-8 py-0 my-0 bg-white/0">
             <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl py-0 px-0">
               <CardHeader className="pb-3">
-                <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 px-0 mx-auto">
+                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2 px-0 mx-0">
                   <FileIcon className="text-white" size={24} />
                 </div>
                 <CardTitle className="text-center">1. Choose Format</CardTitle>
-                <CardDescription className="text-center">
+                <CardDescription className="text-center text-[0E210F]">
                   Select asset formats and market
                 </CardDescription>
               </CardHeader>
@@ -73,7 +72,7 @@ const Homepage = () => {
             
             <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl">
               <CardHeader className="pb-3">
-                <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
+                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <Pencil className="text-white" size={24} />
                 </div>
                 <CardTitle className="text-center">2. Create Asset</CardTitle>
@@ -90,7 +89,7 @@ const Homepage = () => {
             
             <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl">
               <CardHeader className="pb-3">
-                <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
+                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <CheckCircleIcon className="text-white" size={24} />
                 </div>
                 <CardTitle className="text-center">3. Submit</CardTitle>
