@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
@@ -120,8 +119,8 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         }} className="hidden" />
           </div>}
         
-        {/* Text overlay - always on top with higher z-index */}
-        <div className="absolute bottom-0 left-0 p-4 w-1/2 z-10">
+        {/* Text overlay - moved to top left corner with same padding as CTA button had */}
+        <div className="absolute top-0 left-0 p-4 w-1/2 z-10">
           {headlineText && <div className="text-white font-bold text-3xl mb-2 text-shadow">
               {headlineText}
             </div>}
@@ -129,8 +128,10 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
           {subheadlineText && <div className="text-white text-lg mb-3 text-shadow">
               {subheadlineText}
             </div>}
-          
-          {/* CTA Button with style options */}
+        </div>
+        
+        {/* CTA Button - positioned at the bottom left with consistent margins */}
+        <div className="absolute bottom-0 left-0 p-4 z-10">
           {ctaData && <button className={`px-3 py-1 text-xs rounded font-medium ${ctaStyle === 'default' ? ctaData.color === '#2F7D3B' ? 'cta-button-cz' : 'cta-button-de' : ctaData.color === '#2F7D3B' ? 'cta-button-cz-reverse' : 'cta-button-de-reverse'}`}>
               {ctaData.text || 'Buy now >>'}
             </button>}
