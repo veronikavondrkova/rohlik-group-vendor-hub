@@ -1,11 +1,9 @@
-
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
-
 const Homepage = () => {
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
@@ -15,22 +13,19 @@ const Homepage = () => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
+    window.addEventListener('scroll', handleScroll, {
+      passive: true
+    });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
   const handleCreateAsset = () => {
     navigate('/create');
   };
-  
   const handleViewDashboard = () => {
     navigate('/dashboard');
   };
-  
   return <div className="min-h-screen flex flex-col">
       {/* Semi-transparent Header */}
       <Header />
@@ -41,24 +36,16 @@ const Homepage = () => {
     }}>
         {/* Hero Background Image with Parallax Effect */}
         <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-          <img 
-            src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" 
-            alt="Background" 
-            className="w-full h-full object-cover"
-            style={{ 
-              transform: `translateY(${scrollY * 0.3}px)`,
-              transition: 'transform 0.1s ease-out'
-            }}
-          />
+          <img src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" alt="Background" className="w-full h-full object-cover" style={{
+          transform: `translateY(${scrollY * 0.3}px)`,
+          transition: 'transform 0.1s ease-out'
+        }} />
         </div>
         
         <div className="relative z-10 max-w-3xl mx-auto">
           <div className="backdrop-blur-sm rounded-xl p-8 shadow-lg py-[39px] my-[106px] bg-white/[0.74]">
-            <h2 className="font-bold mb-4 text-5xl text-black text-center">Hey there!</h2>
-            <p className="text-xl font-normal text-gray-800 text-center">
-              Build on-brand visuals for any Rohlik market.
-              Just follow the steps, stick to the basics, and get approved without the back-and-forth.
-            </p>
+            <h2 className="mb-4 text-5xl text-black text-center font-extrabold">Hey there!</h2>
+            <p className="text-xl font-normal text-gray-800 text-center">Build on-brand visuals for any Rohlik Group market. Just follow the steps, stick to the basics, and get approved without the back-and-forth.</p>
           </div>
         </div>
       </section>
@@ -189,5 +176,4 @@ const Homepage = () => {
       </main>
     </div>;
 };
-
 export default Homepage;

@@ -79,9 +79,7 @@ const Header: React.FC<HeaderProps> = ({
                 </DropdownMenuContent>
               </DropdownMenu>
               
-              <Button variant="outline" onClick={handleLogout} className="border-white/50 ml-2 bg-gradient-to-b from-white to-gray-100 hover:from-gray-100 hover:to-white shadow-md hover:shadow-lg transition-all duration-300 bg-slate-50 text-[#061700]">
-                Logout
-              </Button>
+              
             </div>}
         </div>
       </div>
