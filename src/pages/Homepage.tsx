@@ -1,4 +1,3 @@
-
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,12 +17,8 @@ const Homepage = () => {
       {/* Hero Section with background image and text overlay */}
       <section className="relative pt-24">
         {/* Background Image */}
-        <div className="w-full h-[400px] bg-gray-300 overflow-hidden">
-          <img 
-            src="/placeholder.svg" 
-            alt="Brand Hub Hero" 
-            className="w-full h-full object-cover"
-          />
+        <div className="w-full h-[400px] bg-gray-300 overflow-hidden my-[35px] px-0">
+          <img src="/placeholder.svg" alt="Brand Hub Hero" className="w-full h-full object-cover" />
         </div>
         
         {/* Text Overlay */}
