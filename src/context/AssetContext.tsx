@@ -96,7 +96,16 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [assets]);
   
   const addAsset = (asset: Asset) => {
-    setAssets(current => [...current, asset]);
+    // Ensure the asset has all required properties
+    const completeAsset: Asset = {
+      ...asset,
+      id: asset.id || crypto.randomUUID(),
+      status: asset.status || 'pending',
+      dateSubmitted: asset.dateSubmitted || new Date().toISOString().split('T')[0]
+    };
+    
+    // Add asset to state and ensure UI updates
+    setAssets(current => [...current, completeAsset]);
   };
   
   const updateAsset = (id: string, updates: Partial<Asset>) => {

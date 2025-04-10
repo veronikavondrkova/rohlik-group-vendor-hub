@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '@/context/UserContext';
 import { useAssets } from '@/context/AssetContext';
@@ -10,19 +11,13 @@ import { useToast } from '@/hooks/use-toast';
 import AssetsTable from '@/components/dashboard/AssetsTable';
 import AssetDetailModal from '@/components/dashboard/AssetDetailModal';
 import FilterControls from '@/components/dashboard/FilterControls';
+
 const Dashboard = () => {
   const navigate = useNavigate();
-  const {
-    user
-  } = useUser();
-  const {
-    assets,
-    addAsset
-  } = useAssets();
+  const { user } = useUser();
+  const { assets, addAsset } = useAssets();
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [statusFilter, setStatusFilter] = useState('all');
   const [formatFilter, setFormatFilter] = useState('all');
 
@@ -48,24 +43,28 @@ const Dashboard = () => {
     }
     return filtered;
   }, [assets, user, statusFilter, formatFilter]);
+
   const handleCreateNew = () => {
     navigate('/create');
   };
+
   const handleViewAsset = (asset: Asset) => {
     setSelectedAsset(asset);
   };
+
   const handleCloseModal = () => {
     setSelectedAsset(null);
   };
+
   const handleEditAsset = (assetId: string) => {
     navigate(`/editor?id=${assetId}`);
   };
+
   const handleDuplicateAsset = (asset: Asset) => {
     // Create a new asset based on the existing one
     const duplicatedAsset = {
       ...asset,
       id: crypto.randomUUID(),
-      // Generate a new unique ID
       name: `${asset.name} (Copy)`,
       status: 'pending',
       dateSubmitted: new Date().toISOString().split('T')[0]
@@ -78,43 +77,69 @@ const Dashboard = () => {
       description: "The asset has been duplicated successfully."
     });
   };
+
   const handleDownloadAsset = (asset: Asset) => {
     // For now, just show a toast since we can't actually generate a download
     toast({
       title: "Download Initiated",
       description: `Downloading ${asset.name}...`
     });
-
-    // In a real implementation, you would generate and download the asset
-    // This could involve making a server request to generate the asset
   };
+
   const handleClearFilters = () => {
     setStatusFilter('all');
     setFormatFilter('all');
   };
-  return <div className="min-h-screen flex flex-col bg-gray-50">
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       
       <main className="flex-grow container mx-auto py-[119px] px-4">
         <div className="flex justify-between items-center mb-6">
-          
-          {user?.role === 'supplier'}
+          {user?.role === 'supplier' && (
+            <Button onClick={handleCreateNew}>Create New Asset</Button>
+          )}
         </div>
         
         <Card>
           <CardHeader>
             <CardTitle className="text-xl">That's every file, photo, banner, and pixel you've dropped off. We've got it.</CardTitle>
-            
           </CardHeader>
           <CardContent>
-            <FilterControls statusFilter={statusFilter} formatFilter={formatFilter} onStatusFilterChange={setStatusFilter} onFormatFilterChange={setFormatFilter} onClearFilters={handleClearFilters} formats={uniqueFormats} />
+            <FilterControls 
+              statusFilter={statusFilter} 
+              formatFilter={formatFilter} 
+              onStatusFilterChange={setStatusFilter} 
+              onFormatFilterChange={setFormatFilter} 
+              onClearFilters={handleClearFilters} 
+              formats={uniqueFormats} 
+            />
             
-            <AssetsTable assets={filteredAssets} userRole={user?.role || 'supplier'} onViewAsset={handleViewAsset} onEditAsset={handleEditAsset} onDuplicateAsset={handleDuplicateAsset} onDownloadAsset={handleDownloadAsset} />
+            <AssetsTable 
+              assets={filteredAssets} 
+              userRole={user?.role || 'supplier'} 
+              onViewAsset={handleViewAsset} 
+              onEditAsset={handleEditAsset} 
+              onDuplicateAsset={handleDuplicateAsset} 
+              onDownloadAsset={handleDownloadAsset} 
+            />
           </CardContent>
         </Card>
         
-        {selectedAsset && <AssetDetailModal asset={selectedAsset} userRole={user?.role || 'supplier'} onClose={handleCloseModal} onEdit={handleEditAsset} onDuplicate={handleDuplicateAsset} onDownload={handleDownloadAsset} />}
+        {selectedAsset && (
+          <AssetDetailModal 
+            asset={selectedAsset} 
+            userRole={user?.role || 'supplier'} 
+            onClose={handleCloseModal} 
+            onEdit={handleEditAsset} 
+            onDuplicate={handleDuplicateAsset} 
+            onDownload={handleDownloadAsset} 
+          />
+        )}
       </main>
-    </div>;
+    </div>
+  );
 };
+
 export default Dashboard;
