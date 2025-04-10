@@ -132,7 +132,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         
         <PriceTag 
           showPriceTag={showPriceTag}
-          uploadedImages={uploadedImages.length > 0} // Fixed type mismatch by passing a boolean
+          uploadedImages={uploadedImages.length > 0}
           priceTagPosition={priceTagPosition}
           onDrag={handlePriceTagDrag}
           priceValue={priceValue}
