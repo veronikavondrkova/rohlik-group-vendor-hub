@@ -13,12 +13,16 @@ const PreviewContainer: React.FC<PreviewContainerProps> = ({
   dimensions,
   children
 }) => {
+  // Default dimensions if not provided
+  const width = dimensions?.width || 600;
+  const height = dimensions?.height || 400;
+  
   return (
     <div 
       className="relative bg-transparent mx-auto overflow-hidden border" 
       style={{
-        width: `${dimensions.width / 2}px`,
-        height: `${dimensions.height / 2}px`
+        width: `${width / 2}px`,
+        height: `${height / 2}px`
       }}
     >
       {/* Safe zone overlay */}
