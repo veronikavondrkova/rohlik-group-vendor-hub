@@ -10,7 +10,6 @@ import { useToast } from '@/hooks/use-toast';
 import AssetsTable from '@/components/dashboard/AssetsTable';
 import AssetDetailModal from '@/components/dashboard/AssetDetailModal';
 import FilterControls from '@/components/dashboard/FilterControls';
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const {
@@ -105,9 +104,7 @@ const Dashboard = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-xl">That's every file, photo, banner, and pixel you've dropped off. We've got it.</CardTitle>
-            <CardDescription>
-              {user?.role === 'supplier' ? 'All assets submitted by your company' : 'All assets awaiting your review'}
-            </CardDescription>
+            
           </CardHeader>
           <CardContent>
             <FilterControls statusFilter={statusFilter} formatFilter={formatFilter} onStatusFilterChange={setStatusFilter} onFormatFilterChange={setFormatFilter} onClearFilters={handleClearFilters} formats={uniqueFormats} />
@@ -120,5 +117,4 @@ const Dashboard = () => {
       </main>
     </div>;
 };
-
 export default Dashboard;
