@@ -20,6 +20,10 @@ interface EditorSidebarProps {
   ctaStyle: 'default' | 'reverse';
   setCtaStyle: (style: 'default' | 'reverse') => void;
   selectedMarket: string;
+  uploadedImages: string[];
+  onRemoveImage: (index: number) => void;
+  setActiveImageIndex: (index: number) => void;
+  activeImageIndex: number;
 }
 
 const EditorSidebar: React.FC<EditorSidebarProps> = ({
@@ -34,13 +38,23 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({
   setPriceValue,
   ctaStyle,
   setCtaStyle,
-  selectedMarket
+  selectedMarket,
+  uploadedImages,
+  onRemoveImage,
+  setActiveImageIndex,
+  activeImageIndex
 }) => {
   return (
     <div>
       <Card className="mb-6">
         <CardContent className="p-6 space-y-6">
-          <ImageUploader onImageUpload={onImageUpload} />
+          <ImageUploader 
+            onImageUpload={onImageUpload} 
+            uploadedImages={uploadedImages} 
+            onRemoveImage={onRemoveImage}
+            setActiveImageIndex={setActiveImageIndex}
+            activeImageIndex={activeImageIndex}
+          />
           
           <TextControls 
             headlineText={headlineText}

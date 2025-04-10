@@ -79,6 +79,19 @@ const Editor = () => {
     }
   };
 
+  const handleRemoveImage = (indexToRemove: number) => {
+    const updatedImages = uploadedImages.filter((_, index) => index !== indexToRemove);
+    setUploadedImages(updatedImages);
+    
+    // Adjust active image index if needed
+    if (activeImageIndex >= updatedImages.length) {
+      setActiveImageIndex(Math.max(0, updatedImages.length - 1));
+    } else if (activeImageIndex === indexToRemove && updatedImages.length > 0) {
+      // If the removed image was active, select the next one
+      setActiveImageIndex(Math.min(activeImageIndex, updatedImages.length - 1));
+    }
+  };
+
   const handleSubmit = () => {
     // In a real app, we would submit the asset data to a backend
     toast({
@@ -179,6 +192,10 @@ const Editor = () => {
               ctaStyle={ctaStyle}
               setCtaStyle={setCtaStyle}
               selectedMarket={formData.market}
+              uploadedImages={uploadedImages}
+              onRemoveImage={handleRemoveImage}
+              setActiveImageIndex={setActiveImageIndex}
+              activeImageIndex={activeImageIndex}
             />
           </div>
         </div>
