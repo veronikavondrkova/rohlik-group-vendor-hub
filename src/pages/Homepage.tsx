@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
@@ -108,9 +109,9 @@ const Homepage = () => {
         </section>
         
         <section className="mb-12">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Do's and Don'ts</h3>
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div className="grid grid-cols-1 gap-4">
+              <h3 className="text-xl font-semibold mb-2">Do's and Don'ts</h3>
               <div className="grid grid-cols-2 gap-4">
                 <Card className="border-green-200 bg-emerald-50">
                   <CardHeader>
@@ -148,12 +149,27 @@ const Homepage = () => {
                   </CardContent>
                 </Card>
               </div>
-              <div className="mt-6 flex justify-center">
-                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center">
-                  <BookOpen className="mr-2" size={16} />
-                  Download PSD Templates
-                </Button>
-              </div>
+              
+              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50">
+                <CardHeader className="pb-3">
+                  <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
+                    <BookOpen className="text-white" size={24} />
+                  </div>
+                  <CardTitle className="text-center">Resources</CardTitle>
+                  <CardDescription className="text-center">
+                    Download templates and guidelines
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-500 text-center mb-4">
+                    Get access to our full set of templates, design assets, and guidelines to ensure your assets meet our brand standards.
+                  </p>
+                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center w-full justify-center">
+                    <ExternalLink className="mr-2" size={16} />
+                    Download PSD Templates
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
             
             <div>
