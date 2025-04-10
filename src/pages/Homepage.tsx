@@ -1,10 +1,8 @@
-
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
-
 const Homepage = () => {
   const navigate = useNavigate();
   const handleCreateAsset = () => {
@@ -13,24 +11,21 @@ const Homepage = () => {
   const handleViewDashboard = () => {
     navigate('/dashboard');
   };
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       {/* Semi-transparent Header */}
       <Header />
       
       {/* Hero Section with Background Image */}
-      <section className="pt-32 pb-16 px-4 relative" style={{ height: "80vh" }}>
+      <section className="pt-32 pb-16 px-4 relative" style={{
+      height: "80vh"
+    }}>
         {/* Hero Background Image - Only for this section */}
         <div className="absolute inset-0 w-full h-full z-0">
-          <img 
-            src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" 
-            alt="Background" 
-            className="w-full h-full object-cover"
-          />
+          <img src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" alt="Background" className="w-full h-full object-cover" />
         </div>
         
         <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 shadow-lg">
+          <div className="backdrop-blur-sm rounded-xl p-8 shadow-lg py-[39px] my-[106px] bg-white/[0.74]">
             <h2 className="font-bold mb-4 text-5xl text-black text-center">Hey there!</h2>
             <p className="text-xl font-normal text-gray-800 text-center">
               Build on-brand visuals for any Rohlik market.
@@ -164,8 +159,6 @@ const Homepage = () => {
           </div>
         </footer>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Homepage;
