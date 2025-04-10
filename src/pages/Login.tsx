@@ -110,11 +110,9 @@ const Login = () => {
   };
   return <div className="flex min-h-screen bg-black">
       <div className="m-auto w-full max-w-md">
-        {/* Logo placeholder above the main headline */}
+        {/* Logo placeholder replaced with actual image */}
         <div className="flex justify-center mb-6">
-          <div className="w-52 h-32 rounded-md bg-gray-800 flex items-center justify-center my-[18px]">
-            <span className="text-gray-400 text-xs">Logo Placeholder</span>
-          </div>
+          <img src="/logogrouplogin.png" alt="Group logo" className="w-52 h-auto my-[18px]" />
         </div>
         
         <div className="mb-8 text-center">
@@ -235,7 +233,7 @@ const Login = () => {
           </Tabs>
         </Card>
         
-        {/* Image below the login module - replaced with actual image */}
+        {/* Image below the login module - already using actual image */}
         <div className="mt-6 flex justify-center">
           <img src="/logoslogin.png" alt="Partner logos" className="w-[500px] h-auto py-0 my-[18px]" />
         </div>
