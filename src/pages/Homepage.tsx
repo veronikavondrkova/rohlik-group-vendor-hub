@@ -1,3 +1,4 @@
+
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,21 +15,29 @@ const Homepage = () => {
   return <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       
+      {/* Hero Section with dark background */}
+      <section className="bg-gray-800 text-white py-16 px-4">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Hey there!</h2>
+          <p className="text-lg max-w-3xl mx-auto">
+            Build on-brand visuals for any Rohlik market. Just follow the steps,
+            stick to the basics, and get approved without the back-and-forth.
+          </p>
+        </div>
+      </section>
+      
       <main className="flex-grow container mx-auto px-4 py-8">
         <section className="mb-12">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold my-0 text-center mx-0">Hey there!</h2>
+            <h2 className="text-3xl font-bold my-0 text-center mx-0">How It Works</h2>
             <div className="space-x-4">
               
               
             </div>
           </div>
           
-          <p className="text-lg text-gray-600 max-w-3xl mb-8 my-0 py-0 text-left">Build on-brand visuals for any Rohlik market. Just follow the steps,
-stick to the basics, and get approved without the back-and-forth.</p>
-          
           <div className="grid md:grid-cols-3 gap-6 mt-8 bg-stone-50">
-            <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50">
+            <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50 transform hover:-translate-y-1 hover:shadow-xl">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <FileIcon className="text-white" size={24} />
@@ -45,7 +54,7 @@ stick to the basics, and get approved without the back-and-forth.</p>
               </CardContent>
             </Card>
             
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
+            <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <Pencil className="text-white" size={24} />
@@ -62,7 +71,7 @@ stick to the basics, and get approved without the back-and-forth.</p>
               </CardContent>
             </Card>
             
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
+            <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <CheckCircleIcon className="text-white" size={24} />
