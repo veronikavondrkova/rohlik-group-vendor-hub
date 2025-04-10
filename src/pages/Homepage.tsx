@@ -1,16 +1,36 @@
+
+import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
+
 const Homepage = () => {
   const navigate = useNavigate();
+  const [scrollY, setScrollY] = useState(0);
+
+  // Handle scroll events for parallax effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const handleCreateAsset = () => {
     navigate('/create');
   };
+  
   const handleViewDashboard = () => {
     navigate('/dashboard');
   };
+  
   return <div className="min-h-screen flex flex-col">
       {/* Semi-transparent Header */}
       <Header />
@@ -19,9 +39,17 @@ const Homepage = () => {
       <section className="pt-32 pb-16 px-4 relative" style={{
       height: "80vh"
     }}>
-        {/* Hero Background Image - Only for this section */}
-        <div className="absolute inset-0 w-full h-full z-0">
-          <img src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" alt="Background" className="w-full h-full object-cover" />
+        {/* Hero Background Image with Parallax Effect */}
+        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+          <img 
+            src="/vveronika00767_httpss.mj.runzJ0tJwFQ7v0_website_landing_page_im_71f15ae5-4ace-4eb2-bfc8-776adeb00fcb.png" 
+            alt="Background" 
+            className="w-full h-full object-cover"
+            style={{ 
+              transform: `translateY(${scrollY * 0.3}px)`,
+              transition: 'transform 0.1s ease-out'
+            }}
+          />
         </div>
         
         <div className="relative z-10 max-w-3xl mx-auto">
@@ -161,4 +189,5 @@ const Homepage = () => {
       </main>
     </div>;
 };
+
 export default Homepage;
