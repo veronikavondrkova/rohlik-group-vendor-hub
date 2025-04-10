@@ -26,7 +26,7 @@ Just follow the steps, stick to the basics, and get approved without the back-an
       <main className="flex-grow container mx-auto px-4 py-8">
         <section className="mb-12">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold my-0 text-center mx-0">How It Works</h2>
+            <h2 className="text-3xl font-bold my-0 text-center mx-0">How It Works?</h2>
             <div className="space-x-4">
               
               
@@ -88,7 +88,7 @@ Just follow the steps, stick to the basics, and get approved without the back-an
         </section>
         
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Design Guidelines</h2>
+          
           
           <div className="grid md:grid-cols-2 gap-8">
             <div>
