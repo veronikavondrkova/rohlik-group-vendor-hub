@@ -70,13 +70,18 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         <div className="absolute inset-0 safe-zone m-[10px]"></div>
         
         {/* Background Image */}
-        {uploadedImages.length > 0 ? (
+        {uploadedImages.length > 0 && activeImageIndex < uploadedImages.length ? (
           <Draggable position={imagePosition} onDrag={handleImageDrag} bounds="parent">
-            <div className="absolute inset-0 cursor-move">
+            <div className="absolute cursor-move" style={{ width: '100%', height: '100%' }}>
               <img 
                 src={uploadedImages[activeImageIndex]} 
                 alt="Background" 
                 className="w-full h-full object-cover" 
+                style={{ 
+                  display: 'block',
+                  width: '100%',
+                  height: '100%'
+                }}
               />
             </div>
           </Draggable>
@@ -151,15 +156,6 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         )}
       </div>
       
-      <div className="text-center mt-4 text-sm text-gray-500">
-        {currentFormat && (
-          <p>
-            {currentFormat.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - 
-            {currentDimensions.width} × {currentDimensions.height}px (Shown at 50% scale)
-          </p>
-        )}
-      </div>
-      
       {/* Image thumbnails if multiple images uploaded */}
       {uploadedImages.length > 1 && (
         <div className="flex gap-2 mt-4 justify-center">
@@ -176,6 +172,15 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
           ))}
         </div>
       )}
+      
+      <div className="text-center mt-4 text-sm text-gray-500">
+        {currentFormat && (
+          <p>
+            {currentFormat.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - 
+            {currentDimensions.width} × {currentDimensions.height}px (Shown at 50% scale)
+          </p>
+        )}
+      </div>
     </div>
   );
 };
