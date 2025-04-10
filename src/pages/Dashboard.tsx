@@ -23,12 +23,15 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Asset } from '@/components/review/AssetTypes';
+import { Copy, Download } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useUser();
-  const { assets } = useAssets();
+  const { assets, addAsset } = useAssets();
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+  const { toast } = useToast();
 
   // Filter assets based on user role
   const filteredAssets = user?.role === 'internal' 
@@ -49,6 +52,36 @@ const Dashboard = () => {
 
   const handleEditAsset = (assetId: string) => {
     navigate(`/editor?id=${assetId}`);
+  };
+
+  const handleDuplicateAsset = (asset: Asset) => {
+    // Create a new asset based on the existing one
+    const duplicatedAsset = {
+      ...asset,
+      id: crypto.randomUUID(), // Generate a new unique ID
+      name: `${asset.name} (Copy)`,
+      status: 'pending',
+      dateSubmitted: new Date().toISOString().split('T')[0],
+    };
+
+    // Add the duplicated asset to the context
+    addAsset(duplicatedAsset);
+
+    toast({
+      title: "Asset Duplicated",
+      description: "The asset has been duplicated successfully.",
+    });
+  };
+
+  const handleDownloadAsset = (asset: Asset) => {
+    // For now, just show a toast since we can't actually generate a download
+    toast({
+      title: "Download Initiated",
+      description: `Downloading ${asset.name}...`,
+    });
+    
+    // In a real implementation, you would generate and download the asset
+    // This could involve making a server request to generate the asset
   };
 
   // Status badge color mapping
@@ -133,12 +166,30 @@ const Dashboard = () => {
                         >
                           View
                         </Button>
-                        {(user?.role === 'supplier' && asset.status === 'pending') && (
+                        {user?.role === 'supplier' && (asset.status === 'pending' || asset.status === 'rejected') && (
                           <Button 
                             size="sm"
+                            className="mr-2"
                             onClick={() => handleEditAsset(asset.id)}
                           >
                             Edit
+                          </Button>
+                        )}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="mr-2"
+                          onClick={() => handleDownloadAsset(asset)}
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                        {user?.role === 'supplier' && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDuplicateAsset(asset)}
+                          >
+                            <Copy className="h-4 w-4" />
                           </Button>
                         )}
                       </TableCell>
@@ -210,7 +261,23 @@ const Dashboard = () => {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-end gap-2">
-                {(user?.role === 'supplier' && selectedAsset.status === 'pending') && (
+                <Button 
+                  variant="outline" 
+                  onClick={() => handleDownloadAsset(selectedAsset)}
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Download
+                </Button>
+                {user?.role === 'supplier' && (
+                  <Button 
+                    variant="outline"
+                    onClick={() => handleDuplicateAsset(selectedAsset)}
+                  >
+                    <Copy className="mr-2 h-4 w-4" />
+                    Duplicate
+                  </Button>
+                )}
+                {user?.role === 'supplier' && (selectedAsset.status === 'pending' || selectedAsset.status === 'rejected') && (
                   <Button 
                     variant="outline"
                     onClick={() => {
