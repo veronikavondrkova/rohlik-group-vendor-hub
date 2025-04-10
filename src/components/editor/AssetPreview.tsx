@@ -188,7 +188,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
         {/* Price tag (right side) - only if show price tag is checked, on top of overlay */}
         {showPriceTag && uploadedImages.length > 0 && (
           <Draggable position={priceTagPosition} onDrag={handlePriceTagDrag} bounds="parent">
-            <div className="absolute cursor-move z-10">
+            <div className="absolute cursor-move z-20">
               <div className="bg-rohlik-light text-xs px-2 py-1 text-center mb-1 rounded-t-sm">
                 AKCE
               </div>
