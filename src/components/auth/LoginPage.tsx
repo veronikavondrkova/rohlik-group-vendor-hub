@@ -4,9 +4,9 @@ import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
 export const LoginPage = () => {
   return <div className="flex min-h-screen bg-black">
-      <div className="m-auto w-full max-w-md">
+      <div className="m-auto w-full max-w-md my-[202px]">
         {/* Logo placeholder replaced with actual image */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6 my-[49px]">
           <img src="/logogrouplogin.png" alt="Group logo" className="w-52 h-auto my-[18px]" />
         </div>
         
@@ -33,8 +33,8 @@ export const LoginPage = () => {
         </Card>
         
         {/* Image below the login module */}
-        <div className="mt-6 flex justify-center">
-          <img alt="Partner logos" src="/lovable-uploads/fadae505-df41-4034-9444-3f7f24a7a0bf.png" className="w-[1200px] h-auto py-0 my-[18px]" />
+        <div className="mt-6 flex justify-center px-0">
+          <img alt="Partner logos" src="/lovable-uploads/27ac72ce-dc02-4781-b1b6-02d810af0475.png" className="w-[600px] h-auto py-0 my-[18px]" />
         </div>
         
         <div className="mt-6 text-center text-gray-400 text-sm">
