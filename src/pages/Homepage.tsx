@@ -1,10 +1,11 @@
-
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
+import { Photoshop } from 'lucide-react';
+
 const Homepage = () => {
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
@@ -150,21 +151,21 @@ const Homepage = () => {
                 </Card>
               </div>
               
-              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50">
+              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 h-full">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
-                    <BookOpen className="text-white" size={24} />
+                    <Photoshop className="text-white" size={24} />
                   </div>
                   <CardTitle className="text-center">Resources</CardTitle>
                   <CardDescription className="text-center">
                     Download templates and guidelines
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col justify-between h-[calc(100%-160px)]">
                   <p className="text-sm text-gray-500 text-center mb-4">
                     Get access to our full set of templates, design assets, and guidelines to ensure your assets meet our brand standards.
                   </p>
-                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center w-full justify-center">
+                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center w-full justify-center mt-auto">
                     <ExternalLink className="mr-2" size={16} />
                     Download PSD Templates
                   </Button>
