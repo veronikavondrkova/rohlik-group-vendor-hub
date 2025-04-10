@@ -60,7 +60,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   return (
     <div>
       <div 
-        className="relative bg-gray-100 mx-auto overflow-hidden border" 
+        className="relative bg-transparent mx-auto overflow-hidden border" 
         style={{
           width: `${currentDimensions.width / 2}px`,
           height: `${currentDimensions.height / 2}px`
