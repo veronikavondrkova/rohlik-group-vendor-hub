@@ -52,7 +52,9 @@ const Header: React.FC<HeaderProps> = ({
               
               {user.role === 'internal' && <>
                   <a href="/dashboard" className="hover:text-gray-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-white after:transition-all after:duration-300">Dashboard</a>
-                  <a href="/review" className="hover:text-gray-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-white after:transition-all after:duration-300">Review</a>
+                  <Button onClick={navigateToCreate} className="bg-white text-[#0E210F] hover:bg-white/90 transition-colors ml-2">
+                    Create new asset
+                  </Button>
                 </>}
             </nav>}
         </div>
