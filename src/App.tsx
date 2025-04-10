@@ -49,7 +49,7 @@ const App = () => (
               <Route 
                 path="/create" 
                 element={
-                  <ProtectedRoute roles={["supplier"]}>
+                  <ProtectedRoute roles={["supplier", "internal"]}>
                     <Create />
                   </ProtectedRoute>
                 } 
@@ -57,7 +57,7 @@ const App = () => (
               <Route 
                 path="/editor" 
                 element={
-                  <ProtectedRoute roles={["supplier"]}>
+                  <ProtectedRoute roles={["supplier", "internal"]}>
                     <Editor />
                   </ProtectedRoute>
                 } 

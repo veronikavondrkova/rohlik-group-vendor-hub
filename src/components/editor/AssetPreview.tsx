@@ -33,6 +33,7 @@ interface AssetPreviewProps {
   subheadlineText: string;
   showPriceTag: boolean;
   priceValue: string;
+  priceLabel?: string;
   ctaData: {
     text: string;
     color: string;
@@ -51,7 +52,7 @@ interface AssetPreviewProps {
   ctaStyle: 'default' | 'reverse';
   updateImagePosition: (index: number, position: { x: number, y: number }) => void;
   updateImageScale: (index: number, scale: number) => void;
-  isSubmitting?: boolean; // New prop
+  isSubmitting?: boolean;
 }
 
 const AssetPreview: React.FC<AssetPreviewProps> = ({
@@ -64,6 +65,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
   subheadlineText,
   showPriceTag,
   priceValue,
+  priceLabel = 'AKCE',
   ctaData,
   priceTagPosition,
   setPriceTagPosition,
@@ -145,6 +147,7 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
           priceTagPosition={priceTagPosition}
           onDrag={handlePriceTagDrag}
           priceValue={priceValue}
+          priceLabel={priceLabel}
           isSubmitting={isSubmitting}
         />
       </PreviewContainer>

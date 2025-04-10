@@ -6,6 +6,7 @@ export const useAssetEditor = () => {
   const [subheadlineText, setSubheadlineText] = useState<string>('');
   const [showPriceTag, setShowPriceTag] = useState<boolean>(false);
   const [priceValue, setPriceValue] = useState<string>('');
+  const [priceLabel, setPriceLabel] = useState<string>('AKCE');
   const [ctaStyle, setCtaStyle] = useState<'default' | 'reverse'>('default');
   
   // Position states for draggable elements
@@ -23,6 +24,8 @@ export const useAssetEditor = () => {
     setShowPriceTag,
     priceValue,
     setPriceValue,
+    priceLabel,
+    setPriceLabel,
     ctaStyle,
     setCtaStyle,
     priceTagPosition,

@@ -24,6 +24,8 @@ interface EditorSidebarProps {
   setShowPriceTag: (checked: boolean) => void;
   priceValue: string;
   setPriceValue: (value: string) => void;
+  priceLabel?: string;
+  setPriceLabel?: (label: string) => void;
   ctaStyle: 'default' | 'reverse';
   setCtaStyle: (style: 'default' | 'reverse') => void;
   selectedMarket: string;
@@ -43,6 +45,8 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({
   setShowPriceTag,
   priceValue,
   setPriceValue,
+  priceLabel,
+  setPriceLabel,
   ctaStyle,
   setCtaStyle,
   selectedMarket,
@@ -81,6 +85,8 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({
             setShowPriceTag={setShowPriceTag}
             priceValue={priceValue}
             setPriceValue={setPriceValue}
+            priceLabel={priceLabel}
+            setPriceLabel={setPriceLabel}
           />
         </CardContent>
       </Card>

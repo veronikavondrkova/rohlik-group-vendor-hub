@@ -29,6 +29,8 @@ interface EditorContentProps {
   setShowPriceTag: (show: boolean) => void;
   priceValue: string;
   setPriceValue: (value: string) => void;
+  priceLabel?: string;
+  setPriceLabel?: (label: string) => void;
   ctaData: any;
   priceTagPosition: {
     x: number;
@@ -64,6 +66,8 @@ const EditorContent = ({
   setShowPriceTag,
   priceValue,
   setPriceValue,
+  priceLabel = 'AKCE',
+  setPriceLabel,
   ctaData,
   priceTagPosition,
   setPriceTagPosition,
@@ -76,7 +80,7 @@ const EditorContent = ({
   selectedMarket,
   updateImagePosition,
   updateImageScale,
-  isSubmitting = false // Default to false
+  isSubmitting = false
 }: EditorContentProps) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -93,6 +97,7 @@ const EditorContent = ({
               subheadlineText={subheadlineText}
               showPriceTag={showPriceTag}
               priceValue={priceValue}
+              priceLabel={priceLabel}
               ctaData={ctaData}
               priceTagPosition={priceTagPosition}
               setPriceTagPosition={setPriceTagPosition}
@@ -120,6 +125,8 @@ const EditorContent = ({
           setShowPriceTag={setShowPriceTag}
           priceValue={priceValue}
           setPriceValue={setPriceValue}
+          priceLabel={priceLabel}
+          setPriceLabel={setPriceLabel}
           ctaStyle={ctaStyle}
           setCtaStyle={setCtaStyle}
           selectedMarket={selectedMarket}

@@ -43,6 +43,8 @@ const Editor = () => {
     setShowPriceTag,
     priceValue,
     setPriceValue,
+    priceLabel,
+    setPriceLabel,
     ctaStyle,
     setCtaStyle,
     priceTagPosition,
@@ -80,7 +82,8 @@ const Editor = () => {
     gradientOpacity,
     gradientDirection,
     gradientStartPosition,
-    gradientEndPosition
+    gradientEndPosition,
+    priceLabel
   });
 
   useEffect(() => {
@@ -98,6 +101,7 @@ const Editor = () => {
         if (existingAsset.gradientDirection !== undefined) setGradientDirection(existingAsset.gradientDirection);
         if (existingAsset.gradientStartPosition !== undefined) setGradientStartPosition(existingAsset.gradientStartPosition);
         if (existingAsset.gradientEndPosition !== undefined) setGradientEndPosition(existingAsset.gradientEndPosition);
+        if (existingAsset.priceLabel !== undefined) setPriceLabel(existingAsset.priceLabel);
         
         // Load images if available
         if (existingAsset.images && existingAsset.images.length > 0) {
@@ -108,7 +112,7 @@ const Editor = () => {
     }
   }, [assetId, assets, setHeadlineText, setSubheadlineText, setOverlayOpacity, 
       setGradientOpacity, setGradientDirection, setGradientStartPosition, 
-      setGradientEndPosition, setUploadedImages, setActiveImageIndex]);
+      setGradientEndPosition, setUploadedImages, setActiveImageIndex, setPriceLabel]);
 
   useEffect(() => {
     // Set current format when form data changes
@@ -160,6 +164,8 @@ const Editor = () => {
           setShowPriceTag={setShowPriceTag}
           priceValue={priceValue}
           setPriceValue={setPriceValue}
+          priceLabel={priceLabel}
+          setPriceLabel={setPriceLabel}
           ctaData={ctaData}
           priceTagPosition={priceTagPosition}
           setPriceTagPosition={setPriceTagPosition}
