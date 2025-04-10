@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 backdrop-blur-md border border-gray-700 shadow-xl bg-zinc-800">
-                  <DropdownMenuLabel className="text-white bg-zinc-900">My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel className="text-white bg-zinc-800">My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-gray-700" />
                   <DropdownMenuItem onClick={navigateToAccount} className="cursor-pointer hover:bg-white/10 text-gray-200">
                     <UserIcon className="mr-2 h-4 w-4" />
