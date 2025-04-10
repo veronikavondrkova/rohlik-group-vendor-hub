@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Draggable from '@/components/ui/draggable';
 import { Button } from '@/components/ui/button';
@@ -120,12 +121,12 @@ const AssetPreview: React.FC<AssetPreviewProps> = ({
           </div>}
         
         {/* Text overlay - always on top with higher z-index */}
-        <div className="absolute bottom-0 left-0 p-4 w-1/2 z-10 py-[19px]">
-          {headlineText && <div className="text-white font-bold text-3xl mb-1 text-shadow py-0 px-0 mx-0 my-[99px]">
+        <div className="absolute bottom-0 left-0 p-4 w-1/2 z-10">
+          {headlineText && <div className="text-white font-bold text-3xl mb-2 text-shadow">
               {headlineText}
             </div>}
           
-          {subheadlineText && <div className="text-white text-lg mb-3 text-shadow my-[15px] py-0">
+          {subheadlineText && <div className="text-white text-lg mb-3 text-shadow">
               {subheadlineText}
             </div>}
           
