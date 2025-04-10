@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import PreviewContainer from './preview/PreviewContainer';
 import BackgroundImage from './preview/BackgroundImage';
