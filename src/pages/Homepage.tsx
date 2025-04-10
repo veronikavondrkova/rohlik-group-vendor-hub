@@ -1,29 +1,23 @@
-
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileIcon, UploadIcon, CheckCircleIcon, Pencil, ExternalLink, BookOpen } from 'lucide-react';
-
 const Homepage = () => {
   const navigate = useNavigate();
-  
   const handleCreateAsset = () => {
     navigate('/create');
   };
-  
   const handleViewDashboard = () => {
     navigate('/dashboard');
   };
-
-  return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+  return <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       
       <main className="flex-grow container mx-auto px-4 py-8">
         <section className="mb-12">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold">Welcome to Rohlik Brand Hub</h2>
+            <h2 className="text-3xl font-bold my-0">Hey there!</h2>
             <div className="space-x-4">
               <Button onClick={handleCreateAsset} className="bg-black text-white hover:bg-gray-800">
                 Create New Asset
@@ -34,12 +28,11 @@ const Homepage = () => {
             </div>
           </div>
           
-          <p className="text-lg text-gray-600 max-w-3xl mb-8">
-            Create brand-compliant marketing assets for all Rohlik Group markets. Follow our simple workflow to ensure your assets meet our guidelines and get approved quickly.
-          </p>
+          <p className="text-lg text-gray-600 max-w-3xl mb-8 my-0 py-0">Build on-brand visuals for any Rohlik market. Just follow the steps,
+stick to the basics, and get approved without the back-and-forth.</p>
           
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
+          <div className="grid md:grid-cols-3 gap-6 mt-8 bg-stone-50">
+            <Card className="shadow-md hover:shadow-lg transition-shadow bg-stone-50">
               <CardHeader className="pb-3">
                 <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-2">
                   <FileIcon className="text-white" size={24} />
@@ -162,8 +155,6 @@ const Homepage = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Homepage;
