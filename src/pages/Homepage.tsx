@@ -110,12 +110,9 @@ const Homepage = () => {
         </section>
         
         <section className="mb-12">
-          <div className="grid md:grid-cols-2 gap-8 items-start">
-            <div className="grid grid-cols-1 gap-4">
-              
-              
-              
-              <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 h-full py-[59px]">
+          <div className="grid grid-cols-1 gap-8 items-start">
+            {/* Resources Card - Now Full Width */}
+            <Card className="shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 hover:shadow-xl bg-stone-50 py-[59px]">
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-[#0E210F] flex items-center justify-center mb-2 mx-auto">
                     <img src="/adobe-photoshop.png" alt="Adobe Photoshop" className="w-6 h-6" />
@@ -125,24 +122,21 @@ const Homepage = () => {
                     Download templates and guidelines
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col justify-between h-[calc(100%-160px)]">
+                <CardContent className="flex flex-col justify-between">
                   <p className="text-sm text-gray-500 text-center mb-4">
                     Get access to our full set of templates, design assets, and guidelines to ensure your assets meet our brand standards.
                   </p>
-                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center w-full justify-center mt-auto">
+                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white flex items-center mx-auto justify-center max-w-xs">
                     <ExternalLink className="mr-2" size={16} />
                     Download PSD Templates
                   </Button>
                 </CardContent>
-              </Card>
-            </div>
+            </Card>
             
-            <div>
-              
-              <div className="bg-white p-4 rounded-lg border">
-                <div className="aspect-video bg-gray-200 rounded-md flex items-center justify-center">
-                  <p className="text-gray-500">Example asset carousel would appear here</p>
-                </div>
+            {/* Carousel Section - Now Below Resources */}
+            <div className="bg-white p-4 rounded-lg border">
+              <div className="aspect-video bg-gray-200 rounded-md flex items-center justify-center">
+                <p className="text-gray-500">Example asset carousel would appear here</p>
               </div>
             </div>
           </div>
