@@ -1,12 +1,9 @@
-
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
-
 export const LoginPage = () => {
-  return (
-    <div className="flex min-h-screen bg-black">
+  return <div className="flex min-h-screen bg-black">
       <div className="m-auto w-full max-w-md">
         {/* Logo placeholder replaced with actual image */}
         <div className="flex justify-center mb-6">
@@ -37,7 +34,7 @@ export const LoginPage = () => {
         
         {/* Image below the login module */}
         <div className="mt-6 flex justify-center">
-          <img src="/logoslogin.png" alt="Partner logos" className="w-[500px] h-auto py-0 my-[18px]" />
+          <img alt="Partner logos" src="/lovable-uploads/fadae505-df41-4034-9444-3f7f24a7a0bf.png" className="w-[1200px] h-auto py-0 my-[18px]" />
         </div>
         
         <div className="mt-6 text-center text-gray-400 text-sm">
@@ -46,6 +43,5 @@ export const LoginPage = () => {
           <p>Internal: internal@example.com / password</p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
