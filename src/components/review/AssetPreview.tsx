@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PreviewTab from './tabs/PreviewTab';
 import MockupTab from './tabs/MockupTab';
-import VersionHistoryTab from './tabs/VersionHistoryTab';
 
 interface AssetPreviewProps {
   asset: {
@@ -61,23 +60,41 @@ const AssetPreview = ({
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
       <TabsList>
-        <TabsTrigger value="preview">Preview</TabsTrigger>
-        <TabsTrigger value="mockup">Live Mockup</TabsTrigger>
-        <TabsTrigger value="version-history">Version History</TabsTrigger>
+        <TabsTrigger value="preview">Preview & Mockup</TabsTrigger>
+        <TabsTrigger value="mockup">Live Mockup Only</TabsTrigger>
       </TabsList>
       
       <TabsContent value="preview" className="pt-4">
-        <PreviewTab 
-          asset={asset}
-          headlineText={headlineText}
-          subheadlineText={subheadlineText}
-          showPriceTag={showPriceTag}
-          priceValue={priceValue}
-          priceLabel={priceLabel}
-          priceTagPosition={priceTagPosition}
-          onPriceTagDrag={onPriceTagDrag}
-          assetDimensions={assetDimensions}
-        />
+        <div className="space-y-8">
+          {/* Asset Preview Section */}
+          <PreviewTab 
+            asset={asset}
+            headlineText={headlineText}
+            subheadlineText={subheadlineText}
+            showPriceTag={showPriceTag}
+            priceValue={priceValue}
+            priceLabel={priceLabel}
+            priceTagPosition={priceTagPosition}
+            onPriceTagDrag={onPriceTagDrag}
+            assetDimensions={assetDimensions}
+          />
+          
+          {/* Live Mockup Section */}
+          <div className="mt-8">
+            <h3 className="text-lg font-medium mb-4">Live Mockup Preview</h3>
+            <MockupTab 
+              asset={asset}
+              headlineText={headlineText}
+              subheadlineText={subheadlineText}
+              showPriceTag={showPriceTag}
+              priceValue={priceValue}
+              priceLabel={priceLabel}
+              priceTagPosition={priceTagPosition}
+              displayWidth={displayWidth}
+              displayHeight={displayHeight}
+            />
+          </div>
+        </div>
       </TabsContent>
       
       <TabsContent value="mockup" className="pt-4">
@@ -92,10 +109,6 @@ const AssetPreview = ({
           displayWidth={displayWidth}
           displayHeight={displayHeight}
         />
-      </TabsContent>
-      
-      <TabsContent value="version-history" className="pt-4">
-        <VersionHistoryTab />
       </TabsContent>
     </Tabs>
   );

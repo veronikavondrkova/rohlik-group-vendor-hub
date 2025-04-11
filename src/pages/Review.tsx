@@ -16,6 +16,7 @@ const rejectionReasons = ['Image quality is too low', 'Text is outside the safe 
 
 // Price label presets
 const priceLabelPresets = ['DÁREK', 'VÝHODNÁ CENA', 'EXKLUZIVNĚ', 'AKCE'];
+
 const Review = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,6 +82,7 @@ const Review = () => {
       navigate('/dashboard');
     }
   }, [assetId, assets, navigate, toast]);
+  
   const handleSubmitDecision = () => {
     if (!asset) return;
     if (!decision) {
@@ -123,6 +125,7 @@ const Review = () => {
     });
     navigate('/dashboard');
   };
+  
   if (!asset) {
     return <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
@@ -139,6 +142,7 @@ const Review = () => {
   }) => {
     setPriceTagPosition(position);
   };
+  
   return <div className="min-h-screen flex flex-col bg-gray-50 my-[82px]">
       {/* Use black background for header on this page */}
       <Header className="bg-black" />
@@ -153,7 +157,7 @@ const Review = () => {
           </div>
         </div>
         
-        {/* Match the supplier view layout with 3:1 ratio */}
+        {/* Layout with preview and controls */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="mx-[70px] py-[7px]">
@@ -177,50 +181,40 @@ const Review = () => {
           </div>
           
           {/* Controls take 1/3 of the width - Only show when in preview tab */}
-          {activeTab === 'preview' && (
-            <div className="space-y-4">
-              <ReviewDecision 
-                decision={decision} 
-                setDecision={setDecision} 
-                rejectionReason={rejectionReason} 
-                setRejectionReason={setRejectionReason} 
-                customRejectionReason={customRejectionReason} 
-                setCustomRejectionReason={setCustomRejectionReason} 
-                handleSubmitDecision={handleSubmitDecision} 
-                rejectionReasons={rejectionReasons} 
-              />
-              
-              <TextEditor 
-                headlineText={headlineText} 
-                setHeadlineText={setHeadlineText} 
-                subheadlineText={subheadlineText} 
-                setSubheadlineText={setSubheadlineText} 
-              />
-              
-              <PriceTagEditor 
-                showPriceTag={showPriceTag} 
-                setShowPriceTag={setShowPriceTag} 
-                showPriceLabel={showPriceLabel} 
-                setShowPriceLabel={setShowPriceLabel} 
-                priceValue={priceValue} 
-                setPriceValue={setPriceValue} 
-                priceLabel={priceLabel} 
-                setPriceLabel={setPriceLabel} 
-                priceLabelPresets={priceLabelPresets} 
-              />
-            </div>
-          )}
-          
-          {/* Show a message when not in preview tab */}
-          {activeTab !== 'preview' && (
-            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <p className="text-gray-500 text-center">
-                Switch to the Preview tab to edit the asset and make approval decisions.
-              </p>
-            </div>
-          )}
+          <div className="space-y-4">
+            <ReviewDecision 
+              decision={decision} 
+              setDecision={setDecision} 
+              rejectionReason={rejectionReason} 
+              setRejectionReason={setRejectionReason} 
+              customRejectionReason={customRejectionReason} 
+              setCustomRejectionReason={setCustomRejectionReason} 
+              handleSubmitDecision={handleSubmitDecision} 
+              rejectionReasons={rejectionReasons} 
+            />
+            
+            <TextEditor 
+              headlineText={headlineText} 
+              setHeadlineText={setHeadlineText} 
+              subheadlineText={subheadlineText} 
+              setSubheadlineText={setSubheadlineText} 
+            />
+            
+            <PriceTagEditor 
+              showPriceTag={showPriceTag} 
+              setShowPriceTag={setShowPriceTag} 
+              showPriceLabel={showPriceLabel} 
+              setShowPriceLabel={setShowPriceLabel} 
+              priceValue={priceValue} 
+              setPriceValue={setPriceValue} 
+              priceLabel={priceLabel} 
+              setPriceLabel={setPriceLabel} 
+              priceLabelPresets={priceLabelPresets} 
+            />
+          </div>
         </div>
       </main>
     </div>;
 };
+
 export default Review;
