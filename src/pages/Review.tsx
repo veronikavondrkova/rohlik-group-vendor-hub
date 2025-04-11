@@ -32,7 +32,7 @@ const Review = () => {
   const [headlineText, setHeadlineText] = useState('');
   const [subheadlineText, setSubheadlineText] = useState('');
   const [showPriceTag, setShowPriceTag] = useState(false);
-  const [showPriceLabel, setShowPriceLabel] = useState(true); // New state for showing/hiding price label
+  const [showPriceLabel, setShowPriceLabel] = useState(true);
   const [priceValue, setPriceValue] = useState('99');
   const [priceLabel, setPriceLabel] = useState('AKCE');
   const [rejectionReason, setRejectionReason] = useState('');
@@ -129,7 +129,7 @@ const Review = () => {
       {/* Use black background for header on this page */}
       <Header className="bg-black" />
       
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="flex-grow container mx-auto px-4 py-[119px]">
         <div className="mb-4 flex justify-between items-center">
           <h2 className="text-2xl font-bold">Review: {asset.name}</h2>
           <div className="space-x-3">
@@ -139,29 +139,30 @@ const Review = () => {
           </div>
         </div>
         
-        {/* Use more compact grid with smaller gap */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-          {/* Asset preview takes 3/5 of the width */}
-          <div className="lg:col-span-3">
-            {/* Scale down to 50% like in supplier view */}
-            <div className="scale-50 origin-top-left transform-gpu">
-              <AssetPreview 
-                asset={asset} 
-                headlineText={headlineText} 
-                subheadlineText={subheadlineText} 
-                showPriceTag={showPriceTag} 
-                priceValue={priceValue} 
-                priceLabel={showPriceLabel ? priceLabel : ''} 
-                activeTab={activeTab} 
-                setActiveTab={setActiveTab}
-                priceTagPosition={priceTagPosition}
-                onPriceTagDrag={handlePriceTagDrag}
-              />
+        {/* Match the supplier view layout with 3:1 ratio */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <div className="mx-[70px] py-[7px]">
+              <div className="p-6 px-0 mx-[14px] py-[64px]">
+                {/* Scale down to 50% like in supplier view */}
+                <AssetPreview 
+                  asset={asset} 
+                  headlineText={headlineText} 
+                  subheadlineText={subheadlineText} 
+                  showPriceTag={showPriceTag} 
+                  priceValue={priceValue} 
+                  priceLabel={showPriceLabel ? priceLabel : ''} 
+                  activeTab={activeTab} 
+                  setActiveTab={setActiveTab}
+                  priceTagPosition={priceTagPosition}
+                  onPriceTagDrag={handlePriceTagDrag}
+                />
+              </div>
             </div>
           </div>
           
-          {/* Controls take 2/5 of the width */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Controls take 1/3 of the width */}
+          <div className="space-y-4">
             <ReviewDecision 
               decision={decision} 
               setDecision={setDecision} 
