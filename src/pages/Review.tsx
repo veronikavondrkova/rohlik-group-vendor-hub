@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -32,7 +33,7 @@ const Review = () => {
   const searchParams = new URLSearchParams(location.search);
   const assetId = searchParams.get('id');
   const [asset, setAsset] = useState<Asset | null>(null);
-  const [activeTab, setActiveTab] = useState('preview');
+  // Removing the activeTab state since we no longer have tabs
   const [decision, setDecision] = useState<'approve' | 'reject' | null>(null);
   const [headlineText, setHeadlineText] = useState('');
   const [subheadlineText, setSubheadlineText] = useState('');
@@ -162,7 +163,7 @@ const Review = () => {
           <div className="lg:col-span-2">
             <div className="mx-[70px] py-[7px]">
               <div className="p-6 px-0 mx-[14px] py-[64px]">
-                {/* Use actual format dimensions */}
+                {/* Pass an empty string as activeTab and a no-op function as setActiveTab */}
                 <AssetPreview 
                   asset={asset} 
                   headlineText={headlineText} 
@@ -170,8 +171,8 @@ const Review = () => {
                   showPriceTag={showPriceTag} 
                   priceValue={priceValue} 
                   priceLabel={showPriceLabel ? priceLabel : ''} 
-                  activeTab={activeTab} 
-                  setActiveTab={setActiveTab} 
+                  activeTab="" 
+                  setActiveTab={() => {}} 
                   priceTagPosition={priceTagPosition} 
                   onPriceTagDrag={handlePriceTagDrag} 
                   assetDimensions={assetDimensions}
@@ -180,7 +181,7 @@ const Review = () => {
             </div>
           </div>
           
-          {/* Controls take 1/3 of the width - Only show when in preview tab */}
+          {/* Controls take 1/3 of the width */}
           <div className="space-y-4">
             <ReviewDecision 
               decision={decision} 

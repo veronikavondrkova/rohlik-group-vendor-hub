@@ -58,46 +58,23 @@ const AssetPreview = ({
   const displayHeight = assetDimensions.height / 2;
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-      <TabsList>
-        <TabsTrigger value="preview">Preview & Mockup</TabsTrigger>
-        <TabsTrigger value="mockup">Live Mockup Only</TabsTrigger>
-      </TabsList>
+    <div className="mb-6">
+      {/* Asset Preview Section */}
+      <PreviewTab 
+        asset={asset}
+        headlineText={headlineText}
+        subheadlineText={subheadlineText}
+        showPriceTag={showPriceTag}
+        priceValue={priceValue}
+        priceLabel={priceLabel}
+        priceTagPosition={priceTagPosition}
+        onPriceTagDrag={onPriceTagDrag}
+        assetDimensions={assetDimensions}
+      />
       
-      <TabsContent value="preview" className="pt-4">
-        <div className="space-y-8">
-          {/* Asset Preview Section */}
-          <PreviewTab 
-            asset={asset}
-            headlineText={headlineText}
-            subheadlineText={subheadlineText}
-            showPriceTag={showPriceTag}
-            priceValue={priceValue}
-            priceLabel={priceLabel}
-            priceTagPosition={priceTagPosition}
-            onPriceTagDrag={onPriceTagDrag}
-            assetDimensions={assetDimensions}
-          />
-          
-          {/* Live Mockup Section */}
-          <div className="mt-8">
-            <h3 className="text-lg font-medium mb-4">Live Mockup Preview</h3>
-            <MockupTab 
-              asset={asset}
-              headlineText={headlineText}
-              subheadlineText={subheadlineText}
-              showPriceTag={showPriceTag}
-              priceValue={priceValue}
-              priceLabel={priceLabel}
-              priceTagPosition={priceTagPosition}
-              displayWidth={displayWidth}
-              displayHeight={displayHeight}
-            />
-          </div>
-        </div>
-      </TabsContent>
-      
-      <TabsContent value="mockup" className="pt-4">
+      {/* Live Mockup Section */}
+      <div className="mt-8">
+        <h3 className="text-lg font-medium mb-4">Live Mockup Preview</h3>
         <MockupTab 
           asset={asset}
           headlineText={headlineText}
@@ -109,8 +86,8 @@ const AssetPreview = ({
           displayWidth={displayWidth}
           displayHeight={displayHeight}
         />
-      </TabsContent>
-    </Tabs>
+      </div>
+    </div>
   );
 };
 
