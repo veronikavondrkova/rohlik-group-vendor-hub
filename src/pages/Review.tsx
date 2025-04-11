@@ -9,6 +9,7 @@ import TextEditor from '@/components/review/TextEditor';
 import PriceTagEditor from '@/components/review/PriceTagEditor';
 import { Asset } from '@/components/review/AssetTypes';
 import { useAssets } from '@/context/AssetContext';
+import { formatDimensions } from '@/data/assetFormats';
 
 // Rejection reason presets
 const rejectionReasons = ['Image quality is too low', 'Text is outside the safe zone', 'Incorrect branding elements', 'Not following color guidelines', 'Text is difficult to read', 'Other (please specify)'];
@@ -46,6 +47,9 @@ const Review = () => {
     y: 100
   });
 
+  // Calculate dimensions based on asset format
+  const [assetDimensions, setAssetDimensions] = useState({ width: 976, height: 550 });
+
   // Load asset data when component mounts or assetId changes
   useEffect(() => {
     if (assetId) {
@@ -58,6 +62,11 @@ const Review = () => {
         // Initialize price tag position from asset if it exists
         if (foundAsset.priceTagPosition) {
           setPriceTagPosition(foundAsset.priceTagPosition);
+        }
+
+        // Set dimensions based on asset format
+        if (foundAsset.format && formatDimensions[foundAsset.format as keyof typeof formatDimensions]) {
+          setAssetDimensions(formatDimensions[foundAsset.format as keyof typeof formatDimensions]);
         }
       } else {
         toast({
@@ -136,7 +145,7 @@ const Review = () => {
       
       <main className="flex-grow container mx-auto px-4 py-[41px]">
         <div className="mb-4 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">Review: {asset.name}</h2>
+          <h2 className="text-2xl font-bold">Review: {asset?.name}</h2>
           <div className="space-x-3">
             <Button variant="outline" onClick={() => navigate('/dashboard')}>
               Back to Dashboard
@@ -149,8 +158,20 @@ const Review = () => {
           <div className="lg:col-span-2">
             <div className="mx-[70px] py-[7px]">
               <div className="p-6 px-0 mx-[14px] py-[64px]">
-                {/* Scale down to 50% like in supplier view */}
-                <AssetPreview asset={asset} headlineText={headlineText} subheadlineText={subheadlineText} showPriceTag={showPriceTag} priceValue={priceValue} priceLabel={showPriceLabel ? priceLabel : ''} activeTab={activeTab} setActiveTab={setActiveTab} priceTagPosition={priceTagPosition} onPriceTagDrag={handlePriceTagDrag} />
+                {/* Use actual format dimensions */}
+                <AssetPreview 
+                  asset={asset} 
+                  headlineText={headlineText} 
+                  subheadlineText={subheadlineText} 
+                  showPriceTag={showPriceTag} 
+                  priceValue={priceValue} 
+                  priceLabel={showPriceLabel ? priceLabel : ''} 
+                  activeTab={activeTab} 
+                  setActiveTab={setActiveTab} 
+                  priceTagPosition={priceTagPosition} 
+                  onPriceTagDrag={handlePriceTagDrag} 
+                  assetDimensions={assetDimensions}
+                />
               </div>
             </div>
           </div>
