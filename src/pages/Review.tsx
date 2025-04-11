@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -16,12 +15,16 @@ const rejectionReasons = ['Image quality is too low', 'Text is outside the safe 
 
 // Price label presets
 const priceLabelPresets = ['DÁREK', 'VÝHODNÁ CENA', 'EXKLUZIVNĚ', 'AKCE'];
-
 const Review = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { toast } = useToast();
-  const { assets, updateAsset } = useAssets();
+  const {
+    toast
+  } = useToast();
+  const {
+    assets,
+    updateAsset
+  } = useAssets();
 
   // Extract the asset ID from URL query parameters
   const searchParams = new URLSearchParams(location.search);
@@ -38,7 +41,10 @@ const Review = () => {
   const [rejectionReason, setRejectionReason] = useState('');
   const [customRejectionReason, setCustomRejectionReason] = useState('');
   // Price tag position state
-  const [priceTagPosition, setPriceTagPosition] = useState({ x: 700, y: 100 });
+  const [priceTagPosition, setPriceTagPosition] = useState({
+    x: 700,
+    y: 100
+  });
 
   // Load asset data when component mounts or assetId changes
   useEffect(() => {
@@ -48,7 +54,7 @@ const Review = () => {
         setAsset(foundAsset);
         setHeadlineText(foundAsset.headline || '');
         setSubheadlineText(foundAsset.subheadline || '');
-        
+
         // Initialize price tag position from asset if it exists
         if (foundAsset.priceTagPosition) {
           setPriceTagPosition(foundAsset.priceTagPosition);
@@ -66,7 +72,6 @@ const Review = () => {
       navigate('/dashboard');
     }
   }, [assetId, assets, navigate, toast]);
-  
   const handleSubmitDecision = () => {
     if (!asset) return;
     if (!decision) {
@@ -109,7 +114,6 @@ const Review = () => {
     });
     navigate('/dashboard');
   };
-  
   if (!asset) {
     return <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
@@ -118,18 +122,19 @@ const Review = () => {
         </main>
       </div>;
   }
-  
+
   // Handle price tag position update
-  const handlePriceTagDrag = (position: { x: number, y: number }) => {
+  const handlePriceTagDrag = (position: {
+    x: number;
+    y: number;
+  }) => {
     setPriceTagPosition(position);
   };
-  
-  return (
-    <div className="min-h-screen flex flex-col bg-gray-50 my-[82px]">
+  return <div className="min-h-screen flex flex-col bg-gray-50 my-[82px]">
       {/* Use black background for header on this page */}
       <Header className="bg-black" />
       
-      <main className="flex-grow container mx-auto px-4 py-[119px]">
+      <main className="flex-grow container mx-auto px-4 py-[41px]">
         <div className="mb-4 flex justify-between items-center">
           <h2 className="text-2xl font-bold">Review: {asset.name}</h2>
           <div className="space-x-3">
@@ -145,58 +150,21 @@ const Review = () => {
             <div className="mx-[70px] py-[7px]">
               <div className="p-6 px-0 mx-[14px] py-[64px]">
                 {/* Scale down to 50% like in supplier view */}
-                <AssetPreview 
-                  asset={asset} 
-                  headlineText={headlineText} 
-                  subheadlineText={subheadlineText} 
-                  showPriceTag={showPriceTag} 
-                  priceValue={priceValue} 
-                  priceLabel={showPriceLabel ? priceLabel : ''} 
-                  activeTab={activeTab} 
-                  setActiveTab={setActiveTab}
-                  priceTagPosition={priceTagPosition}
-                  onPriceTagDrag={handlePriceTagDrag}
-                />
+                <AssetPreview asset={asset} headlineText={headlineText} subheadlineText={subheadlineText} showPriceTag={showPriceTag} priceValue={priceValue} priceLabel={showPriceLabel ? priceLabel : ''} activeTab={activeTab} setActiveTab={setActiveTab} priceTagPosition={priceTagPosition} onPriceTagDrag={handlePriceTagDrag} />
               </div>
             </div>
           </div>
           
           {/* Controls take 1/3 of the width */}
           <div className="space-y-4">
-            <ReviewDecision 
-              decision={decision} 
-              setDecision={setDecision} 
-              rejectionReason={rejectionReason} 
-              setRejectionReason={setRejectionReason} 
-              customRejectionReason={customRejectionReason} 
-              setCustomRejectionReason={setCustomRejectionReason} 
-              handleSubmitDecision={handleSubmitDecision} 
-              rejectionReasons={rejectionReasons} 
-            />
+            <ReviewDecision decision={decision} setDecision={setDecision} rejectionReason={rejectionReason} setRejectionReason={setRejectionReason} customRejectionReason={customRejectionReason} setCustomRejectionReason={setCustomRejectionReason} handleSubmitDecision={handleSubmitDecision} rejectionReasons={rejectionReasons} />
             
-            <TextEditor 
-              headlineText={headlineText} 
-              setHeadlineText={setHeadlineText} 
-              subheadlineText={subheadlineText} 
-              setSubheadlineText={setSubheadlineText} 
-            />
+            <TextEditor headlineText={headlineText} setHeadlineText={setHeadlineText} subheadlineText={subheadlineText} setSubheadlineText={setSubheadlineText} />
             
-            <PriceTagEditor 
-              showPriceTag={showPriceTag} 
-              setShowPriceTag={setShowPriceTag}
-              showPriceLabel={showPriceLabel}
-              setShowPriceLabel={setShowPriceLabel}
-              priceValue={priceValue} 
-              setPriceValue={setPriceValue} 
-              priceLabel={priceLabel} 
-              setPriceLabel={setPriceLabel} 
-              priceLabelPresets={priceLabelPresets} 
-            />
+            <PriceTagEditor showPriceTag={showPriceTag} setShowPriceTag={setShowPriceTag} showPriceLabel={showPriceLabel} setShowPriceLabel={setShowPriceLabel} priceValue={priceValue} setPriceValue={setPriceValue} priceLabel={priceLabel} setPriceLabel={setPriceLabel} priceLabelPresets={priceLabelPresets} />
           </div>
         </div>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Review;
