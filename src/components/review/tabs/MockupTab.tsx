@@ -44,33 +44,33 @@ const MockupTab = ({
       <CardContent className="p-6">
         <div className="w-full overflow-hidden">
           <div className="relative">
-            {/* Rohlik marketplace mockup background */}
+            {/* Rohlik marketplace mockup background - using the new image */}
             <img 
-              src="/lovable-uploads/27de478d-38f3-4f26-a177-1d44911d52cd.png" 
+              src="/lovable-uploads/fd6821f1-63a0-4ae3-a012-690918434d80.png" 
               alt="Rohlik marketplace" 
               className="w-full object-cover"
             />
             
-            {/* Overlay the banner/asset in an appropriate spot */}
+            {/* Position the banner in the carousel area */}
             <div 
               className="absolute"
               style={{ 
-                top: '275px',  // Position in the carousel area
+                top: '136px',  // Adjusted position for the new carousel location
                 left: '50%',
                 transform: 'translateX(-50%)',
-                width: `${Math.min(displayWidth * 1.5, 800)}px`, // Scale appropriately
+                width: `${Math.min(displayWidth * 1.5, 760)}px`, // Scale appropriately
                 maxWidth: '90%',
                 zIndex: 10
               }}
             >
-              <div className="relative shadow-lg">
+              <div className="relative shadow-lg rounded-lg overflow-hidden">
                 {/* Asset preview */}
                 {(asset?.images && asset.images.length > 0) ? (
                   <div className="relative">
                     <img 
                       src={asset.images[0].src} 
                       alt={asset.name} 
-                      className="w-full h-full object-cover rounded-md"
+                      className="w-full h-full object-cover"
                     />
                     
                     {/* Text overlay */}
@@ -116,18 +116,18 @@ const MockupTab = ({
                   <img 
                     src={asset.thumbnail} 
                     alt={asset.name} 
-                    className="w-full object-cover rounded-md"
+                    className="w-full object-cover"
                   />
                 ) : (
-                  <div className="bg-gray-300 w-full h-48 rounded-md flex items-center justify-center">
+                  <div className="bg-gray-300 w-full h-48 flex items-center justify-center">
                     <p className="text-gray-600">No image available</p>
                   </div>
                 )}
               </div>
               
-              {/* Button under the banner */}
+              {/* Button under the banner - matching Rohlik's "Koupit" button style */}
               <div className="absolute left-6 -bottom-10">
-                <button className="bg-[#228d41] text-white px-3 py-2 text-sm rounded">
+                <button className="bg-[#228d41] text-white px-3 py-1 text-sm rounded-md">
                   Koupit »
                 </button>
               </div>
@@ -135,7 +135,7 @@ const MockupTab = ({
           </div>
         </div>
         
-        <div className="mt-12 text-sm text-gray-500 text-center">
+        <div className="mt-16 text-sm text-gray-500 text-center">
           <p>This is a preview of how the banner would look on Rohlik.cz</p>
         </div>
       </CardContent>
