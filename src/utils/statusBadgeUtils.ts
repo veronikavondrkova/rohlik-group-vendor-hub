@@ -11,6 +11,6 @@ export const getStatusBadgeVariant = (status: string) => {
     case 'pending':
       return 'warning'; // Yellow
     default:
-      return 'secondary'; // Gray
+      return 'secondary'; // Gray for any other status
   }
 };

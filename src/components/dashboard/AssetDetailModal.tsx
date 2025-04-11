@@ -15,6 +15,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AssetPreview from '@/components/review/AssetPreview';
+import { useNavigate } from 'react-router-dom';
 
 interface AssetDetailModalProps {
   asset: Asset;
@@ -34,6 +35,14 @@ const AssetDetailModal = ({
   onDownload
 }: AssetDetailModalProps) => {
   const [activeTab, setActiveTab] = useState('preview');
+  const navigate = useNavigate();
+  
+  const handleReview = () => {
+    if (userRole === 'internal') {
+      navigate(`/review?id=${asset.id}`);
+      onClose();
+    }
+  };
   
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
@@ -104,6 +113,14 @@ const AssetDetailModal = ({
             >
               <Copy className="mr-2 h-4 w-4" />
               Duplicate
+            </Button>
+          )}
+          {userRole === 'internal' && (
+            <Button
+              variant="default"
+              onClick={handleReview}
+            >
+              Review
             </Button>
           )}
           {userRole === 'supplier' && (asset.status === 'pending' || asset.status === 'rejected') && (
