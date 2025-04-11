@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -17,7 +16,6 @@ const rejectionReasons = ['Image quality is too low', 'Text is outside the safe 
 
 // Price label presets
 const priceLabelPresets = ['DÁREK', 'VÝHODNÁ CENA', 'EXKLUZIVNĚ', 'AKCE'];
-
 const Review = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,7 +48,10 @@ const Review = () => {
   });
 
   // Calculate dimensions based on asset format
-  const [assetDimensions, setAssetDimensions] = useState({ width: 976, height: 550 });
+  const [assetDimensions, setAssetDimensions] = useState({
+    width: 976,
+    height: 550
+  });
 
   // Load asset data when component mounts or assetId changes
   useEffect(() => {
@@ -83,7 +84,6 @@ const Review = () => {
       navigate('/dashboard');
     }
   }, [assetId, assets, navigate, toast]);
-  
   const handleSubmitDecision = () => {
     if (!asset) return;
     if (!decision) {
@@ -126,7 +126,6 @@ const Review = () => {
     });
     navigate('/dashboard');
   };
-  
   if (!asset) {
     return <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
@@ -143,79 +142,34 @@ const Review = () => {
   }) => {
     setPriceTagPosition(position);
   };
-  
   return <div className="min-h-screen flex flex-col bg-gray-50 my-[82px]">
       {/* Use black background for header on this page */}
       <Header className="bg-black" />
       
       <main className="flex-grow container mx-auto px-4 py-[41px]">
-        <div className="mb-4 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">Review: {asset?.name}</h2>
-          <div className="space-x-3">
-            <Button variant="outline" onClick={() => navigate('/dashboard')}>
-              Back to Dashboard
-            </Button>
-          </div>
-        </div>
+        
         
         {/* Layout with preview and controls */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 py-0 my-0">
             <div className="mx-[70px] py-[7px]">
-              <div className="p-6 px-0 mx-[14px] py-[64px]">
+              <div className="p-6 px-0 mx-[14px] py-0">
                 {/* Pass an empty string as activeTab and a no-op function as setActiveTab */}
-                <AssetPreview 
-                  asset={asset} 
-                  headlineText={headlineText} 
-                  subheadlineText={subheadlineText} 
-                  showPriceTag={showPriceTag} 
-                  priceValue={priceValue} 
-                  priceLabel={showPriceLabel ? priceLabel : ''} 
-                  activeTab="" 
-                  setActiveTab={() => {}} 
-                  priceTagPosition={priceTagPosition} 
-                  onPriceTagDrag={handlePriceTagDrag} 
-                  assetDimensions={assetDimensions}
-                />
+                <AssetPreview asset={asset} headlineText={headlineText} subheadlineText={subheadlineText} showPriceTag={showPriceTag} priceValue={priceValue} priceLabel={showPriceLabel ? priceLabel : ''} activeTab="" setActiveTab={() => {}} priceTagPosition={priceTagPosition} onPriceTagDrag={handlePriceTagDrag} assetDimensions={assetDimensions} />
               </div>
             </div>
           </div>
           
           {/* Controls take 1/3 of the width */}
           <div className="space-y-4">
-            <ReviewDecision 
-              decision={decision} 
-              setDecision={setDecision} 
-              rejectionReason={rejectionReason} 
-              setRejectionReason={setRejectionReason} 
-              customRejectionReason={customRejectionReason} 
-              setCustomRejectionReason={setCustomRejectionReason} 
-              handleSubmitDecision={handleSubmitDecision} 
-              rejectionReasons={rejectionReasons} 
-            />
+            <ReviewDecision decision={decision} setDecision={setDecision} rejectionReason={rejectionReason} setRejectionReason={setRejectionReason} customRejectionReason={customRejectionReason} setCustomRejectionReason={setCustomRejectionReason} handleSubmitDecision={handleSubmitDecision} rejectionReasons={rejectionReasons} />
             
-            <TextEditor 
-              headlineText={headlineText} 
-              setHeadlineText={setHeadlineText} 
-              subheadlineText={subheadlineText} 
-              setSubheadlineText={setSubheadlineText} 
-            />
+            <TextEditor headlineText={headlineText} setHeadlineText={setHeadlineText} subheadlineText={subheadlineText} setSubheadlineText={setSubheadlineText} />
             
-            <PriceTagEditor 
-              showPriceTag={showPriceTag} 
-              setShowPriceTag={setShowPriceTag} 
-              showPriceLabel={showPriceLabel} 
-              setShowPriceLabel={setShowPriceLabel} 
-              priceValue={priceValue} 
-              setPriceValue={setPriceValue} 
-              priceLabel={priceLabel} 
-              setPriceLabel={setPriceLabel} 
-              priceLabelPresets={priceLabelPresets} 
-            />
+            <PriceTagEditor showPriceTag={showPriceTag} setShowPriceTag={setShowPriceTag} showPriceLabel={showPriceLabel} setShowPriceLabel={setShowPriceLabel} priceValue={priceValue} setPriceValue={setPriceValue} priceLabel={priceLabel} setPriceLabel={setPriceLabel} priceLabelPresets={priceLabelPresets} />
           </div>
         </div>
       </main>
     </div>;
 };
-
 export default Review;
