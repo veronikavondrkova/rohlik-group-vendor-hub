@@ -176,14 +176,49 @@ const Review = () => {
             </div>
           </div>
           
-          {/* Controls take 1/3 of the width */}
-          <div className="space-y-4">
-            <ReviewDecision decision={decision} setDecision={setDecision} rejectionReason={rejectionReason} setRejectionReason={setRejectionReason} customRejectionReason={customRejectionReason} setCustomRejectionReason={setCustomRejectionReason} handleSubmitDecision={handleSubmitDecision} rejectionReasons={rejectionReasons} />
-            
-            <TextEditor headlineText={headlineText} setHeadlineText={setHeadlineText} subheadlineText={subheadlineText} setSubheadlineText={setSubheadlineText} />
-            
-            <PriceTagEditor showPriceTag={showPriceTag} setShowPriceTag={setShowPriceTag} showPriceLabel={showPriceLabel} setShowPriceLabel={setShowPriceLabel} priceValue={priceValue} setPriceValue={setPriceValue} priceLabel={priceLabel} setPriceLabel={setPriceLabel} priceLabelPresets={priceLabelPresets} />
-          </div>
+          {/* Controls take 1/3 of the width - Only show when in preview tab */}
+          {activeTab === 'preview' && (
+            <div className="space-y-4">
+              <ReviewDecision 
+                decision={decision} 
+                setDecision={setDecision} 
+                rejectionReason={rejectionReason} 
+                setRejectionReason={setRejectionReason} 
+                customRejectionReason={customRejectionReason} 
+                setCustomRejectionReason={setCustomRejectionReason} 
+                handleSubmitDecision={handleSubmitDecision} 
+                rejectionReasons={rejectionReasons} 
+              />
+              
+              <TextEditor 
+                headlineText={headlineText} 
+                setHeadlineText={setHeadlineText} 
+                subheadlineText={subheadlineText} 
+                setSubheadlineText={setSubheadlineText} 
+              />
+              
+              <PriceTagEditor 
+                showPriceTag={showPriceTag} 
+                setShowPriceTag={setShowPriceTag} 
+                showPriceLabel={showPriceLabel} 
+                setShowPriceLabel={setShowPriceLabel} 
+                priceValue={priceValue} 
+                setPriceValue={setPriceValue} 
+                priceLabel={priceLabel} 
+                setPriceLabel={setPriceLabel} 
+                priceLabelPresets={priceLabelPresets} 
+              />
+            </div>
+          )}
+          
+          {/* Show a message when not in preview tab */}
+          {activeTab !== 'preview' && (
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <p className="text-gray-500 text-center">
+                Switch to the Preview tab to edit the asset and make approval decisions.
+              </p>
+            </div>
+          )}
         </div>
       </main>
     </div>;
