@@ -1,4 +1,3 @@
-
 import { useUser } from '@/context/UserContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -8,10 +7,12 @@ import { UserIcon, Settings, LogOut } from 'lucide-react';
 
 interface HeaderProps {
   showNavigation?: boolean;
+  className?: string; // Add className prop
 }
 
 const Header: React.FC<HeaderProps> = ({
-  showNavigation = true
+  showNavigation = true,
+  className = '' // Default to empty string
 }) => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
@@ -26,17 +27,24 @@ const Header: React.FC<HeaderProps> = ({
     logout();
     navigate('/login');
   };
+  
   const navigateToDashboard = () => {
     navigate('/dashboard');
   };
+  
   const navigateToAccount = () => {
     navigate('/account');
   };
+  
   const navigateToCreate = () => {
     navigate('/create');
   };
   
-  return <header className={`backdrop-blur-sm text-white py-4 px-6 fixed top-0 left-0 right-0 z-50 shadow-lg shadow-black/30 border-b border-white/10 ${shouldUseBlackBg ? 'bg-black' : 'bg-[#061a02]/60'}`}>
+  // Use the className prop first if provided, otherwise use the default class logic
+  const headerClass = className || (shouldUseBlackBg ? 'bg-black' : 'bg-[#061a02]/60');
+  
+  return (
+    <header className={`backdrop-blur-sm text-white py-4 px-6 fixed top-0 left-0 right-0 z-50 shadow-lg shadow-black/30 border-b border-white/10 ${headerClass}`}>
       <div className="container mx-auto flex justify-between items-center px-[82px]">
         <div className="flex items-center">
           <img src="/rohlikgroupbar.png" alt="Rohlik Group Logo" className="h-12 mr-20 drop-shadow-md hover:drop-shadow-xl transition-all duration-300" />
@@ -96,7 +104,8 @@ const Header: React.FC<HeaderProps> = ({
             </div>}
         </div>
       </div>
-    </header>;
+    </header>
+  );
 };
 
 export default Header;

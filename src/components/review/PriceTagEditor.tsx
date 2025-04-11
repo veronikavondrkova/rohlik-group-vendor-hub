@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 interface PriceTagEditorProps {
   showPriceTag: boolean;
   setShowPriceTag: (show: boolean) => void;
+  showPriceLabel: boolean;
+  setShowPriceLabel: (show: boolean) => void;
   priceValue: string;
   setPriceValue: (value: string) => void;
   priceLabel: string;
@@ -17,6 +19,8 @@ interface PriceTagEditorProps {
 const PriceTagEditor = ({
   showPriceTag,
   setShowPriceTag,
+  showPriceLabel,
+  setShowPriceLabel,
   priceValue,
   setPriceValue,
   priceLabel,
@@ -25,7 +29,7 @@ const PriceTagEditor = ({
 }: PriceTagEditorProps) => {
   return (
     <Card>
-      <CardContent className="p-6 space-y-6">
+      <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold">Price Tag</h3>
           <div className="flex items-center">
@@ -48,37 +52,51 @@ const PriceTagEditor = ({
                 id="price-value" 
                 value={priceValue}
                 onChange={(e) => setPriceValue(e.target.value)}
-                className="mt-2"
+                className="mt-1"
               />
             </div>
             
-            <div>
-              <Label>Price Label:</Label>
-              <div className="grid grid-cols-2 gap-2 mt-2">
-                {priceLabelPresets.map((preset) => (
-                  <Button
-                    key={preset}
-                    type="button"
-                    variant={priceLabel === preset ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setPriceLabel(preset)}
-                    className="justify-center"
-                  >
-                    {preset}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <Label htmlFor="custom-label">Custom Label:</Label>
-              <Input 
-                id="custom-label" 
-                placeholder="Custom label text"
-                onChange={(e) => setPriceLabel(e.target.value)}
-                className="mt-2"
+            <div className="flex items-center justify-between">
+              <Label>Show Price Label:</Label>
+              <input
+                type="checkbox"
+                checked={showPriceLabel}
+                onChange={(e) => setShowPriceLabel(e.target.checked)}
+                className="h-4 w-4"
               />
             </div>
+            
+            {showPriceLabel && (
+              <>
+                <div>
+                  <Label>Price Label:</Label>
+                  <div className="grid grid-cols-2 gap-2 mt-1">
+                    {priceLabelPresets.map((preset) => (
+                      <Button
+                        key={preset}
+                        type="button"
+                        variant={priceLabel === preset ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setPriceLabel(preset)}
+                        className="justify-center text-xs"
+                      >
+                        {preset}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="custom-label">Custom Label:</Label>
+                  <Input 
+                    id="custom-label" 
+                    placeholder="Custom label text"
+                    onChange={(e) => setPriceLabel(e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+              </>
+            )}
           </>
         )}
       </CardContent>

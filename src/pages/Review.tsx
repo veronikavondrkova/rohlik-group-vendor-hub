@@ -16,16 +16,12 @@ const rejectionReasons = ['Image quality is too low', 'Text is outside the safe 
 
 // Price label presets
 const priceLabelPresets = ['DÁREK', 'VÝHODNÁ CENA', 'EXKLUZIVNĚ', 'AKCE'];
+
 const Review = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    toast
-  } = useToast();
-  const {
-    assets,
-    updateAsset
-  } = useAssets();
+  const { toast } = useToast();
+  const { assets, updateAsset } = useAssets();
 
   // Extract the asset ID from URL query parameters
   const searchParams = new URLSearchParams(location.search);
@@ -36,11 +32,12 @@ const Review = () => {
   const [headlineText, setHeadlineText] = useState('');
   const [subheadlineText, setSubheadlineText] = useState('');
   const [showPriceTag, setShowPriceTag] = useState(false);
+  const [showPriceLabel, setShowPriceLabel] = useState(true); // New state for showing/hiding price label
   const [priceValue, setPriceValue] = useState('99');
   const [priceLabel, setPriceLabel] = useState('AKCE');
   const [rejectionReason, setRejectionReason] = useState('');
   const [customRejectionReason, setCustomRejectionReason] = useState('');
-  // Add price tag position state
+  // Price tag position state
   const [priceTagPosition, setPriceTagPosition] = useState({ x: 700, y: 100 });
 
   // Load asset data when component mounts or assetId changes
@@ -51,6 +48,11 @@ const Review = () => {
         setAsset(foundAsset);
         setHeadlineText(foundAsset.headline || '');
         setSubheadlineText(foundAsset.subheadline || '');
+        
+        // Initialize price tag position from asset if it exists
+        if (foundAsset.priceTagPosition) {
+          setPriceTagPosition(foundAsset.priceTagPosition);
+        }
       } else {
         toast({
           title: "Error",
@@ -92,9 +94,11 @@ const Review = () => {
       // Add rejection reason if applicable
       rejectionReason: decision === 'reject' ? rejectionReason === 'Other (please specify)' ? customRejectionReason : rejectionReason : undefined,
       // Add price tag data if applicable
-      priceLabel: showPriceTag ? priceLabel : undefined,
+      priceLabel: showPriceTag && showPriceLabel ? priceLabel : undefined,
       // Add price tag position to the asset data if showing price tag
-      priceTagPosition: showPriceTag ? priceTagPosition : undefined
+      priceTagPosition: showPriceTag ? priceTagPosition : undefined,
+      // Add price value if showing price tag
+      priceValue: showPriceTag ? priceValue : undefined
     };
 
     // Update the asset in context
@@ -120,44 +124,78 @@ const Review = () => {
     setPriceTagPosition(position);
   };
   
-  return <div className="min-h-screen flex flex-col bg-gray-50 my-[82px]">
-      <Header />
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50 my-[82px]">
+      {/* Use black background for header on this page */}
+      <Header className="bg-black" />
       
       <main className="flex-grow container mx-auto px-4 py-8">
-        <div className="mb-6 flex justify-between items-center">
-          <h2 className="text-3xl font-bold">Review: {asset.name}</h2>
-          <div className="space-x-4">
+        <div className="mb-4 flex justify-between items-center">
+          <h2 className="text-2xl font-bold">Review: {asset.name}</h2>
+          <div className="space-x-3">
             <Button variant="outline" onClick={() => navigate('/dashboard')}>
               Back to Dashboard
             </Button>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 my-0">
-            <AssetPreview 
-              asset={asset} 
-              headlineText={headlineText} 
-              subheadlineText={subheadlineText} 
-              showPriceTag={showPriceTag} 
-              priceValue={priceValue} 
-              priceLabel={priceLabel} 
-              activeTab={activeTab} 
-              setActiveTab={setActiveTab}
-              priceTagPosition={priceTagPosition}
-              onPriceTagDrag={handlePriceTagDrag}
-            />
+        {/* Use more compact grid with smaller gap */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          {/* Asset preview takes 3/5 of the width */}
+          <div className="lg:col-span-3">
+            {/* Scale down to 50% like in supplier view */}
+            <div className="scale-50 origin-top-left transform-gpu">
+              <AssetPreview 
+                asset={asset} 
+                headlineText={headlineText} 
+                subheadlineText={subheadlineText} 
+                showPriceTag={showPriceTag} 
+                priceValue={priceValue} 
+                priceLabel={showPriceLabel ? priceLabel : ''} 
+                activeTab={activeTab} 
+                setActiveTab={setActiveTab}
+                priceTagPosition={priceTagPosition}
+                onPriceTagDrag={handlePriceTagDrag}
+              />
+            </div>
           </div>
           
-          <div>
-            <ReviewDecision decision={decision} setDecision={setDecision} rejectionReason={rejectionReason} setRejectionReason={setRejectionReason} customRejectionReason={customRejectionReason} setCustomRejectionReason={setCustomRejectionReason} handleSubmitDecision={handleSubmitDecision} rejectionReasons={rejectionReasons} />
+          {/* Controls take 2/5 of the width */}
+          <div className="lg:col-span-2 space-y-4">
+            <ReviewDecision 
+              decision={decision} 
+              setDecision={setDecision} 
+              rejectionReason={rejectionReason} 
+              setRejectionReason={setRejectionReason} 
+              customRejectionReason={customRejectionReason} 
+              setCustomRejectionReason={setCustomRejectionReason} 
+              handleSubmitDecision={handleSubmitDecision} 
+              rejectionReasons={rejectionReasons} 
+            />
             
-            <TextEditor headlineText={headlineText} setHeadlineText={setHeadlineText} subheadlineText={subheadlineText} setSubheadlineText={setSubheadlineText} />
+            <TextEditor 
+              headlineText={headlineText} 
+              setHeadlineText={setHeadlineText} 
+              subheadlineText={subheadlineText} 
+              setSubheadlineText={setSubheadlineText} 
+            />
             
-            <PriceTagEditor showPriceTag={showPriceTag} setShowPriceTag={setShowPriceTag} priceValue={priceValue} setPriceValue={setPriceValue} priceLabel={priceLabel} setPriceLabel={setPriceLabel} priceLabelPresets={priceLabelPresets} />
+            <PriceTagEditor 
+              showPriceTag={showPriceTag} 
+              setShowPriceTag={setShowPriceTag}
+              showPriceLabel={showPriceLabel}
+              setShowPriceLabel={setShowPriceLabel}
+              priceValue={priceValue} 
+              setPriceValue={setPriceValue} 
+              priceLabel={priceLabel} 
+              setPriceLabel={setPriceLabel} 
+              priceLabelPresets={priceLabelPresets} 
+            />
           </div>
         </div>
       </main>
-    </div>;
+    </div>
+  );
 };
+
 export default Review;

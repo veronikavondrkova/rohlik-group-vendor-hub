@@ -37,6 +37,10 @@ const AssetDetailModal = ({
   const [activeTab, setActiveTab] = useState('preview');
   const navigate = useNavigate();
   
+  // Add dummy placeholder props to fix the error
+  const dummyPriceTagPosition = { x: 0, y: 0 };
+  const dummyPriceTagHandler = () => {};
+  
   const handleReview = () => {
     if (userRole === 'internal') {
       navigate(`/review?id=${asset.id}`);
@@ -67,6 +71,8 @@ const AssetDetailModal = ({
                   priceLabel={'AKCE'}
                   activeTab={activeTab}
                   setActiveTab={setActiveTab}
+                  priceTagPosition={dummyPriceTagPosition}
+                  onPriceTagDrag={dummyPriceTagHandler}
                 />
               </div>
             </div>

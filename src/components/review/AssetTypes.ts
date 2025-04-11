@@ -18,8 +18,9 @@ export interface Asset {
   gradientStartPosition?: number;
   gradientEndPosition?: number;
   priceLabel?: string;
+  priceValue?: string; // Add price value property
   rejectionReason?: string;
-  priceTagPosition?: { x: number, y: number }; // Add price tag position property
+  priceTagPosition?: { x: number, y: number }; // Price tag position property
   // Image data with positions and scaling
   images?: Array<{
     src: string;
