@@ -12,6 +12,8 @@ interface PreviewTabProps {
     format: string;
     supplier: string;
     dateSubmitted: string;
+    headline?: string; // Added headline as optional property
+    subheadline?: string; // Added subheadline as optional property
     thumbnail?: string;
     overlayOpacity?: number;
     gradientOpacity?: number;

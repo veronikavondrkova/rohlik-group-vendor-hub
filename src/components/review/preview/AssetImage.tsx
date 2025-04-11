@@ -3,6 +3,7 @@ import React from 'react';
 
 interface AssetImageProps {
   asset: {
+    name?: string; // Added name as optional property
     thumbnail?: string;
     images?: Array<{
       src: string;
