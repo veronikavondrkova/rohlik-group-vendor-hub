@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePreviewControls } from '@/hooks/use-preview-controls';
+import Draggable from '@/components/ui/draggable';
 
 interface AssetPreviewProps {
   asset: {
@@ -19,6 +20,7 @@ interface AssetPreviewProps {
     gradientDirection?: number;
     gradientStartPosition?: number;
     gradientEndPosition?: number;
+    priceTagPosition?: { x: number, y: number };
     images?: Array<{
       src: string;
       fileName: string;
@@ -33,6 +35,8 @@ interface AssetPreviewProps {
   priceLabel: string;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  priceTagPosition: { x: number, y: number };
+  onPriceTagDrag: (position: { x: number, y: number }) => void;
 }
 
 const AssetPreview = ({
@@ -44,6 +48,8 @@ const AssetPreview = ({
   priceLabel,
   activeTab,
   setActiveTab,
+  priceTagPosition,
+  onPriceTagDrag,
 }: AssetPreviewProps) => {
   // Use preview controls for any saved settings or defaults
   const {
@@ -160,16 +166,19 @@ const AssetPreview = ({
                 </button>
               </div>
               
-              {/* Price tag (right side) - hidden for submission */}
-              {showPriceTag && !window.location.pathname.includes('/dashboard') && (
-                <div className="absolute top-1/4 right-16">
-                  <div className="bg-rohlik-light px-4 py-1 text-center mb-1 rounded-t-sm">
-                    {priceLabel}
+              {/* Price tag with Draggable component */}
+              {showPriceTag && (
+                <Draggable position={priceTagPosition} onDrag={onPriceTagDrag} bounds="parent">
+                  <div className="absolute cursor-move" style={{ zIndex: 100 }}>
+                    <div className="bg-rohlik-light px-4 py-1 text-center mb-1 rounded-t-sm">
+                      {priceLabel}
+                    </div>
+                    <div className="price-tag flex items-center justify-center text-4xl font-bold" 
+                      style={{ width: '180px', height: '80px' }}>
+                      {priceValue} Kč
+                    </div>
                   </div>
-                  <div className="price-tag flex items-center justify-center text-5xl font-bold" style={{ width: '248px', height: '110px' }}>
-                    {priceValue} Kč
-                  </div>
-                </div>
+                </Draggable>
               )}
             </div>
             

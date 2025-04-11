@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -39,6 +40,8 @@ const Review = () => {
   const [priceLabel, setPriceLabel] = useState('AKCE');
   const [rejectionReason, setRejectionReason] = useState('');
   const [customRejectionReason, setCustomRejectionReason] = useState('');
+  // Add price tag position state
+  const [priceTagPosition, setPriceTagPosition] = useState({ x: 700, y: 100 });
 
   // Load asset data when component mounts or assetId changes
   useEffect(() => {
@@ -61,6 +64,7 @@ const Review = () => {
       navigate('/dashboard');
     }
   }, [assetId, assets, navigate, toast]);
+  
   const handleSubmitDecision = () => {
     if (!asset) return;
     if (!decision) {
@@ -87,8 +91,10 @@ const Review = () => {
       subheadline: subheadlineText,
       // Add rejection reason if applicable
       rejectionReason: decision === 'reject' ? rejectionReason === 'Other (please specify)' ? customRejectionReason : rejectionReason : undefined,
-      // Add price label if applicable
-      priceLabel: showPriceTag ? priceLabel : undefined
+      // Add price tag data if applicable
+      priceLabel: showPriceTag ? priceLabel : undefined,
+      // Add price tag position to the asset data if showing price tag
+      priceTagPosition: showPriceTag ? priceTagPosition : undefined
     };
 
     // Update the asset in context
@@ -99,6 +105,7 @@ const Review = () => {
     });
     navigate('/dashboard');
   };
+  
   if (!asset) {
     return <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
@@ -107,6 +114,12 @@ const Review = () => {
         </main>
       </div>;
   }
+  
+  // Handle price tag position update
+  const handlePriceTagDrag = (position: { x: number, y: number }) => {
+    setPriceTagPosition(position);
+  };
+  
   return <div className="min-h-screen flex flex-col bg-gray-50 my-[82px]">
       <Header />
       
@@ -122,7 +135,18 @@ const Review = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 my-0">
-            <AssetPreview asset={asset} headlineText={headlineText} subheadlineText={subheadlineText} showPriceTag={showPriceTag} priceValue={priceValue} priceLabel={priceLabel} activeTab={activeTab} setActiveTab={setActiveTab} />
+            <AssetPreview 
+              asset={asset} 
+              headlineText={headlineText} 
+              subheadlineText={subheadlineText} 
+              showPriceTag={showPriceTag} 
+              priceValue={priceValue} 
+              priceLabel={priceLabel} 
+              activeTab={activeTab} 
+              setActiveTab={setActiveTab}
+              priceTagPosition={priceTagPosition}
+              onPriceTagDrag={handlePriceTagDrag}
+            />
           </div>
           
           <div>
