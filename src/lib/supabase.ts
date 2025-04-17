@@ -15,3 +15,13 @@ export const supabase = createClient(
   supabaseUrl || 'https://your-project.supabase.co', 
   supabaseAnonKey || 'your-anon-key'
 );
+
+// Check if the Supabase connection is valid
+export const checkSupabaseConnection = async () => {
+  try {
+    const { error } = await supabase.from('users').select('count', { count: 'exact', head: true });
+    return !error;
+  } catch (e) {
+    return false;
+  }
+};

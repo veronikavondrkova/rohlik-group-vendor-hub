@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
@@ -38,6 +37,62 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
+  // Check and migrate local storage user data
+  const migrateLocalStorageUser = async () => {
+    try {
+      // Check if there's user data in localStorage
+      const localUserData = localStorage.getItem('user');
+      
+      if (localUserData) {
+        const localUser = JSON.parse(localUserData);
+        
+        // If we already have a session, try to match it with local data
+        const { data: { user: authUser } } = await supabase.auth.getUser();
+        
+        if (!authUser) {
+          // If no active session, create one with local data
+          // Note: This requires knowledge of the password which we don't have in localStorage
+          // We'll notify the user they need to login again
+          toast({
+            title: "Migration Required",
+            description: "Please log in with your credentials to migrate your data to our new system."
+          });
+          
+          // Remove local storage data after migration notification
+          localStorage.removeItem('user');
+        } else {
+          // Check if user exists in database
+          const { data: existingUser } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', authUser.id)
+            .single();
+            
+          if (!existingUser) {
+            // Create user record in Supabase with local data
+            await supabase.from('users').insert({
+              id: authUser.id,
+              name: localUser.name || authUser.user_metadata?.name || '',
+              email: authUser.email,
+              company: localUser.company,
+              role: localUser.role
+            });
+            
+            toast({
+              title: "Success",
+              description: "Your account has been migrated to our new system."
+            });
+          }
+          
+          // Remove local storage data after migration
+          localStorage.removeItem('user');
+        }
+      }
+    } catch (error) {
+      console.error('Error migrating user data:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       // Get the current user from Supabase auth
@@ -68,6 +123,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       }
       setIsLoading(false);
+      
+      // Attempt to migrate any local storage data
+      migrateLocalStorageUser();
     };
 
     fetchUser();
@@ -99,7 +157,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [toast]);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
