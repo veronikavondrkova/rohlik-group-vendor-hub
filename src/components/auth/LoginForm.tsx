@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CardContent, CardFooter } from '@/components/ui/card';
+import { useLocalStorageFallback } from '@/lib/supabase';
 
 export const LoginForm = () => {
   const { login, isLoading, error } = useUser();
@@ -16,6 +17,7 @@ export const LoginForm = () => {
     email: '',
     password: ''
   });
+  const { loginUser } = useLocalStorageFallback();
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,30 +29,60 @@ export const LoginForm = () => {
       });
       return;
     }
+    
     try {
+      // First try using the context login function
       await login(loginData.email, loginData.password);
+      
+      // If login didn't work, try localStorage fallback
+      const userData = localStorage.getItem('user');
+      
+      if (userData) {
+        const user = JSON.parse(userData);
+        toast({
+          title: "Success",
+          description: "You have successfully logged in"
+        });
 
-      // Check if login was successful by waiting for next render
-      setTimeout(() => {
-        const user = JSON.parse(localStorage.getItem('user') || 'null');
-        if (user) {
+        // Redirect based on role
+        if (user.role === 'supplier') {
+          navigate('/homepage');
+        } else {
+          navigate('/dashboard');
+        }
+      } else {
+        // Final fallback - try direct localStorage approach
+        const { data, error } = await loginUser(loginData.email, loginData.password);
+        
+        if (error) {
+          toast({
+            title: "Error",
+            description: error.message || "Login failed",
+            variant: "destructive"
+          });
+          return;
+        }
+        
+        if (data?.user) {
           toast({
             title: "Success",
-            description: "You have successfully logged in"
+            description: "You have successfully logged in (fallback mode)"
           });
-
+          
           // Redirect based on role
-          if (user.role === 'supplier') {
+          const userRole = data.user.role || 'supplier';
+          if (userRole === 'supplier') {
             navigate('/homepage');
           } else {
             navigate('/dashboard');
           }
         }
-      }, 100);
+      }
     } catch (err) {
+      console.error('Login error:', err);
       toast({
         title: "Error",
-        description: "Failed to login",
+        description: "Failed to login. Using fallback login mechanism.",
         variant: "destructive"
       });
     }
