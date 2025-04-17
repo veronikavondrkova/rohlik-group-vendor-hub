@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CardContent, CardFooter } from '@/components/ui/card';
-import { isRealSupabaseClient } from '@/lib/supabase';
 
 export const LoginForm = () => {
   const { login, isLoading, error } = useUser();
@@ -28,10 +27,9 @@ export const LoginForm = () => {
       });
       return;
     }
-    
     try {
       await login(loginData.email, loginData.password);
-      
+
       // Check if login was successful by waiting for next render
       setTimeout(() => {
         const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -61,18 +59,6 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleLoginSubmit}>
       <CardContent className="space-y-4">
-        {!isRealSupabaseClient() && (
-          <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md mb-4">
-            <p className="text-yellow-800 text-sm">
-              <strong>Development Mode:</strong> Use these test credentials:
-              <br />
-              • supplier@example.com / password123 (Supplier role)
-              <br />
-              • internal@example.com / password123 (Internal role)
-            </p>
-          </div>
-        )}
-        
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input 
