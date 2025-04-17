@@ -1,5 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
 export type UserRole = 'supplier' | 'internal';
 
@@ -30,60 +32,92 @@ export const useUser = () => {
   return context;
 };
 
-// Mock users for demo
-const mockUsers = [
-  {
-    id: '1',
-    name: 'Supplier Demo',
-    email: 'supplier@example.com',
-    password: 'password',
-    company: 'Demo Supplier Co.',
-    role: 'supplier' as UserRole,
-  },
-  {
-    id: '2',
-    name: 'Internal Team',
-    email: 'internal@example.com',
-    password: 'password',
-    role: 'internal' as UserRole,
-  },
-];
-
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is already logged in from localStorage
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
+    const fetchUser = async () => {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      
+      if (authUser) {
+        const { data: userData, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', authUser.id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching user data:', error);
+          return;
+        }
+
+        setUser({
+          id: userData.id,
+          name: userData.name,
+          email: userData.email,
+          company: userData.company,
+          role: userData.role
+        });
+      }
+      setIsLoading(false);
+    };
+
+    fetchUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN') {
+        const { data: userData, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', session?.user?.id)
+          .single();
+
+        if (userData) {
+          setUser({
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            company: userData.company,
+            role: userData.role
+          });
+        }
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      // Mock login process
-      setTimeout(() => {
-        const foundUser = mockUsers.find(u => u.email === email && u.password === password);
-        
-        if (foundUser) {
-          const { password, ...userWithoutPassword } = foundUser;
-          setUser(userWithoutPassword);
-          localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-        } else {
-          setError('Invalid email or password');
-        }
-        
-        setIsLoading(false);
-      }, 1000);
-    } catch (err) {
-      setError('An error occurred during login');
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "You have successfully logged in"
+      });
+    } catch (err: any) {
+      setError(err.message);
+      toast({
+        title: "Error",
+        description: err.message,
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
     }
   };
@@ -91,41 +125,58 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signup = async (name: string, email: string, password: string, role: UserRole, company?: string) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      // Mock signup process
-      setTimeout(() => {
-        const existingUser = mockUsers.find(u => u.email === email);
-        
-        if (existingUser) {
-          setError('Email already exists');
-        } else {
-          const newUser = {
-            id: `${mockUsers.length + 1}`,
-            name,
-            email,
-            company,
-            role,
-          };
-          
-          // In a real app, we would save this to a database
-          mockUsers.push({ ...newUser, password });
-          
-          setUser(newUser);
-          localStorage.setItem('user', JSON.stringify(newUser));
-        }
-        
-        setIsLoading(false);
-      }, 1000);
-    } catch (err) {
-      setError('An error occurred during signup');
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password
+      });
+
+      if (authError) throw authError;
+
+      if (authData.user) {
+        const { error: insertError } = await supabase.from('users').insert({
+          id: authData.user.id,
+          name,
+          email,
+          role,
+          company
+        });
+
+        if (insertError) throw insertError;
+
+        toast({
+          title: "Success",
+          description: "Account created successfully"
+        });
+      }
+    } catch (err: any) {
+      setError(err.message);
+      toast({
+        title: "Error",
+        description: err.message,
+        variant: "destructive"
+      });
+    } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const logout = async () => {
+    try {
+      await supabase.auth.signOut();
+      setUser(null);
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
   };
 
   return (
