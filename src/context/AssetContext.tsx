@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, isRealSupabaseClient } from '@/lib/supabase';
 import { Asset } from '@/components/review/AssetTypes';
 import { useUser } from './UserContext';
 import { useToast } from '@/hooks/use-toast';
@@ -40,17 +40,35 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       setIsLoading(true);
       try {
-        let query = supabase.from('assets').select('*');
-        
-        // If supplier, only fetch their own assets
-        if (user.role === 'supplier') {
-          query = query.eq('supplier', user.company);
+        if (isRealSupabaseClient()) {
+          // Fetch from real Supabase
+          let query = supabase.from('assets').select('*');
+          
+          // If supplier, only fetch their own assets
+          if (user.role === 'supplier') {
+            query = query.eq('supplier', user.company);
+          }
+
+          const { data, error } = await query.order('dateSubmitted', { ascending: false });
+
+          if (error) throw error;
+          setAssets(data || []);
+        } else {
+          // Fetch from localStorage
+          let localAssets = JSON.parse(localStorage.getItem('assets') || '[]');
+          
+          // If supplier, only fetch their own assets
+          if (user.role === 'supplier' && user.company) {
+            localAssets = localAssets.filter((asset: Asset) => asset.supplier === user.company);
+          }
+          
+          // Sort by date (newest first)
+          localAssets.sort((a: Asset, b: Asset) => {
+            return new Date(b.dateSubmitted).getTime() - new Date(a.dateSubmitted).getTime();
+          });
+          
+          setAssets(localAssets);
         }
-
-        const { data, error } = await query.order('dateSubmitted', { ascending: false });
-
-        if (error) throw error;
-        setAssets(data || []);
       } catch (error: any) {
         toast({
           title: "Error",
@@ -65,49 +83,62 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     fetchAssets();
 
-    // Set up real-time subscription
-    const subscription = supabase
-      .channel('assets')
-      .on('postgres_changes', 
-        { 
-          event: '*', 
-          schema: 'public', 
-          table: 'assets' 
-        }, 
-        (payload) => {
-          switch (payload.eventType) {
-            case 'INSERT':
-              setAssets(current => [payload.new as Asset, ...current]);
-              break;
-            case 'UPDATE':
-              setAssets(current => 
-                current.map(asset => 
-                  asset.id === (payload.new as Asset).id 
-                    ? payload.new as Asset 
-                    : asset
-                )
-              );
-              break;
-            case 'DELETE':
-              setAssets(current => 
-                current.filter(asset => asset.id !== payload.old.id)
-              );
-              break;
+    // Set up real-time subscription if using real Supabase
+    if (isRealSupabaseClient()) {
+      const subscription = supabase
+        .channel('assets')
+        .on('postgres_changes', 
+          { 
+            event: '*', 
+            schema: 'public', 
+            table: 'assets' 
+          }, 
+          (payload) => {
+            switch (payload.eventType) {
+              case 'INSERT':
+                setAssets(current => [payload.new as Asset, ...current]);
+                break;
+              case 'UPDATE':
+                setAssets(current => 
+                  current.map(asset => 
+                    asset.id === (payload.new as Asset).id 
+                      ? payload.new as Asset 
+                      : asset
+                  )
+                );
+                break;
+              case 'DELETE':
+                setAssets(current => 
+                  current.filter(asset => asset.id !== payload.old.id)
+                );
+                break;
+            }
           }
-        }
-      )
-      .subscribe();
+        )
+        .subscribe();
 
-    // Cleanup subscription on unmount
-    return () => {
-      supabase.removeChannel(subscription);
-    };
-  }, [user]);
+      // Cleanup subscription on unmount
+      return () => {
+        supabase.removeChannel(subscription);
+      };
+    }
+  }, [user, toast]);
 
   const addAsset = async (asset: Asset) => {
     try {
-      const { error } = await supabase.from('assets').insert(asset);
-      if (error) throw error;
+      if (isRealSupabaseClient()) {
+        // Add to real Supabase
+        const { error } = await supabase.from('assets').insert(asset);
+        if (error) throw error;
+      } else {
+        // Add to localStorage
+        const assets = JSON.parse(localStorage.getItem('assets') || '[]');
+        assets.push(asset);
+        localStorage.setItem('assets', JSON.stringify(assets));
+        
+        // Update state immediately
+        setAssets(current => [asset, ...current]);
+      }
 
       toast({
         title: "Success",
@@ -125,12 +156,29 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const updateAsset = async (id: string, updates: Partial<Asset>) => {
     try {
-      const { error } = await supabase
-        .from('assets')
-        .update(updates)
-        .eq('id', id);
+      if (isRealSupabaseClient()) {
+        // Update in real Supabase
+        const { error } = await supabase
+          .from('assets')
+          .update(updates)
+          .eq('id', id);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        // Update in localStorage
+        const assets = JSON.parse(localStorage.getItem('assets') || '[]');
+        const updatedAssets = assets.map((asset: Asset) => 
+          asset.id === id ? { ...asset, ...updates } : asset
+        );
+        localStorage.setItem('assets', JSON.stringify(updatedAssets));
+        
+        // Update state immediately
+        setAssets(current => 
+          current.map(asset => 
+            asset.id === id ? { ...asset, ...updates } : asset
+          )
+        );
+      }
 
       toast({
         title: "Success",
@@ -148,12 +196,23 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const deleteAsset = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('assets')
-        .delete()
-        .eq('id', id);
+      if (isRealSupabaseClient()) {
+        // Delete from real Supabase
+        const { error } = await supabase
+          .from('assets')
+          .delete()
+          .eq('id', id);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        // Delete from localStorage
+        const assets = JSON.parse(localStorage.getItem('assets') || '[]');
+        const filteredAssets = assets.filter((asset: Asset) => asset.id !== id);
+        localStorage.setItem('assets', JSON.stringify(filteredAssets));
+        
+        // Update state immediately
+        setAssets(current => current.filter(asset => asset.id !== id));
+      }
 
       toast({
         title: "Success",
