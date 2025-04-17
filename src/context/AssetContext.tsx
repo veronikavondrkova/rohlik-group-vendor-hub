@@ -75,11 +75,16 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           table: 'assets' 
         }, 
         (payload) => {
+          // Handle different types of changes
           switch (payload.eventType) {
             case 'INSERT':
-              setAssets(current => [payload.new as Asset, ...current]);
+              // For insert, add to the assets array if it belongs to this user
+              if (user?.role === 'internal' || payload.new.supplier === user?.company) {
+                setAssets(current => [payload.new as Asset, ...current]);
+              }
               break;
             case 'UPDATE':
+              // For update, update the matching asset
               setAssets(current => 
                 current.map(asset => 
                   asset.id === (payload.new as Asset).id 
@@ -89,6 +94,7 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               );
               break;
             case 'DELETE':
+              // For delete, remove the asset from the array
               setAssets(current => 
                 current.filter(asset => asset.id !== payload.old.id)
               );

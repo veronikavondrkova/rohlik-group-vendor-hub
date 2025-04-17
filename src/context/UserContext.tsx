@@ -40,9 +40,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const fetchUser = async () => {
+      // Get the current user from Supabase auth
       const { data: { user: authUser } } = await supabase.auth.getUser();
       
       if (authUser) {
+        // Get the user's data from the users table
         const { data: userData, error } = await supabase
           .from('users')
           .select('*')
@@ -51,28 +53,33 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (error) {
           console.error('Error fetching user data:', error);
+          setIsLoading(false);
           return;
         }
 
-        setUser({
-          id: userData.id,
-          name: userData.name,
-          email: userData.email,
-          company: userData.company,
-          role: userData.role
-        });
+        if (userData) {
+          setUser({
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            company: userData.company,
+            role: userData.role
+          });
+        }
       }
       setIsLoading(false);
     };
 
     fetchUser();
 
+    // Set up the auth state change listener
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN') {
+      if (event === 'SIGNED_IN' && session?.user) {
+        // Get the user data from the users table
         const { data: userData, error } = await supabase
           .from('users')
           .select('*')
-          .eq('id', session?.user?.id)
+          .eq('id', session.user.id)
           .single();
 
         if (userData) {
@@ -127,6 +134,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
 
     try {
+      // Sign up the user with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password
@@ -134,6 +142,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (authError) throw authError;
 
+      // If signup is successful, add the user to the users table
       if (authData.user) {
         const { error: insertError } = await supabase.from('users').insert({
           id: authData.user.id,
