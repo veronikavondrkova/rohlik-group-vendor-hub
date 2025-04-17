@@ -8,26 +8,33 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, roles }) => {
-  const { user, isLoading } = useUser();
+  try {
+    const { user, isLoading } = useUser();
 
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
-  }
+    if (isLoading) {
+      return <div className="flex items-center justify-center h-screen">Loading...</div>;
+    }
 
-  if (!user) {
+    if (!user) {
+      return <Navigate to="/login" replace />;
+    }
+
+    if (!roles.includes(user.role)) {
+      // Redirect to appropriate dashboard based on role
+      if (user.role === 'supplier') {
+        return <Navigate to="/homepage" replace />;
+      } else {
+        return <Navigate to="/dashboard" replace />;
+      }
+    }
+
+    return <>{children}</>;
+  } catch (error) {
+    // If useUser throws because we're not inside a UserProvider, 
+    // redirect to login
+    console.error("Error in ProtectedRoute:", error);
     return <Navigate to="/login" replace />;
   }
-
-  if (!roles.includes(user.role)) {
-    // Redirect to appropriate dashboard based on role
-    if (user.role === 'supplier') {
-      return <Navigate to="/homepage" replace />;
-    } else {
-      return <Navigate to="/dashboard" replace />;
-    }
-  }
-
-  return <>{children}</>;
 };
 
 export default ProtectedRoute;
