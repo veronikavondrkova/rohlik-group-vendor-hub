@@ -10,7 +10,6 @@ interface AssetContextType {
   addAsset: (asset: Asset) => Promise<void>;
   updateAsset: (id: string, updates: Partial<Asset>) => Promise<void>;
   deleteAsset: (id: string) => Promise<void>;
-  deleteAsset: (id: string) => Promise<void>;
   isLoading: boolean;
 }
 

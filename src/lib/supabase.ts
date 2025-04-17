@@ -45,7 +45,11 @@ export const initializeSupabaseTables = async () => {
       console.error('Error creating users table:', userTableError);
       
       // If RPC fails, try directly with SQL (fallback)
-      await supabase.query(`
+      // Note: Using from().select() instead of query()
+      await supabase.from('_exec_sql').select('*', {
+        head: true,
+        count: "exact"
+      }).eq('query', `
         CREATE TABLE IF NOT EXISTS users (
           id uuid primary key,
           name text not null,
@@ -88,7 +92,11 @@ export const initializeSupabaseTables = async () => {
       console.error('Error creating assets table:', assetTableError);
       
       // If RPC fails, try directly with SQL (fallback)
-      await supabase.query(`
+      // Note: Using from().select() instead of query()
+      await supabase.from('_exec_sql').select('*', {
+        head: true,
+        count: "exact"
+      }).eq('query', `
         CREATE TABLE IF NOT EXISTS assets (
           id uuid primary key,
           name text not null,
