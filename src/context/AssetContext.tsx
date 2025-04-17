@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, initializeSupabaseTables } from '@/lib/supabase';
 import { Asset } from '@/components/review/AssetTypes';
 import { useUser } from './UserContext';
 import { useToast } from '@/hooks/use-toast';
@@ -9,6 +9,7 @@ interface AssetContextType {
   assets: Asset[];
   addAsset: (asset: Asset) => Promise<void>;
   updateAsset: (id: string, updates: Partial<Asset>) => Promise<void>;
+  deleteAsset: (id: string) => Promise<void>;
   deleteAsset: (id: string) => Promise<void>;
   isLoading: boolean;
 }
@@ -28,16 +29,33 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useUser();
   const { toast } = useToast();
+  const [migrationAttempted, setMigrationAttempted] = useState(false);
+
+  // Initialize Supabase tables when the component mounts
+  useEffect(() => {
+    const initialize = async () => {
+      try {
+        await initializeSupabaseTables();
+        console.log('Supabase tables initialized successfully from AssetContext');
+      } catch (error) {
+        console.error('Failed to initialize Supabase tables from AssetContext:', error);
+      }
+    };
+    
+    initialize();
+  }, []);
 
   // Function to migrate local storage assets to Supabase
   const migrateLocalStorageAssets = async () => {
     try {
       if (!user) return;
       
+      console.log('Checking for local assets to migrate...');
       // Check if there are assets in localStorage
       const localAssets = localStorage.getItem('assets');
       
       if (localAssets) {
+        console.log('Found local assets:', localAssets);
         const parsedAssets = JSON.parse(localAssets) as Asset[];
         
         // Filter assets based on user role
@@ -46,6 +64,8 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           : parsedAssets.filter(asset => asset.supplier === user.company);
         
         if (userAssets.length > 0) {
+          console.log(`Migrating ${userAssets.length} assets...`);
+          
           // For each asset, check if it already exists in Supabase
           for (const asset of userAssets) {
             // Ensure asset has an ID
@@ -54,15 +74,28 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             }
             
             // Check if asset exists in Supabase
-            const { data: existingAsset } = await supabase
+            const { data: existingAsset, error: checkError } = await supabase
               .from('assets')
               .select('id')
               .eq('id', asset.id)
               .single();
               
+            if (checkError && checkError.code !== 'PGRST116') {
+              console.error('Error checking asset existence:', checkError);
+              continue;
+            }
+              
             if (!existingAsset) {
               // Insert the asset into Supabase
-              await supabase.from('assets').insert(asset);
+              const { error: insertError } = await supabase.from('assets').insert(asset);
+              
+              if (insertError) {
+                console.error('Error inserting asset during migration:', insertError);
+              } else {
+                console.log('Asset migrated successfully:', asset.id);
+              }
+            } else {
+              console.log('Asset already exists in Supabase:', asset.id);
             }
           }
           
@@ -73,10 +106,16 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           
           // Clear localStorage after successful migration
           localStorage.removeItem('assets');
+        } else {
+          console.log('No assets to migrate for this user.');
         }
+      } else {
+        console.log('No assets found in localStorage.');
       }
     } catch (error) {
       console.error('Error migrating assets:', error);
+    } finally {
+      setMigrationAttempted(true);
     }
   };
 
@@ -91,6 +130,14 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       setIsLoading(true);
       try {
+        // Make sure tables exist
+        await initializeSupabaseTables();
+        
+        // If migration hasn't been attempted yet, try to migrate
+        if (!migrationAttempted) {
+          await migrateLocalStorageAssets();
+        }
+        
         let query = supabase.from('assets').select('*');
         
         // If supplier, only fetch their own assets
@@ -101,10 +148,8 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const { data, error } = await query.order('dateSubmitted', { ascending: false });
 
         if (error) throw error;
+        console.log('Fetched assets from Supabase:', data);
         setAssets(data || []);
-        
-        // After fetching assets from Supabase, try to migrate any from localStorage
-        await migrateLocalStorageAssets();
       } catch (error: any) {
         toast({
           title: "Error",
@@ -162,7 +207,7 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, [user, toast]);
+  }, [user, toast, migrationAttempted]);
 
   const addAsset = async (asset: Asset) => {
     try {

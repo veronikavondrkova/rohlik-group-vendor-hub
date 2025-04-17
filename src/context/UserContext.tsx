@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, initializeSupabaseTables } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 export type UserRole = 'supplier' | 'internal';
@@ -37,13 +37,29 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
+  // Initialize Supabase tables when the component mounts
+  useEffect(() => {
+    const initialize = async () => {
+      try {
+        await initializeSupabaseTables();
+        console.log('Supabase tables initialized successfully');
+      } catch (error) {
+        console.error('Failed to initialize Supabase tables:', error);
+      }
+    };
+    
+    initialize();
+  }, []);
+
   // Check and migrate local storage user data
   const migrateLocalStorageUser = async () => {
     try {
+      console.log('Checking for local user data to migrate...');
       // Check if there's user data in localStorage
       const localUserData = localStorage.getItem('user');
       
       if (localUserData) {
+        console.log('Found local user data:', localUserData);
         const localUser = JSON.parse(localUserData);
         
         // If we already have a session, try to match it with local data
@@ -70,7 +86,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             
           if (!existingUser) {
             // Create user record in Supabase with local data
-            await supabase.from('users').insert({
+            const { error: insertError } = await supabase.from('users').insert({
               id: authUser.id,
               name: localUser.name || authUser.user_metadata?.name || '',
               email: authUser.email,
@@ -78,10 +94,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
               role: localUser.role
             });
             
-            toast({
-              title: "Success",
-              description: "Your account has been migrated to our new system."
-            });
+            if (insertError) {
+              console.error('Error inserting user during migration:', insertError);
+            } else {
+              console.log('User migrated successfully');
+              toast({
+                title: "Success",
+                description: "Your account has been migrated to our new system."
+              });
+            }
           }
           
           // Remove local storage data after migration
@@ -164,6 +185,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
 
     try {
+      // Ensure tables exist before logging in
+      await initializeSupabaseTables();
+      
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -192,6 +216,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
 
     try {
+      // Ensure tables exist before signup
+      await initializeSupabaseTables();
+      
       // Sign up the user with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
